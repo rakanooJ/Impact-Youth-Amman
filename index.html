@@ -75,22 +75,45 @@
         </footer>
 
     <script>
-        const countDownDate = new Date("May 1, 2026 15:00:00").getTime();
+        function getNextWednesday() {
+            const now = new Date();
+            const nextWed = new Date();
+            
+            // Set the target time to 7:00 PM (19:00:00)
+            nextWed.setHours(19, 0, 0, 0);
+            
+            // Calculate days until next Wednesday (Wednesday is day 3)
+            // (Target Day - Current Day + 7) % 7
+            let daysUntilWed = (3 - now.getDay() + 7) % 7;
+            
+            // If it is Wednesday but after 7:00 PM, move to NEXT Wednesday
+            if (daysUntilWed === 0 && now.getHours() >= 19) {
+                daysUntilWed = 7;
+            }
+            
+            nextWed.setDate(now.getDate() + daysUntilWed);
+            return nextWed.getTime();
+        }
+
+        let countDownDate = getNextWednesday();
+
         const x = setInterval(function() {
             const now = new Date().getTime();
             const distance = countDownDate - now;
-            
+
+            // If the countdown is finished, recalculate for the next week
+            if (distance < 0) {
+                countDownDate = getNextWednesday();
+                return; 
+            }
+
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
+
             document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-            
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("countdown").innerHTML = "HAPPENING NOW";
-            }
+
         }, 1000);
     </script>
 </body>

@@ -74,47 +74,54 @@
         <p>&copy; 2026 Impact Youth Amman. All rights reserved.</p>
         </footer>
 
-    <script>
-        function getNextWednesday() {
-            const now = new Date();
-            const nextWed = new Date();
-            
-            // Set the target time to 7:00 PM (19:00:00)
-            nextWed.setHours(19, 0, 0, 0);
-            
-            // Calculate days until next Wednesday (Wednesday is day 3)
-            // (Target Day - Current Day + 7) % 7
-            let daysUntilWed = (3 - now.getDay() + 7) % 7;
-            
-            // If it is Wednesday but after 7:00 PM, move to NEXT Wednesday
-            if (daysUntilWed === 0 && now.getHours() >= 19) {
-                daysUntilWed = 7;
+   <script>
+    function getNextWednesday() {
+        const now = new Date();
+        const nextWed = new Date();
+        
+        // Set the target time to 7:00 PM (19:00:00)
+        nextWed.setHours(19, 0, 0, 0);
+        
+        // Calculate days until next Wednesday (Wednesday is day 3)
+        let daysUntilWed = (3 - now.getDay() + 7) % 7;
+        
+        // If it is Wednesday but after 7:00 PM, move to NEXT Wednesday
+        if (daysUntilWed === 0 && now.getHours() >= 19) {
+            daysUntilWed = 7;
+        }
+        
+        nextWed.setDate(now.getDate() + daysUntilWed);
+        return nextWed.getTime();
+    }
+
+    // Use 'let' so we can update it every week
+    let targetTime = getNextWednesday();
+
+    const x = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = targetTime - now;
+
+        // If the countdown reaches zero (Wednesday at 7:00 PM)
+        if (distance < 0) {
+            // Show "HAPPENING NOW" for 2 hours (7200000 milliseconds)
+            if (distance > -7200000) {
+                document.getElementById("countdown").innerHTML = "HAPPENING NOW!";
+                return;
+            } else {
+                // After 2 hours, reset for the next week
+                targetTime = getNextWednesday();
+                return;
             }
-            
-            nextWed.setDate(now.getDate() + daysUntilWed);
-            return nextWed.getTime();
         }
 
-        let countDownDate = getNextWednesday();
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        const x = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
+        document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
-            // If the countdown is finished, recalculate for the next week
-            if (distance < 0) {
-                countDownDate = getNextWednesday();
-                return; 
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-
-        }, 1000);
-    </script>
+    }, 1000);
+</script>
 </body>
 </html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - The central community hub for our local sports camps, events, and community connection.">
+    <title>Impact Youth Amman</title>
+    <style>
+        /* Base Reset */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; color: #333; line-height: 1.6; }
+        
+        /* Navigation Bar */
+        .navbar { background-color: #1c1e21; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { color: #00a8ff; font-size: 1.5rem; font-weight: bold; text-decoration: none; letter-spacing: 1px; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #00a8ff; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; }
+        .login-btn:hover { background-color: #0097e6; }
+
+        /* Hero Section */
+        .hero { background-color: #2c3e50; color: white; padding: 80px 20px; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 15px; }
+        .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 30px auto; color: #cbd5e1; }
+        
+        /* Main Content Container */
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        
+        /* Content Cards */
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; }
+        .card h2 { color: #1e293b; margin-bottom: 15px; font-size: 1.5rem; }
+        .card p { color: #64748b; margin-bottom: 20px; }
+        
+        /* Countdown Specifics */
+        .countdown-timer { font-size: 2rem; font-weight: bold; color: #e74c3c; background: #fdf2f0; padding: 15px; border-radius: 8px; margin-top: 10px; }
+
+        /* Footer */
+        footer { background-color: #1c1e21; color: white; text-align: center; padding: 20px; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">IMPACT AMMAN</a>
+        <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="suggestions.html">Ideas & Q&A</a>
+        <a href="socials.html" class="login-btn">Socials & Join</a>
+    </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Impact Youth Amman</h1>
+        <p>Connecting our community through sports, teamwork, and shared experiences. Stay updated on our latest camps, matches, and events right here.</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="card">
+            <h2>Next Camp / Event</h2>
+            <p>The countdown is on. Make sure you have your gear ready for the next meetup.</p>
+            <div id="countdown" class="countdown-timer">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h2>Shape the Community</h2>
+            <p>Have an idea for a new activity, a logistics question, or feedback from the last trip? We want to hear it.</p>
+            <a href="suggestions.html" style="display: inline-block; background: #2ed573; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Drop a Suggestion</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Impact Youth Amman. All rights reserved.</p>
+        </footer>
+
+    <script>
+        const countDownDate = new Date("May 1, 2026 15:00:00").getTime();
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+            
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "HAPPENING NOW";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

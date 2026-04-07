@@ -9,30 +9,24 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; color: #333; line-height: 1.6; }
         
-        /* Navigation Bar */
         .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; }
         .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
         .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
         .nav-links a:hover { color: #00a8ff; }
         .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; }
         
-        /* Hero Section */
         .hero { background-color: #2c3e50; color: white; padding: 80px 20px; text-align: center; }
         .hero h1 { font-size: 3rem; margin-bottom: 15px; }
         .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto; color: #cbd5e1; }
         
-        /* Main Grid */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         
-        /* Cards */
         .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; }
         .card h2 { color: #1e293b; margin-bottom: 15px; }
         .card p { color: #64748b; margin-bottom: 25px; }
         
-        /* Countdown Timer */
         .timer-box { background: #fff0f0; padding: 15px; border-radius: 8px; font-size: 1.8rem; font-weight: bold; color: #e74c3c; }
         
-        /* Button */
         .btn { display: inline-block; background: #2ed573; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background 0.3s; }
         .btn:hover { background: #26ae60; }
         
@@ -40,7 +34,6 @@
     </style>
 </head>
 <body>
-
     <nav class="navbar">
         <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
         <div class="nav-links">
@@ -74,27 +67,16 @@
         function updateCountdown() {
             const now = new Date();
             let target = new Date();
-            
-            // Set target to next Wednesday (3) at 19:00 (7:00 PM)
             target.setDate(now.getDate() + ((3 + 7 - now.getDay()) % 7));
             target.setHours(19, 0, 0, 0);
-
-            // If it's past 7:00 PM on Wednesday, set to next week
-            if (now > target) {
-                target.setDate(target.getDate() + 7);
-            }
-
+            if (now > target) { target.setDate(target.getDate() + 7); }
             const diff = target - now;
-            
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown").innerHTML = 
-                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
         }
-
         setInterval(updateCountdown, 1000);
         updateCountdown();
     </script>

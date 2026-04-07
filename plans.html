@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Impact Youth Amman - Bible reading plans and resources.">
     <title>Bible Plans - Impact Youth Amman</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
+            /* Main text stays clean and easy to read */
             font-family: 'Segoe UI', sans-serif;
-            /* UPDATED TO .PNG HERE */
             background-image: url('background.png');
             background-size: cover;
             background-attachment: fixed;
@@ -20,6 +23,12 @@
             line-height: 1.6;
         }
         
+        /* The Fun Handwriting Font applied to specific sections */
+        .handwriting {
+            font-family: 'Caveat', cursive;
+            letter-spacing: 1px;
+        }
+
         .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
         .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
         .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
@@ -27,31 +36,42 @@
         .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; }
         
         .header-title { text-align: center; padding: 40px 20px; color: white; background: rgba(28, 30, 33, 0.8); }
-        .header-title h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .header-title h1 { font-size: 3.5rem; margin-bottom: 5px; font-family: 'Caveat', cursive; color: #f1c40f; /* Yellow marker look */ }
         .header-title p { font-size: 1.1rem; color: #cbd5e1; }
 
         .page-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 300px; gap: 30px; }
         .content-area { display: flex; flex-direction: column; gap: 40px; }
-        .plan-title { font-size: 1.8rem; color: #f8f9fa; margin-bottom: 15px; border-left: 5px solid #00a8ff; padding-left: 15px; background: rgba(28, 30, 33, 0.8); display: inline-block; padding-right: 15px; border-radius: 0 5px 5px 0; }
+        
+        .plan-title { font-size: 2.2rem; color: #f8f9fa; margin-bottom: 15px; border-left: 5px solid #00a8ff; padding-left: 15px; background: rgba(28, 30, 33, 0.8); display: inline-block; padding-right: 15px; border-radius: 0 5px 5px 0; font-family: 'Caveat', cursive; }
+        
         .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; align-items: stretch; }
         
         .day-card { background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: space-between; color: #333; }
-        .day-number { color: #00a8ff; font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .day-number { color: #00a8ff; font-weight: bold; font-size: 1.5rem; margin-bottom: 5px; text-transform: uppercase; font-family: 'Caveat', cursive; }
         .reading { font-size: 1.2rem; color: #1e293b; font-weight: bold; margin-bottom: 5px; }
         .topic { color: #64748b; margin-bottom: 20px; font-size: 0.95rem; flex-grow: 1; }
+        
+        /* Questions to think about get the handwriting font */
+        .journal-questions { font-family: 'Caveat', cursive; font-size: 1.4rem; color: #2c3e50; line-height: 1.3; }
+        .journal-questions strong { font-size: 1.6rem; color: #e74c3c; /* Red marker */ }
+
         .video-btn { display: block; background: #e74c3c; color: white; padding: 10px 16px; text-decoration: none; border-radius: 5px; font-weight: bold; text-align: center; transition: background 0.3s; width: 100%; margin-top: auto; }
         .video-btn:hover { background: #c0392b; }
         .no-video { padding: 10px 16px; color: transparent; user-select: none; margin-top: auto; } 
 
-        .sidebar { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); position: sticky; top: 20px; height: max-content; color: #333; }
-        .sidebar h2 { color: #1e293b; margin-bottom: 20px; text-align: center; }
-        .tip-card { margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #eee; }
+        /* Sidebar gets the full Sketchbook treatment */
+        .sidebar { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); position: sticky; top: 20px; height: max-content; color: #333; font-family: 'Caveat', cursive; font-size: 1.4rem; line-height: 1.3; }
+        .sidebar h2 { color: #1e293b; margin-bottom: 20px; text-align: center; font-size: 2.5rem; border-bottom: 3px dashed #ccc; padding-bottom: 10px; }
+        .tip-card { margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px dashed #ccc; }
         .tip-card:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .time-header { font-weight: bold; font-size: 1.1rem; margin-bottom: 8px; color: #1e293b; }
-        .min-5 { color: #2ed573; }
-        .min-15 { color: #00a8ff; }
-        .min-30 { color: #e74c3c; }
-        .tip-card p { color: #64748b; font-size: 0.95rem; line-height: 1.5; }
+        
+        /* Crayon Colors for the times */
+        .time-header { font-weight: bold; font-size: 1.8rem; margin-bottom: 5px; }
+        .min-5 { color: #27ae60; /* Green crayon */ }
+        .min-15 { color: #2980b9; /* Blue crayon */ }
+        .min-30 { color: #c0392b; /* Red crayon */ }
+        
+        .tip-card p { color: #444; }
 
         @media (max-width: 900px) { 
             .page-container { grid-template-columns: 1fr; } 
@@ -131,9 +151,9 @@
                     <div class="day-card">
                         <div>
                             <div class="day-number">Day 1</div><div class="reading">Mark 1-2</div>
-                            <div class="topic">
-                                <strong style="color: #1e293b;">Questions to Think About:</strong>
-                                <ul style="margin-top: 8px; padding-left: 20px; font-size: 0.9rem;">
+                            <div class="topic journal-questions">
+                                <strong>Questions to Think About:</strong>
+                                <ul style="margin-top: 8px; padding-left: 20px;">
                                     <li>Mark launches straight into Jesus’ public ministry at the start of his gospel. Why do you think he writes this way?</li>
                                     <li>Which healing stands out to you the most and why?</li>
                                     <li>What was revolutionary about what Jesus said and did in Mark 2:18-27?</li>
@@ -144,9 +164,9 @@
                     <div class="day-card">
                         <div>
                             <div class="day-number">Day 2</div><div class="reading">Mark 3-4</div>
-                            <div class="topic">
-                                <strong style="color: #1e293b;">Questions to Think About:</strong>
-                                <ul style="margin-top: 8px; padding-left: 20px; font-size: 0.9rem;">
+                            <div class="topic journal-questions">
+                                <strong>Questions to Think About:</strong>
+                                <ul style="margin-top: 8px; padding-left: 20px;">
                                     <li>What does the person say about Jesus’s authority (the way he can give a command and be obeyed straight away)?</li>
                                     <li>Why did Jesus tell parables? What do they mean?</li>
                                 </ul>
@@ -156,9 +176,9 @@
                     <div class="day-card">
                         <div>
                             <div class="day-number">Day 3</div><div class="reading">Mark 5-7</div>
-                            <div class="topic">
-                                <strong style="color: #1e293b;">Questions to Think About:</strong>
-                                <ul style="margin-top: 8px; padding-left: 20px; font-size: 0.9rem;">
+                            <div class="topic journal-questions">
+                                <strong>Questions to Think About:</strong>
+                                <ul style="margin-top: 8px; padding-left: 20px;">
                                     <li>What do you think the people Jesus interacted with thought of him?</li>
                                     <li>What do you think Jesus means in Mark 7:15?</li>
                                 </ul>
@@ -168,9 +188,9 @@
                     <div class="day-card">
                         <div>
                             <div class="day-number">Day 4</div><div class="reading">Mark 8-9</div>
-                            <div class="topic">
-                                <strong style="color: #1e293b;">Questions to Think About:</strong>
-                                <ul style="margin-top: 8px; padding-left: 20px; font-size: 0.9rem;">
+                            <div class="topic journal-questions">
+                                <strong>Questions to Think About:</strong>
+                                <ul style="margin-top: 8px; padding-left: 20px;">
                                     <li>What did Jesus say about the importance of his death, Mark 8:31-38?</li>
                                     <li>What was the significance of Jesus’s transfiguration in Mark 9:2-13?</li>
                                 </ul>
@@ -180,9 +200,9 @@
                     <div class="day-card">
                         <div>
                             <div class="day-number">Day 5</div><div class="reading">Mark 10-12</div>
-                            <div class="topic">
-                                <strong style="color: #1e293b;">Questions to Think About:</strong>
-                                <ul style="margin-top: 8px; padding-left: 20px; font-size: 0.9rem;">
+                            <div class="topic journal-questions">
+                                <strong>Questions to Think About:</strong>
+                                <ul style="margin-top: 8px; padding-left: 20px;">
                                     <li>Which of the events in these chapters would have been most impactful to witness?</li>
                                     <li>What does the great commandment in Mark 12:29–30 mean for you today?</li>
                                 </ul>
@@ -192,9 +212,9 @@
                     <div class="day-card">
                         <div>
                             <div class="day-number">Day 6</div><div class="reading">Mark 13-14</div>
-                            <div class="topic">
-                                <strong style="color: #1e293b;">Questions to Think About:</strong>
-                                <ul style="margin-top: 8px; padding-left: 20px; font-size: 0.9rem;">
+                            <div class="topic journal-questions">
+                                <strong>Questions to Think About:</strong>
+                                <ul style="margin-top: 8px; padding-left: 20px;">
                                     <li>What do you make of chapter 13 and the prophecies that Jesus speaks?</li>
                                     <li>What comments can you make about Jesus’s attitude in the run up to his death?</li>
                                 </ul>
@@ -204,9 +224,9 @@
                     <div class="day-card">
                         <div>
                             <div class="day-number">Day 7</div><div class="reading">Mark 15-16</div>
-                            <div class="topic">
-                                <strong style="color: #1e293b;">Questions to Think About:</strong>
-                                <ul style="margin-top: 8px; padding-left: 20px; font-size: 0.9rem;">
+                            <div class="topic journal-questions">
+                                <strong>Questions to Think About:</strong>
+                                <ul style="margin-top: 8px; padding-left: 20px;">
                                     <li>Which details of the crucifixion do you think are most significant?</li>
                                     <li>What would it have been like to be present at each of Jesus‘s appearances after his resurrection?</li>
                                 </ul>

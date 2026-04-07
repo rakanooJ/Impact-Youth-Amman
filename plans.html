@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - Bible reading plans and resources.">
+    <title>Bible Plans - Impact Youth Amman</title>
+    <style>
+        /* Base Reset */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        /* The New Background Design */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-image: url('background.jpg'); /* This loads your new image */
+            background-size: cover;
+            background-attachment: fixed; /* Keeps background still as you scroll */
+            background-position: center;
+            background-color: #1c1e21; /* Fallback color matching the background */
+            color: #f8f9fa;
+            line-height: 1.6;
+        }
+        
+        /* Navigation Bar */
+        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #00a8ff; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; }
+        
+        /* Header */
+        .header-title { text-align: center; padding: 40px 20px; color: white; }
+        .header-title h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .header-title p { font-size: 1.1rem; color: #cbd5e1; }
+
+        /* Main Grid Layout */
+        .page-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 300px; gap: 30px; }
+        
+        /* Left Content (The Plans) */
+        .content-area { display: flex; flex-direction: column; gap: 40px; }
+        .plan-title { font-size: 1.8rem; color: #f8f9fa; margin-bottom: 15px; border-left: 5px solid #00a8ff; padding-left: 15px; }
+        .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        
+        /* Day Cards (Foreground) */
+        .day-card { background: rgba(255, 255, 255, 0.98); padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: space-between; }
+        .day-number { color: #00a8ff; font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .reading { font-size: 1.2rem; color: #1e293b; font-weight: bold; margin-bottom: 5px; }
+        .topic { color: #64748b; margin-bottom: 20px; font-size: 0.95rem; }
+        .video-btn { display: inline-block; background: #e74c3c; color: white; padding: 10px 16px; text-decoration: none; border-radius: 5px; font-weight: bold; text-align: center; transition: background 0.3s; width: 100%; }
+        .video-btn:hover { background: #c0392b; }
+        .no-video { padding: 10px 16px; color: transparent; user-select: none; } 
+
+        /* Sidebar Quick Tips */
+        .sidebar { background: rgba(255, 255, 255, 0.98); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); position: sticky; top: 20px; height: max-content; }
+        .sidebar h2 { color: #1e293b; margin-bottom: 20px; text-align: center; }
+        .tip-card { margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #eee; }
+        .tip-card:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .time-header { font-weight: bold; font-size: 1.1rem; margin-bottom: 8px; color: #1e293b; }
+        .min-5 { color: #2ed573; }
+        .min-15 { color: #00a8ff; }
+        .min-30 { color: #e74c3c; }
+        .tip-card p { color: #64748b; font-size: 0.95rem; line-height: 1.5; }
+
+        /* Responsive Mobile Layout */
+        @media (max-width: 900px) { 
+            .page-container { grid-template-columns: 1fr; } 
+            .sidebar { position: static; order: -1; margin-bottom: 20px; } /* Shows tips first on mobile */
+            .navbar { padding: 10px 20px; } 
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="plans.html">Bible Plans</a>
+            <a href="suggestions.html">Ideas & Q&A</a>
+            <a href="socials.html" class="login-btn">Socials & Join</a>
+        </div>
+    </nav>
+
+    <div class="header-title">
+        <h1>Bible Plans</h1>
+        <p>Impact Youth Amman community resources.</p>
+    </div>
+
+    <div class="page-container">
+        <div class="content-area">
+            
+            <div>
+                <h2 class="plan-title">New Christian Plan - 10 Day Reading Journey</h2>
+                <div class="plan-grid">
+                    <div class="day-card">
+                        <div><div class="day-number">Day 1</div><div class="reading">Luke 1-2</div><div class="topic">The Birth of Jesus</div></div>
+                        <a href="https://www.biblesociety.org.uk/explore-the-bible/study-the-bible/gnb-youth-edition/videos/bible-plan-day-1/" target="_blank" class="video-btn">Watch Video</a>
+                    </div>
+                    <div class="day-card">
+                        <div><div class="day-number">Day 2</div><div class="reading">John 1:1-18</div><div class="topic">Who Jesus Was</div></div>
+                        <a href="https://youtu.be/FQ3sdOzk_EA" target="_blank" class="video-btn">Watch Video</a>
+                    </div>
+                    </div>
+            </div>
+
+            <div>
+                <h2 class="plan-title">Mini Study (Mark) - 7 Days to Think Deeper</h2>
+                <div class="plan-grid">
+                    <div class="day-card">
+                        <div>
+                            <div class="day-number">Day 1</div>
+                            <div class="reading">Mark 1-2</div>
+                            <div class="topic">
+                                <strong style="color: #1e293b;">Questions to Think About:</strong>
+                                <ul style="margin-top: 8px; padding-left: 20px; font-size: 0.9rem;">
+                                    <li>Mark launches straight into Jesus’ public ministry at the start of his gospel. Why do you think he writes this way?</li>
+                                    <li>Which healing stands out to you the most and why?</li>
+                                    <li>What was revolutionary about what Jesus said and did in Mark 2:18-27?</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h2>Quick Guide</h2>
+            <div class="tip-card">
+                <p class="time-header min-5">Got 5 minutes?</p>
+                <p>If you’ve only got a few minutes, that’s cool. It’s worth picking a story from the gospel or a Psalm to focus on – something punchy and short. The key is to make space before and after to process what you’ve read and be creative.</p>
+            </div>
+            <div class="tip-card">
+                <p class="time-header min-15">Got 15 minutes?</p>
+                <p>15 minutes is a good amount of time to go through a chapter of the Bible. It’s probably best not to grab a chapter at random, though. Start at the beginning of a new book (like Mark). Pray first, read a chapter, stop for a minute, then read it again. On the second time, underline, ask questions, color, and imagine!</p>
+            </div>
+            <div class="tip-card">
+                <p class="time-header min-30">Got 30 minutes?</p>
+                <p>You can read a long chapter or a few chapters back to back. Or you can go really deep on one chapter, or even one verse. Try memorizing a few verses, or close your eyes and keep repeating a passage, pulling out different words. medidating like this could change your life!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -7,16 +7,29 @@
     <title>Socials & Join - Impact Youth Amman</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; color: #333; line-height: 1.6; }
-        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-image: url('background.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-color: #1c1e21; 
+            color: #f8f9fa; 
+            line-height: 1.6; 
+        }
+        
+        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;}
         .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
         .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
         .nav-links a:hover { color: #00a8ff; }
         .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; }
-        .header-title { text-align: center; padding: 40px 20px; background-color: #2c3e50; color: white; }
+        
+        .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
         .container { max-width: 900px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .navbar { padding: 10px 20px; } .nav-links { display: none; } }
-        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; }
+        
+        .card { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-align: center; color: #333; }
         .ig-btn { display: inline-block; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; padding: 12px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; }
     </style>
 </head>
@@ -39,14 +52,12 @@
     <div class="container">
         <div class="card">
             <h2>Follow @impact.jo</h2>
-            <p>See highlights and match photos from our latest events.</p>
-            <br>
+            <p style="color: #64748b; margin-bottom: 20px;">See highlights and match photos from our latest events.</p>
             <a href="https://www.instagram.com/impact.jo/" class="ig-btn" target="_blank">Instagram</a>
         </div>
         <div class="card">
             <h2>Join WhatsApp Group</h2>
-            <p>Fill this out and an admin will contact you.</p>
-            <br>
+            <p style="color: #64748b; margin-bottom: 20px;">Fill this out and an admin will contact you.</p>
             <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe_ZRXFIlamicTpG2RFINCYA8Q-x3W9Q9A-xfYxmpPmNLnZAQ/viewform?embedded=true" width="100%" height="550" frameborder="0">Loading…</iframe>
         </div>
     </div>

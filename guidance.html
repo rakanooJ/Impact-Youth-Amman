@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Impact Youth Amman - Real talk, guidance, and answering the big questions.">
-    <title>Guidance & FAQ - Impact Youth Amman</title>
+    <title>Guidance & Real Talk - Impact Youth Amman</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -28,56 +28,47 @@
         .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
         .header-title h1 { font-size: 3rem; margin-bottom: 10px; }
         
-        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
-        
-        /* The Accordion CSS */
-        .accordion { 
-            background: rgba(255, 255, 255, 0.95); 
-            color: #1e293b; 
-            cursor: pointer; 
-            padding: 20px; 
-            width: 100%; 
-            border: none; 
-            text-align: left; 
-            outline: none; 
-            font-size: 1.2rem; 
-            font-weight: bold; 
-            border-radius: 8px; 
-            margin-bottom: 10px; 
-            transition: 0.3s; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
-        }
-        
-        .active, .accordion:hover { background: #f1f5f9; }
-        
-        .accordion:after { 
-            content: '\002B'; /* Plus icon */
-            color: #00a8ff; 
-            font-weight: bold; 
-            font-size: 1.8rem; 
-            transition: transform 0.3s;
-        }
-        
-        .active:after { 
-            content: "\2212"; /* Minus icon */
-            transform: rotate(180deg);
-        }
-        
-        .panel { 
+        /* Container set up as a grid to hold the blog cards */
+        .container { 
+            max-width: 1000px; 
+            margin: 40px auto; 
             padding: 0 20px; 
-            background-color: rgba(255, 255, 255, 0.9); 
-            max-height: 0; 
-            overflow: hidden; 
-            transition: max-height 0.3s ease-out; 
-            border-radius: 0 0 8px 8px; 
-            margin-top: -15px; 
-            margin-bottom: 20px; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+            padding-bottom: 40px;
         }
         
-        .panel p { padding: 25px 0; color: #475569; }
+        /* The Mini Blog Card Style */
+        .card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+            text-align: center; 
+            color: #333; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+        }
+        
+        .card h3 { color: #1e293b; margin-bottom: 15px; font-size: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .card p { color: #475569; margin-bottom: 25px; flex-grow: 1; text-align: left; font-size: 0.95rem; line-height: 1.7; }
+
+        /* The Red Video Button Style (matching Bible Plans page) */
+        .video-btn { 
+            display: block; 
+            background: #e74c3c; 
+            color: white; 
+            padding: 12px 24px; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            text-align: center; 
+            transition: background 0.3s; 
+            margin-top: auto; 
+        }
+        .video-btn:hover { background: #c0392b; }
 
         @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } }
     </style>
@@ -96,48 +87,42 @@
     
     <div class="header-title">
         <h1>Real Talk & Guidance</h1>
-        <p>Navigating the tough questions and daily challenges together.</p>
+        <p>A library of biblical wisdom and practical advice for navigating daily life.</p>
     </div>
     
     <div class="container">
         
-        <button class="accordion">How do I balance school stress and burnout?</button>
-        <div class="panel">
-            <p>School is heavy, but your worth isn't tied to your GPA. Create a firm cut-off time for studying each night. Protect your sleep, and don't be afraid to step away from the desk to go for a walk. Remember, God cares more about your character and your peace than your transcript.</p>
+        <div class="card">
+            <h3>Dating & Relationships</h3>
+            <p>Culture treats relationships like a trial run for intimacy, but Scripture calls us to guard our hearts (Proverbs 4:23). Focus on becoming the right person before obsessing over finding the right person.</p>
+            <a href="#" target="_blank" class="video-btn">Watch Video</a>
         </div>
 
-        <button class="accordion">What do I do when I feel distant from God?</button>
-        <div class="panel">
-            <p>Every single Christian goes through dry seasons—it is completely normal. Don't rely purely on "feelings" to dictate your faith. Stick to the simple habits: keep reading, keep praying (even if it feels like you're talking to the ceiling), and keep showing up to community. The feelings usually catch up to the habits.</p>
+        <div class="card">
+            <h3>Lust & Pornography</h3>
+            <p>Lust and pornography are silent destroyers, rewiring how your brain views human beings—turning people made in the image of God into objects for consumption (Matthew 5:28). There is zero condemnation for those in Christ Jesus (Romans 8:1).</p>
+            <a href="#" target="_blank" class="video-btn">Watch Video</a>
         </div>
 
-        <button class="accordion">Handling peer pressure and toxic friendships</button>
-        <div class="panel">
-            <p>You become like the five people you spend the most time with. If a friendship constantly makes you compromise your values or leaves you feeling drained, it's okay to create boundaries. You don't have to be mean, but you do have to protect your peace. Lean into the community here at Impact.</p>
+        <div class="card">
+            <h3>Anxiety & Worry</h3>
+            <p>Anxiety is a real, heavy burden. God gave us both prayer and therapy. Scripture also gives us a weapon against worry: "Cast all your anxiety on him because he cares for you" (1 Peter 5:7).</p>
+            <a href="#" target="_blank" class="video-btn">Watch Video</a>
         </div>
 
-        <button class="accordion">Is it okay to have doubts about my faith?</button>
-        <div class="panel">
-            <p>Absolutely. Doubt isn't the opposite of faith; it's often an invitation to deeper understanding. Bring your hard questions to the leaders here. We aren't scared of your questions, and neither is God. It's much better to wrestle with the hard truths than to pretend you have it all figured out.</p>
+        <div class="card">
+            <h3>Is it a sin to Doubt?</h3>
+            <p>Doubt isn't the opposite of faith; it's often a stepping stone to a stronger faith. Even John the Baptist had a moment of doubt in prison (Matthew 11:3). Jude 1:22 says, "Be merciful to those who doubt."</p>
+            <a href="#" target="_blank" class="video-btn">Watch Video</a>
+        </div>
+
+        <div class="card">
+            <h3>Why does God allow Suffering?</h3>
+            <p>We live in a fractured, fallen world. Jesus said, "In this world you will have trouble" (John 16:33). The Christian response to suffering is unique: we worship a God who stepped into the suffering and suffered with us on the cross.</p>
+            <a href="#" target="_blank" class="video-btn">Watch Video</a>
         </div>
 
     </div>
 
-    <script>
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                }
-            });
-        }
-    </script>
 </body>
 </html>

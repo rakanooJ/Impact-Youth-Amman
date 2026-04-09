@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - Weekly Verse Memory Challenge">
+    <title>Weekly Verse - Impact Youth Amman</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-image: url('background.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-color: #1c1e21; 
+            color: #f8f9fa; 
+            line-height: 1.6; 
+        }
+        
+        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;}
+        .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #00a8ff; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 20px; }
+        
+        .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
+        .header-title h1 { font-size: 3rem; margin-bottom: 10px; color: #f1c40f; }
+        
+        .container { max-width: 800px; margin: 60px auto; padding: 0 20px; text-align: center; }
+        
+        .game-card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4); 
+            color: #1e293b; 
+        }
+        
+        .game-card h2 { color: #00a8ff; font-size: 2rem; margin-bottom: 20px; border-bottom: 2px dashed #ccc; padding-bottom: 10px; }
+        
+        .verse-text { font-size: 1.6rem; line-height: 2.2; font-weight: 500; color: #333; }
+        
+        /* The styling for the empty boxes */
+        .word-input {
+            width: 100px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            padding: 5px;
+            margin: 0 5px;
+            border: 3px solid #cbd5e1;
+            border-radius: 8px;
+            color: #1e293b;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        .word-input:focus { border-color: #00a8ff; box-shadow: 0 0 8px rgba(0, 168, 255, 0.5); }
+        
+        /* When they type it correctly, it turns green and locks */
+        .word-input.correct {
+            border-color: #2ed573;
+            background: #e8f8f5;
+            color: #27ae60;
+            pointer-events: none; /* Stops them from editing it after they get it right */
+        }
+        
+        #success-msg {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #2ed573;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 10px;
+            animation: popIn 0.5s ease-out forwards;
+        }
+
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .verse-text { font-size: 1.3rem; } .word-input { width: 80px; font-size: 1.1rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="plans.html">Bible Plans</a>
+            <a href="verse.html">Memory Game</a>
+            <a href="guidance.html">Real Talk</a>
+            <a href="suggestions.html">Ideas & Q&A</a>
+            <a href="socials.html" class="login-btn">Socials & Join</a>
+        </div>
+    </nav>
+    
+    <div class="header-title">
+        <h1>Weekly Memory Challenge</h1>
+        <p>Type the missing words to complete the verse. Get it right, and it locks in!</p>
+    </div>
+    
+    <div class="container">
+        <div class="game-card">
+            <h2>Proverbs 3:5-6 (GNT)</h2>
+            
+            <div class="verse-text">
+                Trust in the <input type="text" data-answer="Lord" class="word-input" autocomplete="off"> 
+                with all your heart. Never rely on what you think you 
+                <input type="text" data-answer="know" class="word-input" autocomplete="off">. 
+                Remember the Lord in everything you 
+                <input type="text" data-answer="do" class="word-input" autocomplete="off">, 
+                and he will show you the 
+                <input type="text" data-answer="right" class="word-input" autocomplete="off"> way.
+            </div>
+
+            <div id="success-msg">🎉 Nailed it! You've memorized this week's verse!</div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.word-input');
+        const successMsg = document.getElementById('success-msg');
+
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                // Get the correct answer from the 'data-answer' attribute and make it lowercase to compare easily
+                const correctAnswer = this.getAttribute('data-answer').toLowerCase();
+                const currentGuess = this.value.trim().toLowerCase();
+
+                // If they type the exact word right
+                if (currentGuess === correctAnswer) {
+                    this.classList.add('correct');
+                    this.value = this.getAttribute('data-answer'); // Auto-capitalizes it for them
+                    checkWinCondition();
+                }
+            });
+        });
+
+        function checkWinCondition() {
+            // Check if every single input has the 'correct' green class
+            const allCorrect = Array.from(inputs).every(input => input.classList.contains('correct'));
+            if (allCorrect) {
+                successMsg.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

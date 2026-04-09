@@ -28,7 +28,6 @@
         .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
         .header-title h1 { font-size: 3rem; margin-bottom: 10px; }
         
-        /* Container set up as a grid to hold the blog cards */
         .container { 
             max-width: 1000px; 
             margin: 40px auto; 
@@ -39,7 +38,6 @@
             padding-bottom: 40px;
         }
         
-        /* The Mini Blog Card Style */
         .card { 
             background: rgba(255, 255, 255, 0.95); 
             padding: 30px; 
@@ -55,7 +53,10 @@
         .card h3 { color: #1e293b; margin-bottom: 15px; font-size: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .card p { color: #475569; margin-bottom: 25px; flex-grow: 1; text-align: left; font-size: 0.95rem; line-height: 1.7; }
 
-        /* The Red Video Button Style (matching Bible Plans page) */
+        /* Style for the clickable Bible verses */
+        .verse-link { color: #00a8ff; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+        .verse-link:hover { text-decoration: underline; color: #1e293b; }
+
         .video-btn { 
             display: block; 
             background: #e74c3c; 
@@ -69,6 +70,32 @@
             margin-top: auto; 
         }
         .video-btn:hover { background: #c0392b; }
+
+        /* The New Theosumma Bottom Box CSS */
+        .cta-box {
+            grid-column: 1 / -1; /* Forces it to stretch across the whole grid */
+            background: linear-gradient(135deg, #1e293b, #2c3e50);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            margin-top: 20px;
+        }
+        .cta-box h2 { font-size: 2rem; margin-bottom: 10px; color: #f8f9fa; }
+        .cta-box p { font-size: 1.1rem; color: #cbd5e1; margin-bottom: 25px; }
+        .cta-btn {
+            display: inline-block;
+            background: #00a8ff;
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .cta-btn:hover { background: #008ecc; transform: scale(1.05); }
 
         @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } }
     </style>
@@ -94,32 +121,38 @@
         
         <div class="card">
             <h3>Dating & Relationships</h3>
-            <p>Culture treats relationships like a trial run for intimacy, but Scripture calls us to guard our hearts (Proverbs 4:23). Focus on becoming the right person before obsessing over finding the right person.</p>
-            <a href="#" target="_blank" class="video-btn">Watch Video</a>
+            <p>Culture treats relationships like a trial run for intimacy, but Scripture calls us to guard our hearts (<a href="https://www.biblegateway.com/passage/?search=Proverbs+4:23&version=GNT" target="_blank" class="verse-link">Proverbs 4:23</a>). Focus on becoming the right person before obsessing over finding the right person. "Do not be yoked together with unbelievers" (<a href="https://www.biblegateway.com/passage/?search=2+Corinthians+6:14&version=GNT" target="_blank" class="verse-link">2 Corinthians 6:14</a>) isn't a restriction to ruin your fun; it's a protection to keep your life's foundation solid.</p>
+            <a href="https://youtu.be/rNSFaW5jL9w?si=A2KLrZ8rCE4VQjXQ" target="_blank" class="video-btn">Watch Video</a>
         </div>
 
         <div class="card">
             <h3>Lust & Pornography</h3>
-            <p>Lust and pornography are silent destroyers, rewiring how your brain views human beings—turning people made in the image of God into objects for consumption (Matthew 5:28). There is zero condemnation for those in Christ Jesus (Romans 8:1).</p>
-            <a href="#" target="_blank" class="video-btn">Watch Video</a>
+            <p>Lust and pornography are silent destroyers, rewiring how your brain views human beings—turning people made in the image of God into objects for consumption (<a href="https://www.biblegateway.com/passage/?search=Matthew+5:28&version=GNT" target="_blank" class="verse-link">Matthew 5:28</a>). But hear this: there is zero condemnation for those in Christ Jesus (<a href="https://www.biblegateway.com/passage/?search=Romans+8:1&version=GNT" target="_blank" class="verse-link">Romans 8:1</a>). You cannot fight this alone. You need radical accountability (<a href="https://www.biblegateway.com/passage/?search=James+5:16&version=GNT" target="_blank" class="verse-link">James 5:16</a>).</p>
+            <a href="https://youtu.be/CtdKI3ULidM?si=xSpObuZgt-Ii0RqZ" target="_blank" class="video-btn">Watch Video</a>
         </div>
 
         <div class="card">
             <h3>Anxiety & Worry</h3>
-            <p>Anxiety is a real, heavy burden. God gave us both prayer and therapy. Scripture also gives us a weapon against worry: "Cast all your anxiety on him because he cares for you" (1 Peter 5:7).</p>
-            <a href="#" target="_blank" class="video-btn">Watch Video</a>
+            <p>Anxiety is a real, heavy burden. God gave us both prayer and therapy. Scripture also gives us a weapon against worry: "Cast all your anxiety on him because he cares for you" (<a href="https://www.biblegateway.com/passage/?search=1+Peter+5:7&version=GNT" target="_blank" class="verse-link">1 Peter 5:7</a>). Stop trying to control the future, and start trusting the Character of the One who holds it (<a href="https://www.biblegateway.com/passage/?search=Philippians+4:6-7&version=GNT" target="_blank" class="verse-link">Philippians 4:6-7</a>).</p>
+            <a href="https://youtu.be/NDL_JGUKyp8?si=FnKgvumO3V-od6db" target="_blank" class="video-btn">Watch Video</a>
         </div>
 
         <div class="card">
             <h3>Is it a sin to Doubt?</h3>
-            <p>Doubt isn't the opposite of faith; it's often a stepping stone to a stronger faith. Even John the Baptist had a moment of doubt in prison (Matthew 11:3). Jude 1:22 says, "Be merciful to those who doubt."</p>
-            <a href="#" target="_blank" class="video-btn">Watch Video</a>
+            <p>Doubt isn't the opposite of faith; it's often a stepping stone to a stronger faith. Even John the Baptist had a moment of doubt in prison (<a href="https://www.biblegateway.com/passage/?search=Matthew+11:3&version=GNT" target="_blank" class="verse-link">Matthew 11:3</a>). <a href="https://www.biblegateway.com/passage/?search=Jude+1:22&version=GNT" target="_blank" class="verse-link">Jude 1:22</a> says, "Be merciful to those who doubt." Bring your hard questions to the leaders here. The truth has nothing to fear from your questions.</p>
+            <a href="https://youtu.be/SDZb9FLqgmU?si=FI1aovtL1wh7dT92" target="_blank" class="video-btn">Watch Video</a>
         </div>
 
         <div class="card">
             <h3>Why does God allow Suffering?</h3>
-            <p>We live in a fractured, fallen world. Jesus said, "In this world you will have trouble" (John 16:33). The Christian response to suffering is unique: we worship a God who stepped into the suffering and suffered with us on the cross.</p>
-            <a href="#" target="_blank" class="video-btn">Watch Video</a>
+            <p>We live in a fractured, fallen world. Jesus said, "In this world you will have trouble" (<a href="https://www.biblegateway.com/passage/?search=John+16:33&version=GNT" target="_blank" class="verse-link">John 16:33</a>). But we worship a God who stepped into the suffering with us on the cross, and promises to eventually wipe every tear from our eyes (<a href="https://www.biblegateway.com/passage/?search=Revelation+21:4&version=GNT" target="_blank" class="verse-link">Revelation 21:4</a>). Our present sufferings cannot compare to the glory coming (<a href="https://www.biblegateway.com/passage/?search=Romans+8:18&version=GNT" target="_blank" class="verse-link">Romans 8:18</a>).</p>
+            <a href="https://youtu.be/Cz9-X3Zx89k?si=naOiY1e2VQ697NJt" target="_blank" class="video-btn">Watch Video</a>
+        </div>
+
+        <div class="cta-box">
+            <h2>Still have questions?</h2>
+            <p>Theology doesn't have to be confusing. Ask the big questions, challenge your doubts, and get deep, biblical answers tailored for you.</p>
+            <a href="https://theosumma.com/chat/c314bc3c-3ff5-4789-bf27-1a282448e407" target="_blank" class="cta-btn">Ask Theosumma</a>
         </div>
 
     </div>

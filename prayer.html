@@ -74,6 +74,17 @@
             width: 100%; 
         }
         .submit-btn:hover { background: #008ecc; transform: scale(1.02); }
+        
+        #form-status {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .success-msg { background: #e8f8f5; color: #27ae60; border-left: 5px solid #2ed573; }
+        .error-msg { background: #fdf2f2; color: #e74c3c; border-left: 5px solid #e74c3c; }
 
         @media (max-width: 768px) { 
             .navbar { padding: 10px 20px; } 
@@ -115,16 +126,51 @@
 
         <div class="card">
             <h2>Submit a Request</h2>
-            <form action="YOUR_FORMSPREE_LINK_HERE" method="POST">
+            
+            <form id="prayer-form" action="https://formspree.io/f/meepbolz" method="POST">
                 <div class="form-group">
                     <label for="prayer_request">How can we pray for you?</label>
                     <textarea name="prayer_request" id="prayer_request" class="form-control" placeholder="Type your prayer request here... (It is completely private and goes straight to the leaders)" required></textarea>
                 </div>
                 <input type="hidden" name="_subject" value="New Anonymous Prayer Request!">
-                <button type="submit" class="submit-btn">Send Prayer Request</button>
+                
+                <button type="submit" id="submit-button" class="submit-btn">Send Prayer Request</button>
             </form>
+
+            <div id="form-status"></div>
         </div>
 
     </div>
+
+    <script>
+        var form = document.getElementById("prayer-form");
+        var status = document.getElementById("form-status");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            var data = new FormData(event.target);
+            
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    status.innerHTML = "Your prayer request has been sent securely. Thank you for sharing.";
+                    status.className = "success-msg";
+                    status.style.display = "block";
+                    form.reset();
+                } else {
+                    status.innerHTML = "Oops! There was a problem sending your request. Please try again.";
+                    status.className = "error-msg";
+                    status.style.display = "block";
+                }
+            }).catch(error => {
+                status.innerHTML = "Oops! There was a network problem. Please check your internet connection.";
+                status.className = "error-msg";
+                status.style.display = "block";
+            });
+        });
+    </script>
 </body>
 </html>

@@ -31,14 +31,11 @@
         
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         
-        .card { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-align: center; color: #333; }
+        .card { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-align: center; color: #333; display: flex; flex-direction: column; justify-content: space-between; }
         .card h2 { color: #1e293b; margin-bottom: 15px; }
-        .card p { color: #64748b; margin-bottom: 25px; }
+        .card p { color: #64748b; margin-bottom: 25px; flex-grow: 1; }
         
-        .timer-box { background: #fff0f0; padding: 15px; border-radius: 8px; font-size: 1.8rem; font-weight: bold; color: #e74c3c; }
-        
-        .btn { display: inline-block; background: #2ed573; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background 0.3s; }
-        .btn:hover { background: #26ae60; }
+        .timer-box { background: #fff0f0; padding: 15px; border-radius: 8px; font-size: 1.8rem; font-weight: bold; color: #e74c3c; margin-top: auto; }
         
         @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } }
     </style>
@@ -67,9 +64,9 @@
         </div>
 
         <div class="card">
-            <h2>Shape the Community</h2>
-            <p>Have an idea for a new activity or a logistics question? We want to hear it.</p>
-            <a href="suggestions.html" class="btn">Drop a Suggestion</a>
+            <h2>Community Vibe</h2>
+            <p>What we're listening to this week.</p>
+            <iframe style="border-radius:12px; margin-top: auto;" src="https://open.spotify.com/playlist/1LhIRMo9k5GN8tHagjUdyt?si=872ceb4bf8f64333" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
     </div>
 

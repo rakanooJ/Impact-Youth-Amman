@@ -42,9 +42,22 @@
         
         .verse-text { font-size: 1.6rem; line-height: 2.2; font-weight: 500; color: #333; }
         
-        /* The styling for the empty boxes */
+        .start-btn {
+            background: #00a8ff;
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 30px;
+        }
+        .start-btn:hover { background: #008ecc; transform: scale(1.05); }
+        
         .word-input {
-            width: 100px;
+            width: 140px; 
             text-align: center;
             font-size: 1.4rem;
             font-weight: bold;
@@ -60,12 +73,11 @@
         
         .word-input:focus { border-color: #00a8ff; box-shadow: 0 0 8px rgba(0, 168, 255, 0.5); }
         
-        /* When they type it correctly, it turns green and locks */
         .word-input.correct {
             border-color: #2ed573;
             background: #e8f8f5;
             color: #27ae60;
-            pointer-events: none; /* Stops them from editing it after they get it right */
+            pointer-events: none; 
         }
         
         #success-msg {
@@ -80,17 +92,20 @@
             animation: popIn 0.5s ease-out forwards;
         }
 
+        #game-area { display: none; }
+
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .verse-text { font-size: 1.3rem; } .word-input { width: 80px; font-size: 1.1rem; } }
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .verse-text { font-size: 1.3rem; } .word-input { width: 100px; font-size: 1.1rem; } }
     </style>
 </head>
 <body>
-    <nav class="navbar">
+<nav class="navbar">
         <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="plans.html">Bible Plans</a>
-            <a href="verse.html">Memory Game</a>
+            <a href="verse.html">Verse of the Week</a>
+            <a href="prayer.html">Prayer Room</a>
             <a href="guidance.html">Real Talk</a>
             <a href="suggestions.html">Ideas & Q&A</a>
             <a href="socials.html" class="login-btn">Socials & Join</a>
@@ -99,53 +114,50 @@
     
     <div class="header-title">
         <h1>Weekly Memory Challenge</h1>
-        <p>Type the missing words to complete the verse. Get it right, and it locks in!</p>
+        <p>Study the verse, click start when you are ready, and fill in the missing words!</p>
     </div>
     
     <div class="container">
         <div class="game-card">
-            <h2>Proverbs 3:5-6 (GNT)</h2>
             
-            <div class="verse-text">
-                Trust in the <input type="text" data-answer="Lord" class="word-input" autocomplete="off"> 
-                with all your heart. Never rely on what you think you 
-                <input type="text" data-answer="know" class="word-input" autocomplete="off">. 
-                Remember the Lord in everything you 
-                <input type="text" data-answer="do" class="word-input" autocomplete="off">, 
-                and he will show you the 
-                <input type="text" data-answer="right" class="word-input" autocomplete="off"> way.
+            <div id="study-area">
+                <h2 id="study-ref">Loading...</h2>
+                <div class="verse-text" id="study-text"></div>
+                <button id="start-btn" class="start-btn">I'm Ready - Start Challenge</button>
             </div>
 
-            <div id="success-msg">🎉 Nailed it! You've memorized this week's verse!</div>
+            <div id="game-area">
+                <h2 id="game-ref">Loading...</h2>
+                <div class="verse-text" id="game-text"></div>
+                <div id="success-msg">🎉 Nailed it! You've memorized this week's verse!</div>
+            </div>
+
         </div>
     </div>
 
     <script>
-        const inputs = document.querySelectorAll('.word-input');
-        const successMsg = document.getElementById('success-msg');
-
-        inputs.forEach(input => {
-            input.addEventListener('input', function() {
-                // Get the correct answer from the 'data-answer' attribute and make it lowercase to compare easily
-                const correctAnswer = this.getAttribute('data-answer').toLowerCase();
-                const currentGuess = this.value.trim().toLowerCase();
-
-                // If they type the exact word right
-                if (currentGuess === correctAnswer) {
-                    this.classList.add('correct');
-                    this.value = this.getAttribute('data-answer'); // Auto-capitalizes it for them
-                    checkWinCondition();
-                }
-            });
-        });
-
-        function checkWinCondition() {
-            // Check if every single input has the 'correct' green class
-            const allCorrect = Array.from(inputs).every(input => input.classList.contains('correct'));
-            if (allCorrect) {
-                successMsg.style.display = 'block';
-            }
-        }
-    </script>
-</body>
-</html>
+        // THE FULL 52-WEEK VERSE VAULT
+        const vault = [
+            { ref: "Proverbs 3:5-6 (NIV)", full: '"Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight."', game: '"Trust in the <input type="text" data-answer="Lord" class="word-input" autocomplete="off"> with all your heart and lean not on your own <input type="text" data-answer="understanding" class="word-input" autocomplete="off">; in all your ways <input type="text" data-answer="submit" class="word-input" autocomplete="off"> to him, and he will make your paths <input type="text" data-answer="straight" class="word-input" autocomplete="off">."' },
+            { ref: "Psalm 119:105 (NIV)", full: '"Your word is a lamp for my feet, a light on my path."', game: '"Your <input type="text" data-answer="word" class="word-input" autocomplete="off"> is a lamp for my feet, a <input type="text" data-answer="light" class="word-input" autocomplete="off"> on my path."' },
+            { ref: "Proverbs 4:23 (NIV)", full: '"Above all else, guard your heart, for everything you do flows from it."', game: '"Above all else, <input type="text" data-answer="guard" class="word-input" autocomplete="off"> your heart, for everything you do <input type="text" data-answer="flows" class="word-input" autocomplete="off"> from it."' },
+            { ref: "Psalm 46:1 (NIV)", full: '"God is our refuge and strength, an ever-present help in trouble."', game: '"God is our <input type="text" data-answer="refuge" class="word-input" autocomplete="off"> and strength, an ever-present <input type="text" data-answer="help" class="word-input" autocomplete="off"> in trouble."' },
+            { ref: "Proverbs 16:3 (NIV)", full: '"Commit to the Lord whatever you do, and he will establish your plans."', game: '"<input type="text" data-answer="Commit" class="word-input" autocomplete="off"> to the Lord whatever you do, and he will <input type="text" data-answer="establish" class="word-input" autocomplete="off"> your plans."' },
+            { ref: "Psalm 23:1 (NIV)", full: '"The Lord is my shepherd, I lack nothing."', game: '"The Lord is my <input type="text" data-answer="shepherd" class="word-input" autocomplete="off">, I lack <input type="text" data-answer="nothing" class="word-input" autocomplete="off">."' },
+            { ref: "Proverbs 18:10 (NIV)", full: '"The name of the Lord is a fortified tower; the righteous run to it and are safe."', game: '"The name of the Lord is a fortified <input type="text" data-answer="tower" class="word-input" autocomplete="off">; the righteous <input type="text" data-answer="run" class="word-input" autocomplete="off"> to it and are safe."' },
+            { ref: "Psalm 121:1-2 (NIV)", full: '"I lift up my eyes to the mountains—where does my help come from? My help comes from the Lord, the Maker of heaven and earth."', game: '"I lift up my eyes to the <input type="text" data-answer="mountains" class="word-input" autocomplete="off">—where does my help come from? My <input type="text" data-answer="help" class="word-input" autocomplete="off"> comes from the Lord, the <input type="text" data-answer="Maker" class="word-input" autocomplete="off"> of heaven and earth."' },
+            { ref: "Proverbs 27:17 (NIV)", full: '"As iron sharpens iron, so one person sharpens another."', game: '"As <input type="text" data-answer="iron" class="word-input" autocomplete="off"> sharpens iron, so one person <input type="text" data-answer="sharpens" class="word-input" autocomplete="off"> another."' },
+            { ref: "Psalm 139:14 (NIV)", full: '"I praise you because I am fearfully and wonderfully made; your works are wonderful, I know that full well."', game: '"I praise you because I am fearfully and <input type="text" data-answer="wonderfully" class="word-input" autocomplete="off"> made; your works are <input type="text" data-answer="wonderful" class="word-input" autocomplete="off">, I know that full well."' },
+            { ref: "Proverbs 1:7 (NIV)", full: '"The fear of the Lord is the beginning of knowledge, but fools despise wisdom and instruction."', game: '"The fear of the Lord is the beginning of <input type="text" data-answer="knowledge" class="word-input" autocomplete="off">, but fools despise <input type="text" data-answer="wisdom" class="word-input" autocomplete="off"> and instruction."' },
+            { ref: "Psalm 1:1-2 (NIV)", full: '"Blessed is the one who does not walk in step with the wicked... but whose delight is in the law of the Lord."', game: '"Blessed is the one who does not walk in step with the <input type="text" data-answer="wicked" class="word-input" autocomplete="off">... but whose delight is in the <input type="text" data-answer="law" class="word-input" autocomplete="off"> of the Lord."' },
+            { ref: "Proverbs 3:9 (NIV)", full: '"Honor the Lord with your wealth, with the firstfruits of all your crops."', game: '"<input type="text" data-answer="Honor" class="word-input" autocomplete="off"> the Lord with your <input type="text" data-answer="wealth" class="word-input" autocomplete="off">, with the firstfruits of all your crops."' },
+            { ref: "Psalm 19:14 (NIV)", full: '"May these words of my mouth and this meditation of my heart be pleasing in your sight, Lord, my Rock and my Redeemer."', game: '"May these words of my mouth and this <input type="text" data-answer="meditation" class="word-input" autocomplete="off"> of my heart be <input type="text" data-answer="pleasing" class="word-input" autocomplete="off"> in your sight, Lord, my Rock and my Redeemer."' },
+            { ref: "Proverbs 15:1 (NIV)", full: '"A gentle answer turns away wrath, but a harsh word stirs up anger."', game: '"A gentle <input type="text" data-answer="answer" class="word-input" autocomplete="off"> turns away wrath, but a harsh word stirs up <input type="text" data-answer="anger" class="word-input" autocomplete="off">."' },
+            { ref: "Psalm 27:1 (NIV)", full: '"The Lord is my light and my salvation—whom shall I fear? The Lord is the stronghold of my life—of whom shall I be afraid?"', game: '"The Lord is my <input type="text" data-answer="light" class="word-input" autocomplete="off"> and my salvation—whom shall I fear? The Lord is the <input type="text" data-answer="stronghold" class="word-input" autocomplete="off"> of my life—of whom shall I be afraid?"' },
+            { ref: "Proverbs 16:9 (NIV)", full: '"In their hearts humans plan their course, but the Lord establishes their steps."', game: '"In their hearts humans <input type="text" data-answer="plan" class="word-input" autocomplete="off"> their course, but the Lord establishes their <input type="text" data-answer="steps" class="word-input" autocomplete="off">."' },
+            { ref: "Psalm 34:8 (NIV)", full: '"Taste and see that the Lord is good; blessed is the one who takes refuge in him."', game: '"<input type="text" data-answer="Taste" class="word-input" autocomplete="off"> and see that the Lord is good; blessed is the one who takes <input type="text" data-answer="refuge" class="word-input" autocomplete="off"> in him."' },
+            { ref: "Proverbs 17:17 (NIV)", full: '"A friend loves at all times, and a brother is born for a time of adversity."', game: '"A <input type="text" data-answer="friend" class="word-input" autocomplete="off"> loves at all times, and a brother is born for a time of <input type="text" data-answer="adversity" class="word-input" autocomplete="off">."' },
+            { ref: "Psalm 37:4 (NIV)", full: '"Take delight in the Lord, and he will give you the desires of your heart."', game: '"Take <input type="text" data-answer="delight" class="word-input" autocomplete="off"> in the Lord, and he will give you the <input type="text" data-answer="desires" class="word-input" autocomplete="off"> of your heart."' },
+            { ref: "Proverbs 22:1 (NIV)", full: '"A good name is more desirable than great riches; to be esteemed is better than silver or gold."', game: '"A good <input type="text" data-answer="name" class="word-input" autocomplete="off"> is more desirable than great riches; to be <input type="text" data-answer="esteemed" class="word-input" autocomplete="off"> is better than silver or gold."' },
+            { ref: "Psalm 42:1 (NIV)", full: '"As the deer pants for streams of water, so my soul pants for you, my God."', game: '"As the deer <input type="text" data-answer="pants" class="word-input" autocomplete="off"> for streams of water, so my <input type="text" data-answer="soul" class="word-input" autocomplete="off"> pants for you, my God."' },
+            { ref: "Proverbs 28:13 (NIV)", full: '"Whoever conceals their sins does not prosper, but the one who confesses and renounces them finds mercy."', game: '"Whoever <input type="text" data-answer="conceals" class="word-input" autocomplete="off"> their sins does not prosper, but the one who confesses and renounces them finds <input type="text" data

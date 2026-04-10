@@ -44,13 +44,11 @@
             transition: all 0.3s ease;
         }
 
-        /* Progress Bar */
         .progress-bar-container { width: 100%; background-color: #e2e8f0; border-radius: 10px; margin-bottom: 30px; height: 10px; overflow: hidden; }
         .progress-bar { height: 100%; background-color: #00a8ff; width: 0%; transition: width 0.4s ease; }
 
         .question-text { font-size: 1.5rem; font-weight: bold; line-height: 1.4; margin-bottom: 25px; }
 
-        /* The Answer Buttons */
         .answers { display: flex; flex-direction: column; gap: 12px; }
         .answer-btn {
             background: #f1f5f9;
@@ -66,7 +64,6 @@
         }
         .answer-btn:hover { background: #e0f2fe; border-color: #00a8ff; transform: translateX(5px); }
 
-        /* The Result View */
         #result-area { display: none; text-align: left; }
         .result-header { text-align: center; margin-bottom: 30px; }
         .result-title { font-size: 2.5rem; color: #00a8ff; margin-bottom: 15px; }
@@ -74,7 +71,6 @@
         .action-btn { background: #2ed573; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.3s; margin-bottom: 30px;}
         .action-btn:hover { background: #27ae60; }
 
-        /* New Disclaimer Box */
         .disclaimer-box {
             background: #fffbeb;
             border-left: 5px solid #f59e0b;
@@ -87,35 +83,20 @@
         }
         .disclaimer-box strong { color: #b45309; font-size: 1.1rem; }
 
-        /* New Biblical Glossary Section */
-        .glossary-section {
-            border-top: 2px dashed #cbd5e1;
-            padding-top: 30px;
-        }
+        .glossary-section { border-top: 2px dashed #cbd5e1; padding-top: 30px; }
         .glossary-section h3 { font-size: 1.8rem; color: #1e293b; margin-bottom: 10px; }
-        .glossary-section p { color: #64748b; margin-bottom: 25px; }
+        .glossary-section p { color: #64748b; margin-bottom: 25px; line-height: 1.6; }
         
-        .gifts-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .gift-item {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
-        }
+        /* New styling for the Bible links */
+        .bible-link { color: #00a8ff; font-weight: bold; text-decoration: none; transition: color 0.2s; }
+        .bible-link:hover { color: #008ecc; text-decoration: underline; }
+
+        .gifts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .gift-item { background: #f8f9fa; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; }
         .gift-item h4 { color: #00a8ff; margin-bottom: 8px; font-size: 1.2rem; }
         .gift-item p { font-size: 0.95rem; color: #475569; line-height: 1.5; }
 
-        @media (max-width: 768px) { 
-            .navbar { padding: 10px 20px; } 
-            .nav-links { display: none; } 
-            .question-text { font-size: 1.3rem; } 
-            .answer-btn { font-size: 1rem; } 
-            .gifts-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .question-text { font-size: 1.3rem; } .answer-btn { font-size: 1rem; } .gifts-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -133,7 +114,7 @@
     
     <div class="header-title">
         <h1>Discover Your Gift</h1>
-        <p>God wired you with a specific purpose. Take this quick 5-question quiz to find out how you are meant to impact the church.</p>
+        <p>God wired you with a specific purpose. Take this assessment to find out how you are meant to impact the church.</p>
     </div>
     
     <div class="container">
@@ -144,8 +125,7 @@
                     <div class="progress-bar" id="progress"></div>
                 </div>
                 <div class="question-text" id="question">Loading question...</div>
-                <div class="answers" id="answer-buttons">
-                    </div>
+                <div class="answers" id="answer-buttons"></div>
             </div>
 
             <div id="result-area">
@@ -156,12 +136,12 @@
                 </div>
 
                 <div class="disclaimer-box">
-                    <strong>💡 A Quick Note:</strong> This quiz is just a fun starting point! Your spiritual gift might not be exactly what you got here, or you might have a unique mix of several gifts. God is still shaping you, and your gifts can grow and change over time. Don't put yourself in a box—just start serving somewhere and see what God does!
+                    <strong>💡 A Quick Note:</strong> This assessment is just a fun starting point! Your spiritual gift might not be exactly what you got here, or you might have a unique mix of several gifts. God is still shaping you, and your gifts can grow and change over time. Don't put yourself in a box—just start serving somewhere and see what God does!
                 </div>
 
                 <div class="glossary-section">
                     <h3>Spiritual Gifts in the Bible</h3>
-                    <p>The Bible lists various spiritual gifts in passages like Romans 12, 1 Corinthians 12, and Ephesians 4. Here are some of the key gifts given to the Church:</p>
+                    <p>The Bible lists various spiritual gifts in passages like <a href="https://www.biblegateway.com/passage/?search=Romans%2012&version=NIV" target="_blank" class="bible-link">Romans 12</a>, <a href="https://www.biblegateway.com/passage/?search=1%20Corinthians%2012&version=NIV" target="_blank" class="bible-link">1 Corinthians 12</a>, and <a href="https://www.biblegateway.com/passage/?search=Ephesians%204&version=NIV" target="_blank" class="bible-link">Ephesians 4</a>. Here are some of the key gifts given to the Church:</p>
                     
                     <div class="gifts-grid">
                         <div class="gift-item">
@@ -207,7 +187,7 @@
     <script>
         const questions = [
             {
-                question: "When planning a youth event, you naturally want to...",
+                question: "1. When planning a youth event, you naturally want to...",
                 answers: [
                     { text: "Make sure everyone feels included and welcome.", type: "encourager" },
                     { text: "Organize the schedule and assign tasks.", type: "leader" },
@@ -216,7 +196,7 @@
                 ]
             },
             {
-                question: "Your friend is going through a really hard time. Your first instinct is to...",
+                question: "2. Your friend is going through a really hard time. Your first instinct is to...",
                 answers: [
                     { text: "Give them a hug, listen, and cry with them.", type: "encourager" },
                     { text: "Help them figure out a step-by-step plan to fix it.", type: "leader" },
@@ -225,7 +205,43 @@
                 ]
             },
             {
-                question: "During a small group discussion, you usually...",
+                question: "3. Someone brand new visits the youth group. You immediately...",
+                answers: [
+                    { text: "Introduce them to your friends so they don't feel alone.", type: "encourager" },
+                    { text: "Make sure they know the schedule and where the bathrooms are.", type: "leader" },
+                    { text: "Grab an extra chair and get them a drink.", type: "server" },
+                    { text: "Ask them deep questions about their background and beliefs.", type: "teacher" }
+                ]
+            },
+            {
+                question: "4. When reading the Bible on your own, you are most drawn to...",
+                answers: [
+                    { text: "Psalms, because of the raw emotion and comfort.", type: "encourager" },
+                    { text: "Proverbs or Nehemiah, because of the actionable wisdom.", type: "leader" },
+                    { text: "The Gospels, seeing how Jesus practically helped people.", type: "server" },
+                    { text: "Romans, because you love diving deep into heavy theology.", type: "teacher" }
+                ]
+            },
+            {
+                question: "5. Your small group is raising money for a mission trip. You step up to...",
+                answers: [
+                    { text: "Cheer everyone on and keep team morale super high.", type: "encourager" },
+                    { text: "Create the fundraising plan and track the goals.", type: "leader" },
+                    { text: "Bake the cookies and handle the physical cash box.", type: "server" },
+                    { text: "Research the mission and educate the group on why it matters.", type: "teacher" }
+                ]
+            },
+            {
+                question: "6. You notice the youth room is a complete mess after service. You...",
+                answers: [
+                    { text: "Ask someone to help clean so you can chat with them while doing it.", type: "encourager" },
+                    { text: "Delegate areas and rally a team to clean it efficiently.", type: "leader" },
+                    { text: "Just start silently throwing away trash and stacking chairs.", type: "server" },
+                    { text: "Think about how to use this as a teaching moment on stewardship next week.", type: "teacher" }
+                ]
+            },
+            {
+                question: "7. During a small group discussion, you usually...",
                 answers: [
                     { text: "Make sure the quiet kids get a chance to speak.", type: "encourager" },
                     { text: "Keep the conversation on track if it gets distracted.", type: "leader" },
@@ -234,20 +250,47 @@
                 ]
             },
             {
-                question: "If the youth pastor asks for volunteers, you are most likely to...",
+                question: "8. Your favorite part of a Wednesday night is...",
                 answers: [
-                    { text: "Hang out with the brand new students.", type: "encourager" },
-                    { text: "Lead the worship team or the front-stage game.", type: "leader" },
-                    { text: "Run the soundboard, setup, or tear down.", type: "server" },
-                    { text: "Lead a breakout session or share a testimony.", type: "teacher" }
+                    { text: "The hangout time before and after service.", type: "encourager" },
+                    { text: "Seeing the whole event run smoothly from start to finish.", type: "leader" },
+                    { text: "Helping the tech, worship, or setup team.", type: "server" },
+                    { text: "The sermon and breaking down the Word.", type: "teacher" }
                 ]
             },
             {
-                question: "People often tell you that you are...",
+                question: "9. If you had a free Saturday to help the church, you would...",
+                answers: [
+                    { text: "Visit elderly or sick members of the congregation.", type: "encourager" },
+                    { text: "Organize a community outreach event for the neighborhood.", type: "leader" },
+                    { text: "Paint a classroom, mow the lawn, or fix broken things.", type: "server" },
+                    { text: "Lead a weekend Bible study class or workshop.", type: "teacher" }
+                ]
+            },
+            {
+                question: "10. People usually come to you when they need...",
+                answers: [
+                    { text: "A shoulder to cry on or someone to vent to.", type: "encourager" },
+                    { text: "Solid advice on a tough decision they have to make.", type: "leader" },
+                    { text: "Help moving, carrying things, or doing a physical task.", type: "server" },
+                    { text: "An explanation of a confusing topic or Bible passage.", type: "teacher" }
+                ]
+            },
+            {
+                question: "11. If the youth pastor asks for volunteers, you are most likely to...",
+                answers: [
+                    { text: "Hang out with the students who look lonely.", type: "encourager" },
+                    { text: "Lead the front-stage game or direct the schedule.", type: "leader" },
+                    { text: "Run the soundboard, lights, or tear down equipment.", type: "server" },
+                    { text: "Lead a breakout session or share your testimony.", type: "teacher" }
+                ]
+            },
+            {
+                question: "12. People often tell you that you are...",
                 answers: [
                     { text: "A great listener and very empathetic.", type: "encourager" },
-                    { text: "Good at taking charge and making decisions.", type: "leader" },
-                    { text: "Always willing to help out behind the scenes.", type: "server" },
+                    { text: "Good at taking charge and making tough decisions.", type: "leader" },
+                    { text: "Always willing to work hard behind the scenes.", type: "server" },
                     { text: "Really wise and know your Bible well.", type: "teacher" }
                 ]
             }

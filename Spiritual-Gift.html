@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - Spiritual Gifts Quiz">
+    <title>Spiritual Gifts Quiz - Impact Youth Amman</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-image: url('background.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-color: #1c1e21; 
+            color: #f8f9fa; 
+            line-height: 1.6; 
+        }
+        
+        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;}
+        .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #00a8ff; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 20px; }
+        
+        .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
+        .header-title h1 { font-size: 3rem; margin-bottom: 10px; color: #00a8ff; }
+        .header-title p { font-size: 1.1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
+        
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        
+        .quiz-card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            color: #1e293b; 
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container { width: 100%; background-color: #e2e8f0; border-radius: 10px; margin-bottom: 30px; height: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: #00a8ff; width: 0%; transition: width 0.4s ease; }
+
+        .question-text { font-size: 1.5rem; font-weight: bold; line-height: 1.4; margin-bottom: 25px; }
+
+        /* The Answer Buttons */
+        .answers { display: flex; flex-direction: column; gap: 12px; }
+        .answer-btn {
+            background: #f1f5f9;
+            border: 2px solid #cbd5e1;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #334155;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .answer-btn:hover { background: #e0f2fe; border-color: #00a8ff; transform: translateX(5px); }
+
+        /* The Result View */
+        #result-area { display: none; text-align: left; }
+        .result-header { text-align: center; margin-bottom: 30px; }
+        .result-title { font-size: 2.5rem; color: #00a8ff; margin-bottom: 15px; }
+        .result-desc { font-size: 1.2rem; margin-bottom: 25px; line-height: 1.8; color: #475569; }
+        .action-btn { background: #2ed573; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.3s; margin-bottom: 30px;}
+        .action-btn:hover { background: #27ae60; }
+
+        /* New Disclaimer Box */
+        .disclaimer-box {
+            background: #fffbeb;
+            border-left: 5px solid #f59e0b;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            color: #78350f;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        .disclaimer-box strong { color: #b45309; font-size: 1.1rem; }
+
+        /* New Biblical Glossary Section */
+        .glossary-section {
+            border-top: 2px dashed #cbd5e1;
+            padding-top: 30px;
+        }
+        .glossary-section h3 { font-size: 1.8rem; color: #1e293b; margin-bottom: 10px; }
+        .glossary-section p { color: #64748b; margin-bottom: 25px; }
+        
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .gift-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        .gift-item h4 { color: #00a8ff; margin-bottom: 8px; font-size: 1.2rem; }
+        .gift-item p { font-size: 0.95rem; color: #475569; line-height: 1.5; }
+
+        @media (max-width: 768px) { 
+            .navbar { padding: 10px 20px; } 
+            .nav-links { display: none; } 
+            .question-text { font-size: 1.3rem; } 
+            .answer-btn { font-size: 1rem; } 
+            .gifts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="verse.html">Verse of the Week</a>
+            <a href="talk.html">Table Talk</a>
+            <a href="Spiritual-Gift.html">Gifts Quiz</a>
+            <a href="prayer.html">Prayer Room</a>
+            <a href="socials.html" class="login-btn">Socials & Join</a>
+        </div>
+    </nav>
+    
+    <div class="header-title">
+        <h1>Discover Your Gift</h1>
+        <p>God wired you with a specific purpose. Take this quick 5-question quiz to find out how you are meant to impact the church.</p>
+    </div>
+    
+    <div class="container">
+        <div class="quiz-card">
+            
+            <div id="quiz-area">
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress"></div>
+                </div>
+                <div class="question-text" id="question">Loading question...</div>
+                <div class="answers" id="answer-buttons">
+                    </div>
+            </div>
+
+            <div id="result-area">
+                <div class="result-header">
+                    <h2 class="result-title" id="r-title">Your Gift</h2>
+                    <p class="result-desc" id="r-desc">Description goes here.</p>
+                    <a href="socials.html" class="action-btn" id="r-action">Get Connected</a>
+                </div>
+
+                <div class="disclaimer-box">
+                    <strong>💡 A Quick Note:</strong> This quiz is just a fun starting point! Your spiritual gift might not be exactly what you got here, or you might have a unique mix of several gifts. God is still shaping you, and your gifts can grow and change over time. Don't put yourself in a box—just start serving somewhere and see what God does!
+                </div>
+
+                <div class="glossary-section">
+                    <h3>Spiritual Gifts in the Bible</h3>
+                    <p>The Bible lists various spiritual gifts in passages like Romans 12, 1 Corinthians 12, and Ephesians 4. Here are some of the key gifts given to the Church:</p>
+                    
+                    <div class="gifts-grid">
+                        <div class="gift-item">
+                            <h4>Teaching & Wisdom</h4>
+                            <p>The ability to understand deep truths of God's Word and explain them clearly so others can learn and grow in their faith.</p>
+                        </div>
+                        <div class="gift-item">
+                            <h4>Serving & Helps</h4>
+                            <p>A passion for doing practical, behind-the-scenes tasks that support others and keep the church running smoothly.</p>
+                        </div>
+                        <div class="gift-item">
+                            <h4>Encouragement (Exhortation)</h4>
+                            <p>The gift of motivating, comforting, and lifting up others, especially when they are going through difficult seasons.</p>
+                        </div>
+                        <div class="gift-item">
+                            <h4>Leadership & Administration</h4>
+                            <p>The ability to cast a vision, organize people, and guide a group toward a common goal for God's kingdom.</p>
+                        </div>
+                        <div class="gift-item">
+                            <h4>Mercy</h4>
+                            <p>Deep compassion and empathy for those who are suffering, combined with a desire to comfort and walk alongside them.</p>
+                        </div>
+                        <div class="gift-item">
+                            <h4>Giving</h4>
+                            <p>A joyful, generous spirit that loves to share resources, time, and money to bless others and support ministry.</p>
+                        </div>
+                        <div class="gift-item">
+                            <h4>Evangelism</h4>
+                            <p>A natural ability and deep desire to share the good news of Jesus with people who don't know Him yet.</p>
+                        </div>
+                        <div class="gift-item">
+                            <h4>Pastoring (Shepherding)</h4>
+                            <p>The heart to care for, protect, and spiritually guide a specific group of believers over a long period of time.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "When planning a youth event, you naturally want to...",
+                answers: [
+                    { text: "Make sure everyone feels included and welcome.", type: "encourager" },
+                    { text: "Organize the schedule and assign tasks.", type: "leader" },
+                    { text: "Help set up the chairs and tech equipment.", type: "server" },
+                    { text: "Pick out the Bible passage we are discussing.", type: "teacher" }
+                ]
+            },
+            {
+                question: "Your friend is going through a really hard time. Your first instinct is to...",
+                answers: [
+                    { text: "Give them a hug, listen, and cry with them.", type: "encourager" },
+                    { text: "Help them figure out a step-by-step plan to fix it.", type: "leader" },
+                    { text: "Bring them their favorite food or clean their room.", type: "server" },
+                    { text: "Share a Bible verse that directly applies to their situation.", type: "teacher" }
+                ]
+            },
+            {
+                question: "During a small group discussion, you usually...",
+                answers: [
+                    { text: "Make sure the quiet kids get a chance to speak.", type: "encourager" },
+                    { text: "Keep the conversation on track if it gets distracted.", type: "leader" },
+                    { text: "Are the one passing out the pens and snacks.", type: "server" },
+                    { text: "Love explaining the deeper historical meaning of the verse.", type: "teacher" }
+                ]
+            },
+            {
+                question: "If the youth pastor asks for volunteers, you are most likely to...",
+                answers: [
+                    { text: "Hang out with the brand new students.", type: "encourager" },
+                    { text: "Lead the worship team or the front-stage game.", type: "leader" },
+                    { text: "Run the soundboard, setup, or tear down.", type: "server" },
+                    { text: "Lead a breakout session or share a testimony.", type: "teacher" }
+                ]
+            },
+            {
+                question: "People often tell you that you are...",
+                answers: [
+                    { text: "A great listener and very empathetic.", type: "encourager" },
+                    { text: "Good at taking charge and making decisions.", type: "leader" },
+                    { text: "Always willing to help out behind the scenes.", type: "server" },
+                    { text: "Really wise and know your Bible well.", type: "teacher" }
+                ]
+            }
+        ];
+
+        const resultsData = {
+            encourager: {
+                title: "The Encourager 💛",
+                desc: "You have the spiritual gifts of Encouragement & Mercy! You are the heart of the group. God uses you to make people feel seen, loved, and supported. When others are down, you lift them up.",
+                action: "Join the Welcome Team!"
+            },
+            leader: {
+                title: "The Leader 🚀",
+                desc: "You have the spiritual gifts of Leadership & Administration! You are a visionary and an organizer. God uses you to guide others, solve problems, and make things happen.",
+                action: "Ask about Student Leadership!"
+            },
+            server: {
+                title: "The Server 🛠️",
+                desc: "You have the spiritual gift of Service & Helps! You are the hands and feet of Jesus. God uses you in practical, behind-the-scenes ways that keep the entire ministry running smoothly.",
+                action: "Serve in Setup or AV!"
+            },
+            teacher: {
+                title: "The Teacher 📖",
+                desc: "You have the spiritual gifts of Teaching & Wisdom! You love digging deep into the Word of God. He uses you to help others understand His truth and how to apply it to their lives.",
+                action: "Ask about Small Group Leading!"
+            }
+        };
+
+        let currentQuestionIndex = 0;
+        let scores = { encourager: 0, leader: 0, server: 0, teacher: 0 };
+
+        const questionEl = document.getElementById("question");
+        const answerButtonsEl = document.getElementById("answer-buttons");
+        const progressEl = document.getElementById("progress");
+        const quizArea = document.getElementById("quiz-area");
+        const resultArea = document.getElementById("result-area");
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            scores = { encourager: 0, leader: 0, server: 0, teacher: 0 };
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const progressPercent = (currentQuestionIndex / questions.length) * 100;
+            progressEl.style.width = progressPercent + "%";
+            answerButtonsEl.innerHTML = "";
+
+            let currentQuestion = questions[currentQuestionIndex];
+            questionEl.innerText = currentQuestion.question;
+
+            currentQuestion.answers.forEach(answer => {
+                const button = document.createElement("button");
+                button.innerText = answer.text;
+                button.classList.add("answer-btn");
+                button.addEventListener("click", () => selectAnswer(answer.type));
+                answerButtonsEl.appendChild(button);
+            });
+        }
+
+        function selectAnswer(type) {
+            scores[type]++;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            quizArea.style.display = "none";
+            resultArea.style.display = "block";
+
+            let highestScore = 0;
+            let winningGift = "";
+
+            for (const [gift, score] of Object.entries(scores)) {
+                if (score > highestScore) {
+                    highestScore = score;
+                    winningGift = gift;
+                }
+            }
+
+            const finalResult = resultsData[winningGift];
+            document.getElementById("r-title").innerText = finalResult.title;
+            document.getElementById("r-desc").innerText = finalResult.desc;
+            document.getElementById("r-action").innerText = finalResult.action;
+        }
+
+        startQuiz();
+    </script>
+</body>
+</html>

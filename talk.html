@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - Table Talk Conversation Starters">
+    <title>Table Talk - Impact Youth Amman</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-image: url('background.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-color: #1c1e21; 
+            color: #f8f9fa; 
+            line-height: 1.6; 
+        }
+        
+        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;}
+        .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #00a8ff; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 20px; }
+        
+        .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
+        .header-title h1 { font-size: 3rem; margin-bottom: 10px; color: #f1c40f; }
+        .header-title p { font-size: 1.1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
+        
+        .container { max-width: 700px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        
+        /* The Interactive Card Styling */
+        .question-card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 60px 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            color: #1e293b; 
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            transform: scale(1);
+            opacity: 1;
+            margin-bottom: 30px;
+        }
+
+        /* The animation class JavaScript will trigger */
+        .question-card.animating {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+
+        .question-text { font-size: 1.8rem; font-weight: bold; line-height: 1.4; }
+        .question-type { font-size: 1rem; font-weight: bold; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+
+        /* The Button Controls */
+        .controls { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        
+        .btn { 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            color: white;
+        }
+        
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
+        .btn:active { transform: translateY(1px); }
+
+        .btn-ice { background: linear-gradient(135deg, #00a8ff, #0097e6); }
+        .btn-deep { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .question-text { font-size: 1.4rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="plans.html">Bible Plans</a>
+            <a href="verse.html">Verse of the Week</a>
+            <a href="prayer.html">Prayer Room</a>
+            <a href="guidance.html">Real Talk</a>
+            <a href="talk.html">Table Talk</a>
+            <a href="socials.html" class="login-btn">Socials & Join</a>
+        </div>
+    </nav>
+    
+    <div class="header-title">
+        <h1>Table Talk</h1>
+        <p>No more awkward silences. Pull a card, ask the question, and get the group talking.</p>
+    </div>
+    
+    <div class="container">
+        
+        <div class="question-card" id="card">
+            <div>
+                <div class="question-type" id="type-label">Select a Deck</div>
+                <div class="question-text" id="q-text">Tap a button below to draw your first card!</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-ice" onclick="drawCard('ice')">🧊 Break the Ice</button>
+            <button class="btn btn-deep" onclick="drawCard('deep')">🔥 Go Deep</button>
+        </div>
+
+    </div>
+
+    <script>
+        // THE QUESTION VAULT
+       // THE MEGA QUESTION VAULT (100 Questions)
+        const vaults = {
+            ice: [
+                "If you had to eat one meal for the rest of your life, what would it be?",
+                "What is the most embarrassing fashion trend you ever participated in?",
+                "Would you rather fight one horse-sized duck or a hundred duck-sized horses?",
+                "What is a controversial food opinion you strongly believe?",
+                "If you could instantly become an expert in one thing, what would it be?",
+                "What is the weirdest YouTube rabbit hole you've ever fallen down?",
+                "If your life was a movie, what song would play during the opening credits?",
+                "What is the best useless talent you have?",
+                "If you were a superhero, what would your highly specific, slightly useless power be?",
+                "What is the worst haircut you've ever had?",
+                "If you could teleport anywhere right now for 24 hours, where would you go?",
+                "What is a popular movie or show that you think is totally overrated?",
+                "What is your go-to late night snack?",
+                "If animals could talk, which species would be the rudest?",
+                "What is the silliest thing you believed as a kid?",
+                "If you had to change your name, what would you change it to?",
+                "What is your favorite app on your phone right now?",
+                "If you won the lottery tomorrow, what is the very first thing you'd buy?",
+                "What is a word you always spell wrong?",
+                "If you had to survive a zombie apocalypse with 3 people in this room, who are you picking?",
+                "If you could have dinner with any historical figure, who would it be?",
+                "What is the weirdest smell you actually enjoy?",
+                "Would you rather have a rewind button or a pause button for your life?",
+                "What is the most chaotic thing you’ve ever done out of boredom?",
+                "If you had to teach a 30-minute class on any subject with zero preparation, what would it be?",
+                "What is your most controversial fast-food take?",
+                "Would you rather always be 10 minutes late or 20 minutes early?",
+                "What is a movie quote you use in real life all the time?",
+                "If animals played sports, which animal would be the best at basketball?",
+                "What is the worst text you’ve accidentally sent to the wrong person?",
+                "If you were a pro wrestler, what would be your entrance theme song?",
+                "What is a fashion trend you hope never comes back?",
+                "Would you rather lose all your money or all your pictures?",
+                "What is the most useless fact you know?",
+                "If you could instantly learn any language fluently, which one would it be?",
+                "What is a weird habit you have when you are nervous?",
+                "Would you rather have fingers as long as your legs or legs as long as your fingers?",
+                "What is the most chaotic family vacation memory you have?",
+                "If you were an Olympic athlete, what weird or niche sport would you compete in?",
+                "What is a song you secretly love but pretend to hate?",
+                "If you had to describe yourself using only three emojis, what are they?",
+                "What is your go-to karaoke song?",
+                "Would you rather give up your smartphone or give up junk food for a year?",
+                "What is the strangest dream you’ve ever had?",
+                "If you could shrink any animal to the size of a dog and keep it as a pet, what would it be?",
+                "What is the worst movie you’ve ever seen all the way through?",
+                "Would you rather be able to talk to animals or speak every human language?",
+                "What is a food you hated as a kid but absolutely love now?",
+                "If you had to live inside a video game for a week, which one would you choose?",
+                "What is the funniest WiFi name you’ve ever seen?"
+            ],
+            deep: [
+                "When was a specific time you felt really close to God?",
+                "What is a piece of advice you’ve received that you still think about?",
+                "What is the hardest part about being a Christian in your daily life right now?",
+                "If you could ask God one question and get an immediate answer, what would it be?",
+                "Who has had the biggest impact on your faith journey and why?",
+                "What is a habit you want to build this year to grow spiritually?",
+                "When you go through a hard time, how do you usually respond?",
+                "What is a Bible verse or story that always gives you peace?",
+                "What does the word 'worship' mean to you practically?",
+                "How do you handle doubt when it creeps in?",
+                "What is something you are actively praying for right now?",
+                "How does the community here at Impact help your faith?",
+                "What is a mistake you made that taught you a massive lesson?",
+                "Where do you see God working in your life recently?",
+                "What is a character trait you admire in someone else here?",
+                "What is the biggest distraction keeping you from reading your Bible?",
+                "If you had to summarize your testimony in one sentence, what would it be?",
+                "How do you know when you are feeling burnt out?",
+                "What is something you need to let go of or forgive?",
+                "How can this small group best support you this week?",
+                "What is an area of your life where you struggle to trust God?",
+                "How do you define success from a Christian perspective versus a worldly one?",
+                "When was a time you had to take a leap of faith?",
+                "What is a Christian cliché or phrase that actually annoys you?",
+                "How do you handle it when you feel like your prayers are just hitting the ceiling?",
+                "What does the word 'grace' mean to you personally?",
+                "What is a hard truth in the Bible that you’ve had to wrestle with?",
+                "Who is someone in the Bible you relate to the most and why?",
+                "What is something you are afraid of, and how does your faith impact that fear?",
+                "How do you practice forgiveness when you’ve been deeply hurt?",
+                "What is a spiritual gift you see in the person sitting to your right?",
+                "How do you balance being 'in the world but not of it' at school or university?",
+                "What is the biggest idol in your life right now? (e.g., phone, grades, relationships)",
+                "When was a time someone showed you the love of Jesus in a tangible way?",
+                "How do you prepare your heart before coming to church or youth group?",
+                "What is a sin that culture normalizes but we as Christians need to take seriously?",
+                "How can we as a youth group be better at welcoming outsiders?",
+                "What does it look like for you to practically 'take up your cross daily'?",
+                "How do you know the difference between the Holy Spirit's conviction and the enemy's condemnation?",
+                "What is an answered prayer you’ve experienced recently?",
+                "How does knowing God is sovereign change how you view your future?",
+                "What is a chapter or book of the Bible you want to understand better?",
+                "How do you maintain Christian community outside of Wednesday nights?",
+                "What is a sacrifice you’ve had to make to follow Jesus?",
+                "How do you deal with comparison and jealousy in the age of social media?",
+                "What is the difference between knowing *about* God and actually knowing God?",
+                "How do you practically seek God’s will when making a big decision?",
+                "What is a worship song that always moves you, and why?",
+                "In what area of your faith do you feel the most stagnant right now?",
+                "If you could ensure this youth group remembered one thing about God, what would it be?"
+            ]
+        };
+        const card = document.getElementById('card');
+        const qText = document.getElementById('q-text');
+        const typeLabel = document.getElementById('type-label');
+
+        function drawCard(type) {
+            // Pick a random question from the selected vault
+            const deck = vaults[type];
+            const randomIndex = Math.floor(Math.random() * deck.length);
+            const selectedQuestion = deck[randomIndex];
+
+            // Trigger the shrink and fade animation
+            card.classList.add('animating');
+
+            // Wait 300 milliseconds for the fade to happen, then swap text and pop back up
+            setTimeout(() => {
+                if (type === 'ice') {
+                    typeLabel.innerText = "🧊 Icebreaker";
+                    typeLabel.style.color = "#00a8ff";
+                } else {
+                    typeLabel.innerText = "🔥 Faith & Life";
+                    typeLabel.style.color = "#e74c3c";
+                }
+                
+                qText.innerText = selectedQuestion;
+                card.classList.remove('animating');
+            }, 300); // 300ms matches the CSS transition time
+        }
+    </script>
+</body>
+</html>

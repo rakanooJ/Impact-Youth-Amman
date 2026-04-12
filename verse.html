@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Impact Youth Amman - Weekly Verse Memory Challenge">
+    <meta name="description" content="Impact Youth Amman - Verse of the Week">
     <title>Verse of the Week - Impact Youth Amman</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,31 +26,67 @@
         .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 20px; }
         
         .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
-        .header-title h1 { font-size: 3rem; margin-bottom: 10px; color: #f1c40f; }
+        .header-title h1 { font-size: 3rem; margin-bottom: 10px; color: #2ed573; }
+        .header-title p { font-size: 1.1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
         
-        .container { max-width: 800px; margin: 60px auto; padding: 0 20px; text-align: center; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; text-align: center; }
         
-        .game-card { background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.4); color: #1e293b; }
-        .game-card h2 { color: #00a8ff; font-size: 2rem; margin-bottom: 20px; border-bottom: 2px dashed #ccc; padding-bottom: 10px; }
-        
-        .verse-text { font-size: 1.6rem; line-height: 2.2; font-weight: 500; color: #333; }
-        
-        .start-btn { background: #00a8ff; color: white; padding: 15px 35px; border: none; border-radius: 8px; font-size: 1.3rem; font-weight: bold; cursor: pointer; transition: background 0.3s, transform 0.2s; margin-top: 30px; }
-        .start-btn:hover { background: #008ecc; transform: scale(1.05); }
-        
-        .word-input { width: 140px; text-align: center; font-size: 1.4rem; font-weight: bold; padding: 5px; margin: 0 5px; border: 3px solid #cbd5e1; border-radius: 8px; color: #1e293b; outline: none; transition: all 0.3s ease; background: #f8f9fa; }
-        .word-input:focus { border-color: #00a8ff; box-shadow: 0 0 8px rgba(0, 168, 255, 0.5); }
-        .word-input.correct { border-color: #2ed573; background: #e8f8f5; color: #27ae60; pointer-events: none; }
-        
-        #success-msg { display: none; margin-top: 30px; padding: 20px; background: #2ed573; color: white; font-size: 1.5rem; font-weight: bold; border-radius: 10px; animation: popIn 0.5s ease-out forwards; }
-        #game-area { display: none; }
+        .verse-card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 50px 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            color: #1e293b; 
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .verse-text { font-size: 1.3rem; } .word-input { width: 100px; font-size: 1.1rem; } }
+        .verse-text { 
+            font-size: 2.2rem; 
+            font-weight: bold; 
+            line-height: 1.5; 
+            margin-bottom: 20px; 
+            font-family: 'Georgia', serif;
+            transition: all 0.3s ease;
+        }
+
+        .verse-ref {
+            font-size: 1.3rem;
+            color: #64748b;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+
+        .controls { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        
+        .btn { 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: transform 0.2s, background 0.3s; 
+            color: white;
+        }
+        .btn:hover { transform: translateY(-3px); }
+        .btn:active { transform: translateY(1px); }
+
+        .btn-erase { background: #00a8ff; }
+        .btn-erase:hover { background: #008ecc; }
+        .btn-reset { background: #e2e8f0; color: #475569; }
+        .btn-reset:hover { background: #cbd5e1; }
+
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .verse-text { font-size: 1.6rem; } }
     </style>
 </head>
 <body>
-  <nav class="navbar">
+    <nav class="navbar">
         <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
@@ -65,145 +101,90 @@
     </nav>
     
     <div class="header-title">
-        <h1>Weekly Memory Challenge</h1>
-        <p>Study the verse, click start when you are ready, and fill in the missing words!</p>
+        <h1>Verse of the Week</h1>
+        <p>Read it out loud. When you are ready, click "Erase Words" to level up and test your memory.</p>
     </div>
     
     <div class="container">
-        <div class="game-card">
+        <div class="verse-card">
             
-            <div id="study-area">
-                <h2 id="study-ref">Loading...</h2>
-                <div class="verse-text" id="study-text"></div>
-                <button id="start-btn" class="start-btn">I'm Ready - Start Challenge</button>
-            </div>
+            <div class="verse-text" id="verse-display">Loading verse...</div>
+            <div class="verse-ref" id="ref-display">Loading reference...</div>
 
-            <div id="game-area">
-                <h2 id="game-ref">Loading...</h2>
-                <div class="verse-text" id="game-text"></div>
-                <div id="success-msg">🎉 Nailed it! You've memorized this week's verse!</div>
+            <div class="controls">
+                <button class="btn btn-erase" id="erase-btn" onclick="eraseWords()">🧹 Erase Words</button>
+                <button class="btn btn-reset" onclick="resetVerse()">🔄 Reset</button>
             </div>
 
         </div>
     </div>
 
     <script>
-        // SMART VAULT: 52 Weeks. The script automatically turns the words in 'blanks' into input boxes!
-        const vault = [
-            { ref: "Proverbs 3:5-6 (NIV)", text: '"Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight."', blanks: ["Lord", "understanding", "submit", "straight"] },
-            { ref: "Psalm 119:105 (NIV)", text: '"Your word is a lamp for my feet, a light on my path."', blanks: ["word", "light"] },
-            { ref: "Proverbs 4:23 (NIV)", text: '"Above all else, guard your heart, for everything you do flows from it."', blanks: ["guard", "flows"] },
-            { ref: "Psalm 46:1 (NIV)", text: '"God is our refuge and strength, an ever-present help in trouble."', blanks: ["refuge", "help"] },
-            { ref: "Proverbs 16:3 (NIV)", text: '"Commit to the Lord whatever you do, and he will establish your plans."', blanks: ["Commit", "establish"] },
-            { ref: "Psalm 23:1 (NIV)", text: '"The Lord is my shepherd, I lack nothing."', blanks: ["shepherd", "nothing"] },
-            { ref: "Proverbs 18:10 (NIV)", text: '"The name of the Lord is a fortified tower; the righteous run to it and are safe."', blanks: ["tower", "run"] },
-            { ref: "Psalm 121:1-2 (NIV)", text: '"I lift up my eyes to the mountains—where does my help come from? My help comes from the Lord, the Maker of heaven and earth."', blanks: ["mountains", "help", "Maker"] },
-            { ref: "Proverbs 27:17 (NIV)", text: '"As iron sharpens iron, so one person sharpens another."', blanks: ["iron", "sharpens"] },
-            { ref: "Psalm 139:14 (NIV)", text: '"I praise you because I am fearfully and wonderfully made; your works are wonderful, I know that full well."', blanks: ["wonderfully", "wonderful"] },
-            { ref: "Proverbs 1:7 (NIV)", text: '"The fear of the Lord is the beginning of knowledge, but fools despise wisdom and instruction."', blanks: ["knowledge", "wisdom"] },
-            { ref: "Psalm 1:1-2 (NIV)", text: '"Blessed is the one who does not walk in step with the wicked... but whose delight is in the law of the Lord."', blanks: ["wicked", "law"] },
-            { ref: "Proverbs 3:9 (NIV)", text: '"Honor the Lord with your wealth, with the firstfruits of all your crops."', blanks: ["Honor", "wealth"] },
-            { ref: "Psalm 19:14 (NIV)", text: '"May these words of my mouth and this meditation of my heart be pleasing in your sight, Lord, my Rock and my Redeemer."', blanks: ["meditation", "pleasing"] },
-            { ref: "Proverbs 15:1 (NIV)", text: '"A gentle answer turns away wrath, but a harsh word stirs up anger."', blanks: ["answer", "anger"] },
-            { ref: "Psalm 27:1 (NIV)", text: '"The Lord is my light and my salvation—whom shall I fear? The Lord is the stronghold of my life—of whom shall I be afraid?"', blanks: ["light", "stronghold"] },
-            { ref: "Proverbs 16:9 (NIV)", text: '"In their hearts humans plan their course, but the Lord establishes their steps."', blanks: ["plan", "steps"] },
-            { ref: "Psalm 34:8 (NIV)", text: '"Taste and see that the Lord is good; blessed is the one who takes refuge in him."', blanks: ["Taste", "refuge"] },
-            { ref: "Proverbs 17:17 (NIV)", text: '"A friend loves at all times, and a brother is born for a time of adversity."', blanks: ["friend", "adversity"] },
-            { ref: "Psalm 37:4 (NIV)", text: '"Take delight in the Lord, and he will give you the desires of your heart."', blanks: ["delight", "desires"] },
-            { ref: "Proverbs 22:1 (NIV)", text: '"A good name is more desirable than great riches; to be esteemed is better than silver or gold."', blanks: ["name", "esteemed"] },
-            { ref: "Psalm 42:1 (NIV)", text: '"As the deer pants for streams of water, so my soul pants for you, my God."', blanks: ["pants", "soul"] },
-            { ref: "Proverbs 28:13 (NIV)", text: '"Whoever conceals their sins does not prosper, but the one who confesses and renounces them finds mercy."', blanks: ["conceals", "mercy"] },
-            { ref: "Psalm 51:10 (NIV)", text: '"Create in me a pure heart, O God, and renew a steadfast spirit within me."', blanks: ["Create", "steadfast"] },
-            { ref: "Proverbs 11:14 (NIV)", text: '"For lack of guidance a nation falls, but victory is won through many advisers."', blanks: ["guidance", "advisers"] },
-            { ref: "Psalm 91:1-2 (NIV)", text: '"Whoever dwells in the shelter of the Most High will rest in the shadow of the Almighty. I will say of the Lord, He is my refuge and my fortress..."', blanks: ["shelter", "shadow", "fortress"] },
-            { ref: "Proverbs 12:18 (NIV)", text: '"The words of the reckless pierce like swords, but the tongue of the wise brings healing."', blanks: ["reckless", "healing"] },
-            { ref: "Psalm 103:1 (NIV)", text: '"Praise the Lord, my soul; all my inmost being, praise his holy name."', blanks: ["Praise", "holy"] },
-            { ref: "Proverbs 14:12 (NIV)", text: '"There is a way that appears to be right, but in the end it leads to death."', blanks: ["appears", "death"] },
-            { ref: "Psalm 118:24 (NIV)", text: '"The Lord has done it this very day; let us rejoice today and be glad."', blanks: ["rejoice", "glad"] },
-            { ref: "Proverbs 20:22 (NIV)", text: '"Do not say, I\'ll pay you back for this wrong! Wait for the Lord, and he will avenge you."', blanks: ["wrong", "avenge"] },
-            { ref: "Psalm 130:5 (NIV)", text: '"I wait for the Lord, my whole being waits, and in his word I put my hope."', blanks: ["waits", "hope"] },
-            { ref: "Proverbs 21:3 (NIV)", text: '"To do what is right and just is more acceptable to the Lord than sacrifice."', blanks: ["right", "sacrifice"] },
-            { ref: "Psalm 145:18 (NIV)", text: '"The Lord is near to all who call on him, to all who call on him in truth."', blanks: ["near", "truth"] },
-            { ref: "Proverbs 24:16 (NIV)", text: '"For though the righteous fall seven times, they rise again, but the wicked stumble when calamity strikes."', blanks: ["righteous", "stumble"] },
-            { ref: "Psalm 16:8 (NIV)", text: '"I keep my eyes always on the Lord. With him at my right hand, I will not be shaken."', blanks: ["eyes", "shaken"] },
-            { ref: "Proverbs 29:11 (NIV)", text: '"Fools give full vent to their rage, but the wise bring calm in the end."', blanks: ["rage", "calm"] },
-            { ref: "Psalm 62:1 (NIV)", text: '"Truly my soul finds rest in God; my salvation comes from him."', blanks: ["rest", "salvation"] },
-            { ref: "Proverbs 13:20 (NIV)", text: '"Walk with the wise and become wise, for a companion of fools suffers harm."', blanks: ["Walk", "harm"] },
-            { ref: "Psalm 73:26 (NIV)", text: '"My flesh and my heart may fail, but God is the strength of my heart and my portion forever."', blanks: ["fail", "strength"] },
-            { ref: "Proverbs 19:20 (NIV)", text: '"Listen to advice and accept discipline, and at the end you will be counted among the wise."', blanks: ["advice", "counted"] },
-            { ref: "Psalm 84:11 (NIV)", text: '"For the Lord God is a sun and shield; the Lord bestows favor and honor..."', blanks: ["sun", "shield", "honor"] },
-            { ref: "Proverbs 10:9 (NIV)", text: '"Whoever walks in integrity walks securely, but whoever takes crooked paths will be found out."', blanks: ["integrity", "crooked"] },
-            { ref: "Psalm 90:12 (NIV)", text: '"Teach us to number our days, that we may gain a heart of wisdom."', blanks: ["number", "wisdom"] },
-            { ref: "Proverbs 8:17 (NIV)", text: '"I love those who love me, and those who seek me find me."', blanks: ["love", "seek"] },
-            { ref: "Psalm 100:2 (NIV)", text: '"Worship the Lord with gladness; come before him with joyful songs."', blanks: ["Worship", "joyful"] },
-            { ref: "Proverbs 14:30 (NIV)", text: '"A heart at peace gives life to the body, but envy rots the bones."', blanks: ["peace", "envy"] },
-            { ref: "Psalm 147:3 (NIV)", text: '"He heals the brokenhearted and binds up their wounds."', blanks: ["heals", "wounds"] },
-            { ref: "Proverbs 23:12 (NIV)", text: '"Apply your heart to instruction and your ears to words of knowledge."', blanks: ["Apply", "ears"] },
-            { ref: "Psalm 32:7 (NIV)", text: '"You are my hiding place; you will protect me from trouble and surround me with songs of deliverance."', blanks: ["hiding", "protect"] },
-            { ref: "Proverbs 31:30 (NIV)", text: '"Charm is deceptive, and beauty is fleeting; but a woman who fears the Lord is to be praised."', blanks: ["deceptive", "fleeting"] },
-            { ref: "Psalm 150:6 (NIV)", text: '"Let everything that has breath praise the Lord. Praise the Lord."', blanks: ["breath", "praise"] }
-        ];
+        // --- EDIT YOUR VERSE HERE EVERY WEEK ---
+        const rawVerse = "Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God’s will is—his good, pleasing and perfect will.";
+        const verseReference = "Romans 12:2";
+        // ---------------------------------------
 
-        // LOGIC: Math to match the calendar week to the vault index
-        function getWeekNumber(d) {
-            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-            return Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
-        }
+        let wordsArray = rawVerse.split(" ");
+        let hiddenIndices = new Set();
+        const verseDisplay = document.getElementById("verse-display");
+        const eraseBtn = document.getElementById("erase-btn");
 
-        const currentWeek = getWeekNumber(new Date());
-        const verseIndex = currentWeek % vault.length; 
-        const thisWeeksVerse = vault[verseIndex];
-
-        // LOGIC: Build the HTML content
-        document.getElementById('study-ref').innerText = thisWeeksVerse.ref;
-        document.getElementById('study-text').innerText = thisWeeksVerse.text;
-        document.getElementById('game-ref').innerText = thisWeeksVerse.ref;
-
-        // Automatically swap the chosen words for input boxes
-        let gameHtmlStr = thisWeeksVerse.text;
-        thisWeeksVerse.blanks.forEach(word => {
-            let box = `<input type="text" data-answer="${word}" class="word-input" autocomplete="off">`;
-            gameHtmlStr = gameHtmlStr.replace(word, box);
-        });
-        document.getElementById('game-text').innerHTML = gameHtmlStr;
-
-        // THE GAME ENGINE
-        const studyArea = document.getElementById('study-area');
-        const gameArea = document.getElementById('game-area');
-        const startBtn = document.getElementById('start-btn');
-        const successMsg = document.getElementById('success-msg');
-        
-        let inputs = [];
-
-        startBtn.addEventListener('click', function() {
-            studyArea.style.display = 'none';
-            gameArea.style.display = 'block';
+        function renderVerse() {
+            let outputHtml = wordsArray.map((word, index) => {
+                if (hiddenIndices.has(index)) {
+                    // Smart erase: replaces letters with underscores but keeps punctuation
+                    return word.replace(/[a-zA-Z]/g, "_");
+                }
+                return word;
+            }).join(" ");
             
-            inputs = document.querySelectorAll('.word-input');
-            if(inputs.length > 0) { inputs[0].focus(); }
-
-            inputs.forEach(input => {
-                input.addEventListener('input', function() {
-                    const correctAnswer = this.getAttribute('data-answer').toLowerCase();
-                    const currentGuess = this.value.trim().toLowerCase();
-
-                    if (currentGuess === correctAnswer) {
-                        this.classList.add('correct');
-                        this.value = this.getAttribute('data-answer'); 
-                        checkWinCondition();
-                    }
-                });
-            });
-        });
-
-        function checkWinCondition() {
-            const allCorrect = Array.from(inputs).every(input => input.classList.contains('correct'));
-            if (allCorrect) {
-                successMsg.style.display = 'block';
-            }
+            verseDisplay.innerText = outputHtml;
+            document.getElementById("ref-display").innerText = verseReference;
         }
+
+        function eraseWords() {
+            let availableIndices = [];
+            
+            // Find words that haven't been hidden yet
+            for (let i = 0; i < wordsArray.length; i++) {
+                // Only count words that actually have letters in them
+                if (!hiddenIndices.has(i) && /[a-zA-Z]/.test(wordsArray[i])) {
+                    availableIndices.push(i);
+                }
+            }
+
+            // If all words are already hidden, change button text and stop
+            if (availableIndices.length === 0) {
+                eraseBtn.innerText = "🏆 Fully Memorized!";
+                eraseBtn.style.background = "#2ed573";
+                return;
+            }
+
+            // Calculate how many to hide (about 20% of total words each click)
+            let amountToHide = Math.max(3, Math.floor(wordsArray.length * 0.2));
+            amountToHide = Math.min(amountToHide, availableIndices.length);
+
+            // Shuffle the available words
+            availableIndices.sort(() => Math.random() - 0.5);
+
+            // Hide them
+            for (let i = 0; i < amountToHide; i++) {
+                hiddenIndices.add(availableIndices[i]);
+            }
+
+            renderVerse();
+        }
+
+        function resetVerse() {
+            hiddenIndices.clear();
+            eraseBtn.innerText = "🧹 Erase Words";
+            eraseBtn.style.background = "#00a8ff";
+            renderVerse();
+        }
+
+        // Start the engine
+        renderVerse();
     </script>
 </body>
 </html>

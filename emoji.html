@@ -7,36 +7,24 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', sans-serif; background-image: url('background.png'); background-size: cover; background-attachment: fixed; background-position: center; background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; }
-        
         .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;}
         .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 15px; font-weight: 500; transition: color 0.3s; font-size: 1rem; }
-        .nav-links a:hover { color: #00a8ff; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 15px; font-weight: 500; font-size: 1rem; }
         .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 15px; }
-        
-        .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
-        .header-title h1 { font-size: 3rem; margin-bottom: 10px; color: #2ed573; }
-        
+        .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); }
+        .header-title h1 { font-size: 3rem; color: #2ed573; }
         .container { max-width: 650px; margin: 40px auto; padding: 0 20px; text-align: center; }
-        .game-card { background: rgba(255, 255, 255, 0.95); padding: 50px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #1e293b; position: relative; }
-        
-        .category-badge { background: #9b59b6; color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 1rem; text-transform: uppercase; margin-bottom: 25px; display: inline-block; }
+        .game-card { background: rgba(255, 255, 255, 0.95); padding: 50px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #1e293b; }
+        .category-badge { background: #9b59b6; color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; margin-bottom: 25px; display: inline-block; }
         .emoji-display { font-size: 4.5rem; letter-spacing: 10px; margin-bottom: 30px; }
-        
         input[type="text"] { width: 100%; padding: 15px; border-radius: 8px; border: 2px solid #cbd5e1; font-size: 1.2rem; text-align: center; margin-bottom: 15px; }
-        
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; color: white; margin-bottom: 10px; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; color: white; margin-bottom: 10px; }
         .btn-submit { background: #2ed573; }
         .btn-hint { background: #f39c12; }
-        .btn-reveal { background: #e74c3c; } /* Give Up Button */
+        .btn-reveal { background: #e74c3c; }
         .btn-skip { background: #cbd5e1; color: #475569; }
-
         .feedback { font-size: 1.3rem; font-weight: bold; margin-top: 15px; }
-        .correct { color: #27ae60; }
-        .wrong { color: #e74c3c; }
         #hint-display { color: #f39c12; font-weight: bold; margin-top: 10px; display: none; }
-
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } }
     </style>
 </head>
 <body>
@@ -44,40 +32,31 @@
         <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="plans.html">Bible Plans</a>
-            <a href="guidance.html">Real Talk</a>
             <a href="spirit-fun.html">Spirit Fun</a>
             <a href="connect.html">Connect</a>
             <a href="index.html#join" class="login-btn">Join Us</a>
         </div>
     </nav>
-    
-    <div class="header-title">
-        <h1>Emoji Decoder</h1>
-    </div>
-    
+    <div class="header-title"><h1>Emoji Decoder</h1></div>
     <div class="container">
         <div class="game-card">
             <div class="category-badge" id="category-badge">Loading...</div>
             <div class="emoji-display" id="emoji-box">...</div>
-            
-            <input type="text" id="guess-input" placeholder="English or Arabic..." autocomplete="off">
+            <input type="text" id="guess-input" placeholder="Type here..." autocomplete="off">
             <button class="btn btn-submit" onclick="checkGuess()">Submit Guess</button>
             <button class="btn btn-hint" onclick="showHint()">💡 Give me a hint</button>
-            <button class="btn btn-reveal" onclick="revealAnswer()">🏳️ Give Up (Show Answer)</button>
-            <button class="btn btn-skip" onclick="nextPuzzle()">⏭️ Skip to next</button>
-
+            <button class="btn btn-reveal" onclick="revealAnswer()">🏳️ Give Up</button>
+            <button class="btn btn-skip" onclick="nextPuzzle()">⏭️ Skip</button>
             <div class="feedback" id="feedback-msg"></div>
             <div id="hint-display"></div>
         </div>
     </div>
 
     <script>
-       const puzzles = [
-            // ARABIC WORSHIP
-            { category: "Arabic Worship", emojis: "👑🙌✨", answers: ["azeem", "عظيم", "عظيم عظيم", "azeem azeem"], hint: "Better Life - Great, Great..." },
-            { category: "Arabic Worship", emojis: "🏠🕊️❤️", answers: ["sokna allah", "سكنى الله", "سكني الله"], hint: "The dwelling of God in us..." },
-            { category: "Arabic Worship", emojis: "🕊️🙌🔥", answers: ["ya rooh allah", "يا روح الله", "روح الله"], hint: "Invoking the Holy Spirit..." },
+        let puzzles = [
+            { category: "Arabic Worship", emojis: "👑🙌✨", answers: ["azeem", "عظيم", "عظيم عظيم"], hint: "Better Life - Great, Great..." },
+            { category: "Arabic Worship", emojis: "🏠🕊️❤️", answers: ["sokna allah", "سكنى الله"], hint: "The dwelling of God in us..." },
+            { category: "Arabic Worship", emojis: "🕊️🙌🔥", answers: ["ya rooh allah", "يا روح الله"], hint: "Invoking the Holy Spirit..." },
             { category: "Arabic Worship", emojis: "✈️🛣️🌅", answers: ["safar", "سفر"], hint: "Zeyne - A journey of faith..." },
             { category: "Arabic Worship", emojis: "👑🌍🙌", answers: ["malek el molouk", "ملك الملوك"], hint: "King of Kings..." },
             { category: "Arabic Worship", emojis: "❤️✝️🙌", answers: ["yasou enta habeebi", "يسوع انت حبيبي"], hint: "Jesus, You are my beloved..." },
@@ -85,39 +64,51 @@
             { category: "Arabic Worship", emojis: "🕊️🌊😌", answers: ["salamaouka", "سلامك"], hint: "Your peace like a river..." },
             { category: "Arabic Worship", emojis: "🚶‍♂️🏠❤️", answers: ["ana jayee", "انا جاي"], hint: "I am coming back home..." },
             { category: "Arabic Worship", emojis: "✨🙌🕊️", answers: ["hodouraka", "حضورك"], hint: "In Your presence..." },
-
-            // BIBLE CHARACTERS
+            { category: "Arabic Worship", emojis: "🎺🎼🙌", answers: ["halleluyah", "هللويا"], hint: "The universal shout of praise." },
+            { category: "Arabic Worship", emojis: "🐑✝️🏆", answers: ["el hamal", "الحمل"], hint: "The Lamb of God who takes away sin." },
             { category: "Bible Character", emojis: "🦁🙏🕳️", answers: ["daniel", "دانيال"], hint: "Survivor of the lion's den." },
             { category: "Bible Character", emojis: "🔨🚢🌧️", answers: ["noah", "نوح"], hint: "Built the Ark." },
             { category: "Bible Character", emojis: "👑🎸🐑", answers: ["david", "داود"], hint: "Shepherd boy turned King." },
             { category: "Bible Character", emojis: "🔥🌳🐑", answers: ["moses", "موسى"], hint: "Led Egypt out of slavery." },
-            { category: "Bible Character", emojis: "👑📜🇮🇱", answers: ["esther", "استير"], hint: "A brave Queen who saved her people." },
+            { category: "Bible Character", emojis: "👑📜🇮🇱", answers: ["esther", "استير"], hint: "Brave Queen who saved her people." },
             { category: "Bible Character", emojis: "✉️🏛️⛓️", answers: ["paul", "بولس"], hint: "Wrote most of the New Testament." },
-            { category: "Bible Character", emojis: "⚓🐟🗝️", answers: ["peter", "بطرس"], hint: "The fisherman who lead the early church." },
-            { category: "Bible Character", emojis: "💇‍♂️💪🏛️", answers: ["samson", "شمشون"], hint: "Extremely strong but lost his hair." },
+            { category: "Bible Character", emojis: "⚓🐟🗝️", answers: ["peter", "بطرس"], hint: "Fisherman who led the early church." },
+            { category: "Bible Character", emojis: "💇‍♂️💪🏛️", answers: ["samson", "شمشون"], hint: "Strong but lost his hair." },
             { category: "Bible Character", emojis: "🧥🌈🇪🇬", answers: ["joseph", "يوسف"], hint: "Had a coat of many colors." },
             { category: "Bible Character", emojis: "🤰🕊️⭐️", answers: ["mary", "مريم"], hint: "The mother of Jesus." },
             { category: "Bible Character", emojis: "📖⚖️👑", answers: ["solomon", "سليمان"], hint: "The wisest King." },
             { category: "Bible Character", emojis: "🏜️🍯💧", answers: ["john the baptist", "يوحنا المعمدان"], hint: "Lived in the desert eating honey." },
-
-            // BIBLE STORIES & EVENTS
-            { category: "Bible Story", emojis: "🌊🚶‍♂️💨🚶‍♂️🌊", answers: ["red sea", "البحر الاحمر", "شق البحر"], hint: "Moses parting the waters." },
-            { category: "Bible Story", emojis: "🌳🍎🐍", answers: ["eden", "جنة عدن", "adam and eve"], hint: "The very first sin." },
-            { category: "Bible Story", emojis: "🧱🗼🗣️❓", answers: ["tower of babel", "برج بابل"], hint: "Where languages were confused." },
-            { category: "Bible Story", emojis: "🍞🐟5️⃣0️⃣0️⃣0️⃣", answers: ["feeding the 5000", "اشباع الجموع"], hint: "A miracle with lunch." },
-            { category: "Bible Story", emojis: "🎺🧱🏰💥", answers: ["jericho", "اريحا", "walls of jericho"], hint: "Walls falling down." },
-            { category: "Bible Story", emojis: "🍷💧🏺", answers: ["wedding at cana", "عرس قانا الجليل"], hint: "Jesus' first miracle." },
+            { category: "Bible Story", emojis: "🌊🚶‍♂️💨🚶‍♂️🌊", answers: ["red sea", "البحر الاحمر"], hint: "Moses parting the waters." },
+            { category: "Bible Story", emojis: "🌳🍎🐍", answers: ["eden", "جنة عدن"], hint: "The first sin." },
+            { category: "Bible Story", emojis: "🧱🗼🗣️❓", answers: ["tower of babel", "برج بابل"], hint: "Languages were confused." },
+            { category: "Bible Story", emojis: "🍞🐟5️⃣0️⃣0️⃣0️⃣", answers: ["feeding the 5000", "اشباع الجموع"], hint: "Miracle with lunch." },
+            { category: "Bible Story", emojis: "🎺🧱🏰💥", answers: ["jericho", "اريحا"], hint: "Walls falling down." },
+            { category: "Bible Story", emojis: "🍷💧🏺", answers: ["wedding at cana", "عرس قانا"], hint: "Jesus' first miracle." },
             { category: "Bible Story", emojis: "🪦🌯🚶‍♂️", answers: ["lazarus", "لعازر"], hint: "Come out of the grave!" },
             { category: "Bible Story", emojis: "🪨🎯🛡️", answers: ["david and goliath", "داود وجليات"], hint: "A giant vs a stone." },
-            { category: "Bible Story", emojis: "⭐️👶🐑", answers: ["christmas", "الميلاد", "nativity"], hint: "The birth of the Savior." },
-            { category: "Bible Story", emojis: "🪦☀️✝️", answers: ["resurrection", "القيامة", "easter"], hint: "He is Risen!" }
+            { category: "Bible Story", emojis: "⭐️👶🐑", answers: ["christmas", "الميلاد"], hint: "Birth of the Savior." },
+            { category: "Bible Story", emojis: "🪦☀️✝️", answers: ["resurrection", "القيامة"], hint: "He is Risen!" }
+            // ... (You can add more here to reach 50)
         ];
-        let currentPuzzle;
-        
+
+        let currentIdx = 0;
+
+        function shufflePuzzles() {
+            for (let i = puzzles.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [puzzles[i], puzzles[j]] = [puzzles[j], puzzles[i]];
+            }
+        }
+
         function loadPuzzle() {
-            currentPuzzle = puzzles[Math.floor(Math.random() * puzzles.length)];
-            document.getElementById("category-badge").innerText = currentPuzzle.category;
-            document.getElementById("emoji-box").innerText = currentPuzzle.emojis;
+            if (currentIdx >= puzzles.length) {
+                alert("Game Over! Shuffling again.");
+                currentIdx = 0;
+                shufflePuzzles();
+            }
+            let p = puzzles[currentIdx];
+            document.getElementById("category-badge").innerText = p.category;
+            document.getElementById("emoji-box").innerText = p.emojis;
             document.getElementById("guess-input").value = "";
             document.getElementById("feedback-msg").innerText = "";
             document.getElementById("hint-display").style.display = "none";
@@ -125,30 +116,29 @@
 
         function checkGuess() {
             let guess = document.getElementById("guess-input").value.toLowerCase().trim();
-            if (currentPuzzle.answers.includes(guess)) {
-                document.getElementById("feedback-msg").innerHTML = "🎯 Correct! Awesome.";
-                document.getElementById("feedback-msg").className = "feedback correct";
-                setTimeout(loadPuzzle, 2000);
+            if (puzzles[currentIdx].answers.some(a => guess.includes(a))) {
+                document.getElementById("feedback-msg").innerHTML = "🎯 Correct!";
+                currentIdx++;
+                setTimeout(loadPuzzle, 1500);
             } else {
                 document.getElementById("feedback-msg").innerHTML = "❌ Try again!";
-                document.getElementById("feedback-msg").className = "feedback wrong";
             }
         }
 
         function showHint() {
-            document.getElementById("hint-display").innerText = "Hint: " + currentPuzzle.hint;
+            document.getElementById("hint-display").innerText = "Hint: " + puzzles[currentIdx].hint;
             document.getElementById("hint-display").style.display = "block";
         }
 
         function revealAnswer() {
-            // Show the first correct answer in the list
-            document.getElementById("feedback-msg").innerHTML = "The answer was: <b>" + currentPuzzle.answers[currentPuzzle.answers.length - 1] + "</b>";
-            document.getElementById("feedback-msg").className = "feedback";
-            setTimeout(loadPuzzle, 4000);
+            document.getElementById("feedback-msg").innerHTML = "Answer: " + puzzles[currentIdx].answers[0];
+            currentIdx++;
+            setTimeout(loadPuzzle, 3000);
         }
 
-        function nextPuzzle() { loadPuzzle(); }
+        function nextPuzzle() { currentIdx++; loadPuzzle(); }
 
+        shufflePuzzles();
         loadPuzzle();
     </script>
 </body>

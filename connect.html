@@ -3,75 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Impact Youth Amman - Connect & Share">
     <title>Connect - Impact Youth Amman</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', sans-serif; background-image: url('background.png'); background-size: cover; background-attachment: fixed; background-position: center; background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; }
-        
-        /* Navigation Bar */
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-image: url('background.png'); 
+            background-size: cover; 
+            background-attachment: fixed; 
+            background-position: center; 
+            background-color: #1c1e21; 
+            color: #f8f9fa; 
+            line-height: 1.6; 
+        }
         .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;}
-        .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 15px; font-weight: 500; transition: color 0.3s; font-size: 1rem; }
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 15px; font-weight: 500; }
         .nav-links a:hover { color: #00a8ff; }
-        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 15px; transition: background 0.3s;}
-        .login-btn:hover { background: #008ecc !important; }
-        
-        .container { max-width: 700px; margin: 40px auto; padding: 0 20px; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 15px; }
+
+        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
 
         /* Verse of the Week Card */
-        .verse-card { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #1e293b; text-align: center; margin-bottom: 40px; border-left: 8px solid #f39c12; }
-        .verse-title { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: #f39c12; font-weight: bold; margin-bottom: 10px; }
-        .verse-text { font-size: 1.5rem; font-family: 'Georgia', serif; font-style: italic; line-height: 1.4; margin-bottom: 10px; }
-        .verse-ref { font-size: 1.1rem; font-weight: bold; color: #64748b; }
+        .verse-card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            color: #1e293b; 
+            text-align: center; 
+            margin-bottom: 30px; 
+            border-left: 8px solid #f39c12; 
+        }
+        .verse-text { font-size: 1.6rem; font-style: italic; margin-bottom: 5px; color: #0f172a; }
+        .verse-ref { font-weight: bold; color: #64748b; }
 
-        /* Interactive Form Card */
-        .form-card { background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #1e293b; }
-        .form-card h2 { text-align: center; margin-bottom: 25px; color: #0f172a; font-size: 2rem; }
-        
-        .form-group { margin-bottom: 25px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 1.1rem; color: #334155; }
-        
-        /* The "Fill in the spaces" Styling */
-        input[type="text"], select, textarea { 
+        /* Form Selector Styling */
+        .selector-card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 20px; 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+            text-align: center; 
+            color: #1e293b;
+        }
+        select { 
             width: 100%; 
-            padding: 15px; 
+            padding: 12px; 
             border-radius: 8px; 
             border: 2px solid #cbd5e1; 
             font-size: 1.1rem; 
-            font-family: inherit; 
-            background: #f8f9fa; 
-            transition: all 0.3s; 
+            margin-top: 10px; 
+            font-family: inherit;
         }
-        input[type="text"]:focus, select:focus, textarea:focus { 
-            outline: none; 
-            border-color: #00a8ff; 
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 168, 255, 0.1);
+
+        /* Google Form Iframe Styling */
+        .form-wrapper { 
+            background: white; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            height: 800px; 
+            display: none; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        
-        textarea { resize: vertical; min-height: 120px; }
-
-        .btn-submit { 
-            width: 100%; 
-            background: #00a8ff; 
-            color: white; 
-            padding: 18px; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 1.3rem; 
-            font-weight: bold; 
-            cursor: pointer; 
-            transition: all 0.3s; 
-        }
-        .btn-submit:hover { background: #008ecc; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 168, 255, 0.3); }
-
-        /* Success Message */
-        #success-msg { display: none; text-align: center; padding: 40px; background: #f0fdf4; border: 2px solid #22c55e; border-radius: 15px; }
-        #success-msg h3 { color: #166534; font-size: 1.8rem; margin-bottom: 10px; }
-        #success-msg p { color: #15803d; font-size: 1.1rem; }
-
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .form-card { padding: 25px; } }
+        .active-form { display: block; }
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
@@ -86,66 +82,38 @@
             <a href="index.html#join" class="login-btn">Join Us</a>
         </div>
     </nav>
-    
+
     <div class="container">
-        
         <div class="verse-card">
-            <div class="verse-title">Verse of the Week</div>
-            <div class="verse-text">"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."</div>
-            <div class="verse-ref">Romans 12:2</div>
+            <p class="verse-text">"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."</p>
+            <p class="verse-ref">Romans 12:2</p>
         </div>
 
-        <div class="form-card" id="form-container">
-            <h2>The Drop Box</h2>
-            
-            <div class="form-group">
-                <label for="submission-type">I want to send a...</label>
-                <select id="submission-type">
-                    <option value="Prayer Request">🙏 Prayer Request</option>
-                    <option value="Question">❓ Anonymous Q&A Question</option>
-                    <option value="Suggestion">💡 Youth Group Suggestion</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="user-name">Your Name (Optional)</label>
-                <input type="text" id="user-name" placeholder="Leave blank to stay anonymous">
-            </div>
-
-            <div class="form-group">
-                <label for="message-box">Your Message</label>
-                <textarea id="message-box" placeholder="Write your heart here..."></textarea>
-            </div>
-
-            <button class="btn-submit" onclick="submitForm()">Securely Send</button>
+        <div class="selector-card">
+            <h3>What would you like to do?</h3>
+            <select id="form-switcher" onchange="updateForm()">
+                <option value="prayer">🙏 Send a Prayer Request</option>
+                <option value="qna">💡 Q&A or Suggestions</option>
+            </select>
         </div>
 
-        <div id="success-msg">
-            <h3>🙌 Message Sent!</h3>
-            <p>Your message has been delivered to the Impact Youth leaders. We are standing with you in prayer and looking forward to seeing you Wednesday at 7 PM!</p>
-            <br>
-            <button class="btn-submit" onclick="location.reload()" style="background: #22c55e; width: auto; padding: 10px 30px;">Send Another</button>
+        <div id="prayer-area" class="form-wrapper active-form">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdvg39ep0_D05gBTp27G9dPwqVRuU1mCAzKCJQNhNAbyESsZQ/viewform?embedded=true">Loading...</iframe>
         </div>
 
+        <div id="qna-area" class="form-wrapper">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe0bn2kgaEt1yMpDZQQAMQwEigog6lkc9Y4-rXMKE7RnVjZwQ/viewform?embedded=true">Loading...</iframe>
+        </div>
     </div>
 
     <script>
-        function submitForm() {
-            const msg = document.getElementById("message-box").value;
-            const type = document.getElementById("submission-type").value;
-            const name = document.getElementById("user-name").value || "Anonymous";
-
-            if (msg.trim() === "") {
-                alert("The message space is empty! Please type something before sending.");
-                return;
-            }
-
-            // In a real backend, you'd send 'type', 'name', and 'msg' to a server here.
-            // For now, we simulate the success:
-            document.getElementById("form-container").style.display = "none";
-            document.getElementById("success-msg").style.display = "block";
+        function updateForm() {
+            const val = document.getElementById('form-switcher').value;
+            document.getElementById('prayer-area').classList.remove('active-form');
+            document.getElementById('qna-area').classList.remove('active-form');
             
-            console.log(`New Submission: ${type} from ${name}. Message: ${msg}`);
+            if(val === 'prayer') document.getElementById('prayer-area').classList.add('active-form');
+            else document.getElementById('qna-area').classList.add('active-form');
         }
     </script>
 </body>

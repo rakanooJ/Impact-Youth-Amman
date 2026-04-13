@@ -7,18 +7,16 @@
     <title>Home - Impact Youth Amman</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; } /* Makes the page scroll smoothly to the footer */
+        html { scroll-behavior: smooth; }
         body { font-family: 'Segoe UI', sans-serif; background-image: url('background.png'); background-size: cover; background-attachment: fixed; background-position: center; background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; }
         
-        /* Navigation */
         .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;}
         .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; font-size: 1.05rem; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 15px; font-weight: 500; transition: color 0.3s; font-size: 1rem; }
         .nav-links a:hover { color: #00a8ff; }
-        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 20px; transition: background 0.3s; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 15px; transition: background 0.3s; }
         .login-btn:hover { background: #008ecc !important; }
         
-        /* Hero Banner */
         .hero { text-align: center; padding: 100px 20px; background: linear-gradient(rgba(28, 30, 33, 0.7), rgba(28, 30, 33, 0.95)); }
         .hero h1 { font-size: 4.5rem; margin-bottom: 15px; color: #00a8ff; text-transform: uppercase; letter-spacing: 2px;}
         .hero p { font-size: 1.4rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 30px auto; }
@@ -27,13 +25,11 @@
 
         .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
-        /* Verse of the Week Section */
         .verse-card { background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #1e293b; text-align: center; margin-bottom: 50px; border-left: 8px solid #f39c12; }
         .verse-title { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: #f39c12; font-weight: bold; margin-bottom: 15px; }
         .verse-text { font-size: 2rem; font-family: 'Georgia', serif; font-style: italic; line-height: 1.4; margin-bottom: 15px; }
         .verse-ref { font-size: 1.2rem; font-weight: bold; color: #64748b; }
 
-        /* Quick Access Features Grid */
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px; }
         .feature-card { background: #334155; padding: 30px; border-radius: 15px; text-align: center; color: white; text-decoration: none; transition: transform 0.3s, background 0.3s; border: 1px solid #475569;}
         .feature-card:hover { transform: translateY(-5px); background: #475569; }
@@ -41,7 +37,6 @@
         .feature-card h3 { font-size: 1.5rem; margin-bottom: 10px; color: #00a8ff; }
         .feature-card p { color: #cbd5e1; font-size: 1.05rem; }
 
-        /* Connect / Socials Footer */
         .connect-section { background: #1e293b; padding: 60px 20px; text-align: center; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .connect-section h2 { font-size: 2.5rem; color: #2ed573; margin-bottom: 20px; }
         .connect-details { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 30px; }
@@ -55,12 +50,7 @@
         .btn-insta { background: #E1306C; }
         .btn-wa { background: #25D366; }
 
-        @media (max-width: 768px) { 
-            .navbar { padding: 10px 20px; } 
-            .nav-links { display: none; } 
-            .hero h1 { font-size: 3rem; }
-            .verse-text { font-size: 1.5rem; }
-        }
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .hero h1 { font-size: 3rem; } .verse-text { font-size: 1.5rem; } }
     </style>
 </head>
 <body>
@@ -68,6 +58,8 @@
         <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
+            <a href="plans.html">Bible Plans</a>
+            <a href="guidance.html">Real Talk</a>
             <a href="talk.html">Table Talk</a>
             <a href="spirit-fun.html">Spirit Fun</a>
             <a href="connect.html">Connect</a>
@@ -82,7 +74,6 @@
     </header>
     
     <div class="container">
-        
         <div class="verse-card">
             <div class="verse-title">Focus of the Week</div>
             <div class="verse-text">"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."</div>
@@ -95,13 +86,11 @@
                 <h3>Table Talk</h3>
                 <p>Generate deep, random discussion questions for your small group.</p>
             </a>
-            
             <a href="spirit-fun.html" class="feature-card">
                 <div class="feature-icon">🎮</div>
                 <h3>Spirit Fun</h3>
                 <p>Play Bible trivia, guess the worship emoji, or take the gifts quiz.</p>
             </a>
-            
             <a href="connect.html" class="feature-card">
                 <div class="feature-icon">🙏</div>
                 <h3>The Drop Box</h3>
@@ -111,7 +100,6 @@
 
         <section id="join" class="connect-section">
             <h2>You Belong Here.</h2>
-            
             <div class="connect-details">
                 <div class="detail-box">
                     <h4>🗓️ When We Meet</h4>
@@ -126,11 +114,10 @@
             </div>
 
             <div class="social-buttons">
-                <a href="#" class="social-btn btn-insta">📷 Follow on Instagram</a>
-                <a href="#" class="social-btn btn-wa">💬 Join WhatsApp Group</a>
+                <a href="YOUR_INSTAGRAM_LINK_HERE" target="_blank" class="social-btn btn-insta">📷 Follow on Instagram</a>
+                <a href="YOUR_WHATSAPP_LINK_HERE" target="_blank" class="social-btn btn-wa">💬 Join WhatsApp Group</a>
             </div>
         </section>
-
     </div>
 </body>
 </html>

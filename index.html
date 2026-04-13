@@ -84,7 +84,7 @@
 
         .container { max-width: 1150px; margin: 0 auto; padding: 50px 25px; }
 
-        /* 4. Verse Card (The Master Styling) */
+        /* 4. Verse Card (The Anchor) */
         .verse-card { 
             background: rgba(255, 255, 255, 0.95); 
             padding: 45px; 
@@ -123,17 +123,30 @@
         .feature-icon { font-size: 3.8rem; margin-bottom: 20px; }
         .feature-card h3 { font-size: 1.9rem; margin-bottom: 12px; color: #00a8ff; }
 
-        /* 6. FIXED SPOTIFY SECTION */
+        /* 6. CLEAN SPOTIFY BUTTON SECTION */
         .spotify-section { 
             background: #191414; 
-            padding: 45px; 
+            padding: 60px 45px; 
             border-radius: 18px; 
             border: 1px solid #1DB954; 
             text-align: center; 
             margin-bottom: 70px; 
             box-shadow: 0 15px 45px rgba(0,0,0,0.6);
         }
-        .spotify-section h2 { color: #1DB954; margin-bottom: 30px; font-size: 2.6rem; }
+        .spotify-section h2 { color: #1DB954; margin-bottom: 25px; font-size: 2.6rem; }
+        .btn-spotify { 
+            display: inline-block;
+            background: #1DB954; 
+            color: white; 
+            padding: 20px 45px; 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 1.4rem; 
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
+        }
+        .btn-spotify:hover { transform: scale(1.05); background: #1ed760; box-shadow: 0 6px 20px rgba(29, 185, 84, 0.6); }
 
         /* 7. Footer / Connect Styling */
         .connect-section { 
@@ -142,22 +155,17 @@
             text-align: center; 
             border-radius: 18px; 
             box-shadow: 0 15px 45px rgba(0,0,0,0.6); 
-            border: 1px solid #333;
         }
         .connect-section h2 { font-size: 3rem; color: #2ed573; margin-bottom: 30px; }
         .detail-box { background: rgba(0,0,0,0.25); padding: 30px; border-radius: 12px; display: inline-block; min-width: 300px; margin-bottom: 40px; }
-        .detail-box h4 { color: #00a8ff; font-size: 1.5rem; margin-bottom: 10px; }
         
         .social-buttons { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
         .social-btn { padding: 18px 35px; border-radius: 12px; font-weight: bold; text-decoration: none; color: white; font-size: 1.3rem; transition: 0.3s; }
-        .social-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
+        .social-btn:hover { transform: scale(1.05); }
         .btn-insta { background: #E1306C; }
         .btn-wa { background: #25D366; }
 
-        @media (max-width: 768px) { 
-            .navbar { padding: 12px 25px; } .nav-links { display: none; } 
-            .hero h1 { font-size: 3rem; } .verse-text { font-size: 1.6rem; } 
-        }
+        @media (max-width: 768px) { .navbar { padding: 12px 25px; } .nav-links { display: none; } .hero h1 { font-size: 3rem; } }
     </style>
 </head>
 <body>
@@ -176,7 +184,7 @@
     <header class="hero">
         <h1>Impact Youth</h1>
         <div class="countdown-container">
-            <p style="margin-bottom: 12px; color: #cbd5e1; font-weight: bold; font-size: 1.1rem;">NEXT SERVICE IN:</p>
+            <p style="margin-bottom: 12px; color: #cbd5e1; font-weight: bold;">NEXT SERVICE IN:</p>
             <div id="countdown" class="countdown-timer">Calculating...</div>
         </div>
     </header>
@@ -208,19 +216,14 @@
 
         <div class="spotify-section">
             <h2>🎧 Impact Sounds</h2>
-            <iframe style="border-radius:12px" 
-                src="https://open.spotify.com/embed/track/5iH6Z8M2Tq8WzP8GfR6QZ1?utm_source=generator&theme=0" 
-                width="100%" height="152" frameBorder="0" 
-                allowfullscreen="" 
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                loading="lazy">
-            </iframe>
+            <p style="color: #cbd5e1; margin-bottom: 30px; font-size: 1.1rem;">Listen to our latest worship playlist on Spotify.</p>
+            <a href="https://open.spotify.com/playlist/27l87V6S7zCly7Z69m7q2p" target="_blank" class="btn-spotify">Open Playlist</a>
         </div>
 
         <section id="join" class="connect-section">
             <h2>You Belong Here.</h2>
             <div class="detail-box">
-                <h4>🗓️ Wednesdays @ 7:00 PM</h4>
+                <h4 style="color:#00a8ff; font-size:1.5rem; margin-bottom:10px;">🗓️ Wednesdays @ 7:00 PM</h4>
                 <p>Amman Baptist School Hall</p>
             </div>
 

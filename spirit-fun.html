@@ -33,10 +33,11 @@
             z-index: 100;
         }
         .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
+        .nav-links { display: flex; align-items: center; }
         .nav-links a { 
             color: white; 
             text-decoration: none; 
-            margin-left: 15px; 
+            margin-left: 20px; 
             font-weight: 500; 
             transition: color 0.3s; 
             font-size: 1rem; 
@@ -44,13 +45,14 @@
         .nav-links a:hover { color: #00a8ff; }
         .login-btn { 
             background-color: #00a8ff; 
-            padding: 8px 16px; 
+            padding: 8px 20px; 
             border-radius: 5px; 
             color: white !important; 
-            margin-left: 15px; 
-            transition: background 0.3s; 
+            margin-left: 20px; 
+            transition: background 0.3s, transform 0.2s; 
+            font-weight: bold;
         }
-        .login-btn:hover { background: #008ecc !important; }
+        .login-btn:hover { background: #008ecc !important; transform: scale(1.05); }
         
         /* 3. Header Section */
         .header-title { 
@@ -68,7 +70,7 @@
 
         .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
-        /* 4. Verse of the Week Card (Restored) */
+        /* 4. Verse of the Week Card (Restored & Polished) */
         .verse-card { 
             background: rgba(255, 255, 255, 0.95); 
             padding: 40px; 
@@ -136,24 +138,38 @@
             line-height: 1.5;
         }
 
-        /* 6. Footer CTA */
+        /* 6. Footer CTA Section */
         .footer-cta {
             text-align: center;
             padding: 60px 20px;
             background: rgba(28, 30, 33, 0.8);
             border-radius: 15px;
             margin-bottom: 40px;
+            border: 1px solid #333;
         }
         .footer-cta h2 { font-size: 2.5rem; color: #2ed573; margin-bottom: 15px; }
         .footer-cta p { font-size: 1.2rem; color: #cbd5e1; margin-bottom: 25px; }
+        .cta-btn-group { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .cta-btn { 
+            padding: 15px 30px; 
+            border-radius: 30px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            transition: 0.3s;
+        }
+        .btn-plans { background: #00a8ff; color: white; }
+        .btn-guidance { background: #f39c12; color: white; }
+        .cta-btn:hover { opacity: 0.9; transform: translateY(-2px); }
 
-        /* Tablet & Mobile Media Queries */
+        /* 7. Tablet & Mobile Media Queries */
         @media (max-width: 768px) { 
             .navbar { padding: 10px 20px; } 
             .nav-links { display: none; } 
             .header-title h1 { font-size: 2.8rem; } 
             .verse-text { font-size: 1.6rem; } 
             .game-grid { gap: 20px; }
+            .header-title { padding: 50px 20px; }
         }
     </style>
 </head>
@@ -212,10 +228,10 @@
 
         <section class="footer-cta">
             <h2>Ready to grow?</h2>
-            <p>Faith is more than just games. Dive into our reading plans or get some real advice.</p>
-            <div style="display:flex; justify-content:center; gap:20px;">
-                <a href="plans.html" style="background:#00a8ff; color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">View Bible Plans</a>
-                <a href="guidance.html" style="background:#f39c12; color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">Get Guidance</a>
+            <p>Faith is more than just games. Dive into our reading plans or get some real advice for your walk with Christ.</p>
+            <div class="cta-btn-group">
+                <a href="plans.html" class="cta-btn btn-plans">View Bible Plans</a>
+                <a href="guidance.html" class="cta-btn btn-guidance">Get Real Guidance</a>
             </div>
         </section>
     </div>

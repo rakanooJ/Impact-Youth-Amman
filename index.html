@@ -16,21 +16,30 @@
         .nav-links a:hover { color: #00a8ff; }
         .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 15px; transition: background 0.3s; }
         
+        /* Hero */
         .hero { text-align: center; padding: 80px 20px; background: linear-gradient(rgba(28, 30, 33, 0.7), rgba(28, 30, 33, 0.95)); }
         .hero h1 { font-size: 4.5rem; margin-bottom: 10px; color: #00a8ff; text-transform: uppercase; letter-spacing: 2px;}
-        
         .countdown-container { background: rgba(0, 168, 255, 0.1); border: 1px solid #00a8ff; padding: 15px; border-radius: 15px; margin: 20px auto; max-width: 450px; text-align: center; }
         .countdown-timer { font-size: 1.8rem; font-weight: bold; color: #2ed573; font-family: 'Courier New', monospace; }
+        .hero-btn { background: #2ed573; color: white; padding: 12px 30px; border-radius: 30px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 15px; transition: transform 0.3s;}
+        .hero-btn:hover { transform: translateY(-3px); }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
-        /* Verse Card */
+        /* VERSE OF THE WEEK BLOCK */
         .verse-card { background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #1e293b; text-align: center; margin-bottom: 50px; border-left: 8px solid #f39c12; }
         .verse-title { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: #f39c12; font-weight: bold; margin-bottom: 15px; }
-        .verse-text { font-size: 2rem; font-family: 'Georgia', serif; font-style: italic; line-height: 1.4; margin-bottom: 15px; }
+        .verse-text { font-size: 2.2rem; font-family: 'Georgia', serif; font-style: italic; line-height: 1.4; margin-bottom: 15px; color: #0f172a; }
         .verse-ref { font-size: 1.2rem; font-weight: bold; color: #64748b; }
 
-        /* The "Fill in the Spaces" Form Card */
+        /* FEATURE GRID */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .feature-card { background: #334155; padding: 30px; border-radius: 15px; text-align: center; color: white; text-decoration: none; transition: transform 0.3s; border: 1px solid #475569;}
+        .feature-card:hover { transform: translateY(-5px); background: #475569; }
+        .feature-icon { font-size: 3rem; margin-bottom: 15px; }
+        .feature-card h3 { font-size: 1.5rem; margin-bottom: 10px; color: #00a8ff; }
+
+        /* THE DROP BOX (FILL IN THE SPACES) */
         .form-card { background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #1e293b; margin-bottom: 60px; }
         .form-card h2 { text-align: center; margin-bottom: 25px; color: #0f172a; font-size: 2rem; }
         .form-group { margin-bottom: 20px; }
@@ -40,17 +49,18 @@
         .btn-submit { width: 100%; background: #00a8ff; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-submit:hover { background: #008ecc; transform: translateY(-2px); }
 
-        /* Spotify Player */
+        /* SPOTIFY PLAYER */
         .spotify-section { background: #191414; padding: 30px; border-radius: 15px; border: 1px solid #1DB954; text-align: center; margin-bottom: 60px; }
         .spotify-section h2 { color: #1DB954; margin-bottom: 20px; font-size: 2rem; }
 
+        /* CONNECT SECTION */
         .connect-section { background: #1e293b; padding: 60px 20px; text-align: center; border-radius: 15px; }
         .social-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
         .social-btn { padding: 12px 25px; border-radius: 8px; font-weight: bold; text-decoration: none; color: white; font-size: 1.1rem; }
         .btn-insta { background: #E1306C; }
         .btn-wa { background: #25D366; }
 
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .hero h1 { font-size: 2.8rem; } .verse-text { font-size: 1.5rem; } }
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .hero h1 { font-size: 2.8rem; } .verse-text { font-size: 1.6rem; } }
     </style>
 </head>
 <body>
@@ -76,16 +86,23 @@
     </header>
     
     <div class="container">
+
         <div class="verse-card">
-            <div class="verse-title">Focus of the Week</div>
+            <div class="verse-title">Verse of the Week</div>
             <div class="verse-text">"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."</div>
             <div class="verse-ref">Romans 12:2</div>
+        </div>
+
+        <div class="features-grid">
+            <a href="talk.html" class="feature-card"><div class="feature-icon">💬</div><h3>Table Talk</h3><p>Deep questions for your group.</p></a>
+            <a href="spirit-fun.html" class="feature-card"><div class="feature-icon">🎮</div><h3>Spirit Fun</h3><p>Games, Trivia & Quizzes.</p></a>
+            <a href="connect.html" class="feature-card"><div class="feature-icon">🙏</div><h3>Prayer Room</h3><p>Join the community in prayer.</p></a>
         </div>
 
         <div class="form-card" id="drop-box">
             <h2>The Drop Box</h2>
             <div class="form-group">
-                <label>I want to send a...</label>
+                <label>Submission Type</label>
                 <select id="sub-type">
                     <option>🙏 Prayer Request</option>
                     <option>❓ Anonymous Question</option>
@@ -98,15 +115,15 @@
             </div>
             <div class="form-group">
                 <label>Your Message</label>
-                <textarea id="msg" placeholder="Write here..."></textarea>
+                <textarea id="msg" placeholder="Write your message here..."></textarea>
             </div>
-            <button class="btn-submit" onclick="alert('Message Sent Securely!')">Send to Leaders</button>
+            <button class="btn-submit" onclick="alert('Sent! Thank you.')">Send to Leaders</button>
         </div>
 
         <div class="spotify-section">
             <h2>🎧 Impact Sounds</h2>
             <iframe style="border-radius:12px" 
-                src="https://open.spotify.com/embed/track/5iH6Z8M2Tq8WzP8GfR6QZ1?utm_source=generator&theme=0" 
+                src="https://open.spotify.com/embed/track/5iH6Z8M2Tq8WzP8GfR6QZ1" 
                 width="100%" height="352" frameBorder="0" allowfullscreen="" 
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
                 loading="lazy">
@@ -115,7 +132,7 @@
 
         <section id="join" class="connect-section">
             <h2>You Belong Here.</h2>
-            <p style="color: #cbd5e1;">Wednesdays @ 7:00 PM | Amman Baptist School Hall</p>
+            <p style="color: #cbd5e1; margin-bottom: 20px;">Wednesdays @ 7:00 PM | Amman Baptist School Hall</p>
             <div class="social-buttons">
                 <a href="https://www.instagram.com/impact.jo" target="_blank" class="social-btn btn-insta">📷 Instagram</a>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_ZRXFIlamicTpG2RFINCYA8Q-x3W9Q9A-xfYxmpPmNLnZAQ/viewform?usp=header" target="_blank" class="social-btn btn-wa">💬 Join WhatsApp</a>

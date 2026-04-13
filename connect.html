@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - Connect & Share">
+    <title>Connect - Impact Youth Amman</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background-image: url('background.png'); background-size: cover; background-attachment: fixed; background-position: center; background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; }
+        
+        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;}
+        .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; font-size: 1.05rem; }
+        .nav-links a:hover { color: #00a8ff; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 20px; }
+        
+        .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
+        .header-title h1 { font-size: 3rem; margin-bottom: 10px; color: #00a8ff; }
+        .header-title p { font-size: 1.1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
+        
+        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        
+        .form-card { background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #1e293b; }
+        
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 1.1rem; color: #334155; }
+        
+        select, input[type="text"], textarea { width: 100%; padding: 15px; border-radius: 8px; border: 2px solid #cbd5e1; font-size: 1.1rem; font-family: inherit; background: #f8f9fa; transition: border-color 0.3s; }
+        select:focus, input[type="text"]:focus, textarea:focus { outline: none; border-color: #00a8ff; }
+        
+        textarea { resize: vertical; min-height: 150px; }
+
+        .btn-submit { width: 100%; background: #00a8ff; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: background 0.3s, transform 0.2s; }
+        .btn-submit:hover { background: #008ecc; transform: translateY(-2px); }
+
+        /* Success Message Styling */
+        #success-msg { display: none; text-align: center; padding: 30px; background: #e0f2fe; border: 2px solid #00a8ff; border-radius: 10px; margin-top: 20px; }
+        #success-msg h3 { color: #0284c7; margin-bottom: 10px; font-size: 1.5rem; }
+
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .form-card { padding: 25px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="talk.html">Table Talk</a>
+            <a href="spirit-fun.html">Spirit Fun</a>
+            <a href="connect.html">Connect</a>
+            <a href="index.html#join" class="login-btn">Join Us</a>
+        </div>
+    </nav>
+    
+    <div class="header-title">
+        <h1>The Drop Box</h1>
+        <p>Need prayer? Have a tough question about faith? Or an idea for youth group? Drop it here.</p>
+    </div>
+    
+    <div class="container">
+        <div class="form-card" id="form-container">
+            
+            <div class="form-group">
+                <label for="submission-type">What are you sending us?</label>
+                <select id="submission-type" onchange="toggleNameField()">
+                    <option value="prayer">🙏 Prayer Request</option>
+                    <option value="question">❓ Anonymous Q&A Question</option>
+                    <option value="suggestion">💡 Youth Group Suggestion</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="name-group">
+                <label for="user-name">Your Name (Optional)</label>
+                <input type="text" id="user-name" placeholder="Leave blank to stay anonymous">
+            </div>
+
+            <div class="form-group">
+                <label for="message-box">Your Message</label>
+                <textarea id="message-box" placeholder="Type your request, question, or idea here..."></textarea>
+            </div>
+
+            <button class="btn-submit" onclick="submitForm()">Securely Send</button>
+
+        </div>
+
+        <div id="success-msg">
+            <h3>🙌 Received!</h3>
+            <p>Your message has been securely sent to the youth leaders. Thank you for sharing with us.</p>
+            <br>
+            <button class="btn-submit" onclick="location.reload()" style="background: #0284c7; width: auto; padding: 10px 20px;">Send Another</button>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleNameField() {
+            const type = document.getElementById("submission-type").value;
+            const nameGroup = document.getElementById("name-group");
+            
+            // Hide the name field completely if they select Anonymous Q&A
+            if (type === "question") {
+                nameGroup.style.display = "none";
+                document.getElementById("user-name").value = ""; // Clear any name typed
+            } else {
+                nameGroup.style.display = "block";
+            }
+        }
+
+        function submitForm() {
+            const msg = document.getElementById("message-box").value;
+            
+            if (msg.trim() === "") {
+                alert("Please type a message before sending!");
+                return;
+            }
+
+            // Hide the form and show the success message
+            document.getElementById("form-container").style.display = "none";
+            document.getElementById("success-msg").style.display = "block";
+        }
+    </script>
+</body>
+</html>

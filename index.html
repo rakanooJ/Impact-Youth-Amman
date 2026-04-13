@@ -17,11 +17,11 @@
         .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 15px; transition: background 0.3s; }
         .login-btn:hover { background: #008ecc !important; }
         
-        .hero { text-align: center; padding: 100px 20px; background: linear-gradient(rgba(28, 30, 33, 0.7), rgba(28, 30, 33, 0.95)); }
-        .hero h1 { font-size: 4.5rem; margin-bottom: 15px; color: #00a8ff; text-transform: uppercase; letter-spacing: 2px;}
-        .hero p { font-size: 1.4rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 30px auto; }
-        .hero-btn { background: #2ed573; color: white; padding: 15px 35px; border-radius: 30px; font-size: 1.2rem; font-weight: bold; text-decoration: none; display: inline-block; transition: transform 0.3s, background 0.3s; }
-        .hero-btn:hover { background: #27ae60; transform: translateY(-3px); }
+        .hero { text-align: center; padding: 80px 20px; background: linear-gradient(rgba(28, 30, 33, 0.7), rgba(28, 30, 33, 0.95)); }
+        .hero h1 { font-size: 4.5rem; margin-bottom: 10px; color: #00a8ff; text-transform: uppercase; letter-spacing: 2px;}
+        
+        .countdown-container { background: rgba(0, 168, 255, 0.1); border: 1px solid #00a8ff; padding: 15px; border-radius: 15px; margin: 20px auto; max-width: 450px; text-align: center; }
+        .countdown-timer { font-size: 1.8rem; font-weight: bold; color: #2ed573; font-family: 'Courier New', monospace; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
@@ -31,11 +31,13 @@
         .verse-ref { font-size: 1.2rem; font-weight: bold; color: #64748b; }
 
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px; }
-        .feature-card { background: #334155; padding: 30px; border-radius: 15px; text-align: center; color: white; text-decoration: none; transition: transform 0.3s, background 0.3s; border: 1px solid #475569;}
+        .feature-card { background: #334155; padding: 30px; border-radius: 15px; text-align: center; color: white; text-decoration: none; transition: transform 0.3s; border: 1px solid #475569;}
         .feature-card:hover { transform: translateY(-5px); background: #475569; }
         .feature-icon { font-size: 3rem; margin-bottom: 15px; }
         .feature-card h3 { font-size: 1.5rem; margin-bottom: 10px; color: #00a8ff; }
-        .feature-card p { color: #cbd5e1; font-size: 1.05rem; }
+
+        .spotify-section { background: #191414; padding: 30px; border-radius: 15px; border: 1px solid #1DB954; text-align: center; margin-bottom: 60px; }
+        .spotify-section h2 { color: #1DB954; margin-bottom: 20px; font-size: 2rem; }
 
         .connect-section { background: #1e293b; padding: 60px 20px; text-align: center; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .connect-section h2 { font-size: 2.5rem; color: #2ed573; margin-bottom: 20px; }
@@ -46,11 +48,10 @@
         
         .social-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .social-btn { padding: 12px 25px; border-radius: 8px; font-weight: bold; text-decoration: none; color: white; font-size: 1.1rem; transition: opacity 0.3s; }
-        .social-btn:hover { opacity: 0.8; }
         .btn-insta { background: #E1306C; }
         .btn-wa { background: #25D366; }
 
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .hero h1 { font-size: 3rem; } .verse-text { font-size: 1.5rem; } }
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .hero h1 { font-size: 2.8rem; } .verse-text { font-size: 1.5rem; } }
     </style>
 </head>
 <body>
@@ -68,7 +69,10 @@
     
     <header class="hero">
         <h1>Impact Youth</h1>
-        <p>A community in Amman designed for you to belong, grow, and encounter Jesus.</p>
+        <div class="countdown-container">
+            <p style="margin-bottom: 5px; color: #cbd5e1; font-weight: bold;">NEXT SERVICE IN:</p>
+            <div id="countdown" class="countdown-timer">Calculating...</div>
+        </div>
         <a href="#join" class="hero-btn">Plan a Visit</a>
     </header>
     
@@ -80,21 +84,14 @@
         </div>
 
         <div class="features-grid">
-            <a href="talk.html" class="feature-card">
-                <div class="feature-icon">💬</div>
-                <h3>Table Talk</h3>
-                <p>Generate deep, random discussion questions for your small group.</p>
-            </a>
-            <a href="spirit-fun.html" class="feature-card">
-                <div class="feature-icon">🎮</div>
-                <h3>Spirit Fun</h3>
-                <p>Play Bible trivia, guess the worship emoji, or take the gifts quiz.</p>
-            </a>
-            <a href="connect.html" class="feature-card">
-                <div class="feature-icon">🙏</div>
-                <h3>The Drop Box</h3>
-                <p>Submit an anonymous prayer request, ask a tough question, or give a suggestion.</p>
-            </a>
+            <a href="talk.html" class="feature-card"><div class="feature-icon">💬</div><h3>Table Talk</h3><p>Deep questions for your group.</p></a>
+            <a href="spirit-fun.html" class="feature-card"><div class="feature-icon">🎮</div><h3>Spirit Fun</h3><p>Games, Trivia & Quizzes.</p></a>
+            <a href="connect.html" class="feature-card"><div class="feature-icon">🙏</div><h3>The Drop Box</h3><p>Prayer & Questions.</p></a>
+        </div>
+
+        <div class="spotify-section">
+            <h2>🎧 Impact Sounds</h2>
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWm9pB6u68" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
 
         <section id="join" class="connect-section">
@@ -107,17 +104,43 @@
                 </div>
                 <div class="detail-box">
                     <h4>📍 Where We Meet</h4>
-                    <p>Impact Church Amman</p>
-                    <p>Main Youth Hall</p>
+                    <p>Amman Baptist School Hall</p>
+                    <p>Amman, Jordan</p>
                 </div>
             </div>
 
             <div class="social-buttons">
-                <a href="https://www.instagram.com/impact.jo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-btn btn-insta">📷 Follow on Instagram</a>
-                
+                <a href="https://www.instagram.com/impact.jo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-btn btn-insta">📷 Instagram</a>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_ZRXFIlamicTpG2RFINCYA8Q-x3W9Q9A-xfYxmpPmNLnZAQ/viewform?usp=header" target="_blank" class="social-btn btn-wa">💬 Join WhatsApp Group</a>
             </div>
         </section>
     </div>
+
+    <script>
+        function updateCountdown() {
+            const now = new Date();
+            let nextWednesday = new Date();
+            nextWednesday.setDate(now.getDate() + (3 + 7 - now.getDay()) % 7);
+            nextWednesday.setHours(19, 0, 0, 0);
+
+            if (now > nextWednesday) {
+                nextWednesday.setDate(nextWednesday.getDate() + 7);
+            }
+
+            const diff = nextWednesday - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / 1000 / 60) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+
+            if (now.getDay() === 3 && now.getHours() >= 19 && now.getHours() < 21) {
+                document.getElementById("countdown").innerHTML = "WE ARE LIVE! 🔥";
+            } else {
+                document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
 </body>
 </html>

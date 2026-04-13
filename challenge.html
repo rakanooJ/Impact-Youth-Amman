@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - 30 Day Challenge">
+    <title>30-Day Challenge - Impact Youth Amman</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background-image: url('background.png'); background-size: cover; background-attachment: fixed; background-position: center; background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; }
+        
+        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;}
+        .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 15px; font-weight: 500; transition: color 0.3s; font-size: 0.95rem; }
+        .nav-links a:hover { color: #00a8ff; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 15px; }
+        
+        .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
+        .header-title h1 { font-size: 3rem; margin-bottom: 10px; color: #e74c3c; }
+        .header-title p { font-size: 1.1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
+        
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        
+        .stats { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 30px; font-size: 1.2rem; font-weight: bold; border: 1px solid #333;}
+        .stats span { color: #e74c3c; font-size: 1.5rem; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-bottom: 50px; }
+        
+        .box { background: rgba(255, 255, 255, 0.95); height: 120px; border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); padding: 10px; text-align: center; border: 3px solid transparent; }
+        
+        .box.locked { background: #334155; color: #94a3b8; font-size: 2rem; font-weight: bold; border-color: #1e293b; }
+        .box.locked:hover { background: #475569; transform: scale(1.05); }
+        
+        .box.unlocked { background: #2ed573; color: white; font-size: 0.9rem; font-weight: bold; cursor: default; }
+
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); } .box { height: 100px; } .box.unlocked { font-size: 0.75rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="verse.html">Verse</a>
+            <a href="talk.html">Table Talk</a>
+            <a href="Spiritual-Gift.html">Gifts Quiz</a>
+            <a href="trivia.html">Trivia</a>
+            <a href="challenge.html">Challenge</a>
+            <a href="prayer.html">Prayer</a>
+            <a href="socials.html" class="login-btn">Socials</a>
+        </div>
+    </nav>
+    
+    <div class="header-title">
+        <h1>The 30-Day Impact Challenge</h1>
+        <p>Faith requires action. Tap a locked square to reveal today's mission. Your progress is saved to this device!</p>
+    </div>
+    
+    <div class="container">
+        <div class="stats">Challenges Completed: <span id="count-display">0</span> / 30</div>
+        <div class="grid" id="challenge-grid"></div>
+    </div>
+
+    <script>
+        const missions = [
+            "Pray for the person sitting to your right in your next class.",
+            "Text a youth leader and say thank you.",
+            "Read Psalm 23 and write down one thought.",
+            "Compliment a stranger today.",
+            "Pray for 5 minutes before opening any social media app.",
+            "Sit with someone who looks lonely at school or church.",
+            "Write down 3 things you are grateful for today.",
+            "Ask a friend: 'How can I pray for you right now?'",
+            "Help out at home without being asked.",
+            "Listen to a worship song and do nothing else for 4 minutes.",
+            "Forgive someone in your heart today.",
+            "Invite a friend to Impact Youth this Wednesday.",
+            "Read Romans 12 and pick one verse to memorize.",
+            "Give away something of yours (time, money, or an item).",
+            "Leave an encouraging note for a family member.",
+            "Don't complain about anything for 24 hours.",
+            "Read one chapter of Proverbs.",
+            "Pray for your country and its leaders.",
+            "Text an old friend you haven't spoken to in a while.",
+            "Fasting: Skip one meal or snack to spend time praying instead.",
+            "Say something kind about someone behind their back.",
+            "Read Matthew 5 (The Sermon on the Mount).",
+            "Hold the door open for everyone you can today.",
+            "Pray for your teachers or professors.",
+            "Delete an app that distracts you from God for 24 hours.",
+            "Ask your parents about how they came to faith.",
+            "Clean your room while listening to an audio Bible.",
+            "Encourage someone who looks stressed.",
+            "Take 10 deep breaths and thank God for the air in your lungs.",
+            "Share your testimony with someone (or write it down)."
+        ];
+
+        const grid = document.getElementById("challenge-grid");
+        const countDisplay = document.getElementById("count-display");
+        
+        let savedProgress = JSON.parse(localStorage.getItem("impact30Day")) || [];
+
+        function renderGrid() {
+            grid.innerHTML = "";
+            let count = 0;
+
+            for (let i = 0; i < 30; i++) {
+                const box = document.createElement("div");
+                
+                if (savedProgress.includes(i)) {
+                    box.className = "box unlocked";
+                    box.innerText = missions[i];
+                    count++;
+                } else {
+                    box.className = "box locked";
+                    box.innerText = i + 1;
+                    box.onclick = () => unlockBox(i);
+                }
+                grid.appendChild(box);
+            }
+            countDisplay.innerText = count;
+        }
+
+        function unlockBox(index) {
+            if (confirm("Are you ready to accept Challenge #" + (index + 1) + "?")) {
+                savedProgress.push(index);
+                localStorage.setItem("impact30Day", JSON.stringify(savedProgress));
+                renderGrid();
+            }
+        }
+
+        renderGrid();
+    </script>
+</body>
+</html>

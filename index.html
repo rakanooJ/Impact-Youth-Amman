@@ -3,110 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Impact Youth Amman - Connecting our community through sports, teamwork, and shared experiences.">
-    <title>Impact Youth Amman - Home</title>
+    <meta name="description" content="Impact Youth Amman - Home">
+    <title>Home - Impact Youth Amman</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; } /* Makes the page scroll smoothly to the footer */
+        body { font-family: 'Segoe UI', sans-serif; background-image: url('background.png'); background-size: cover; background-attachment: fixed; background-position: center; background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; }
         
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background-image: url('background.png');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-color: #1c1e21; 
-            color: #f8f9fa; 
-            line-height: 1.6; 
-        }
-        
-        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;}
+        /* Navigation */
+        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;}
         .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; font-size: 1.05rem; }
         .nav-links a:hover { color: #00a8ff; }
-        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 20px; transition: background 0.3s; }
+        .login-btn:hover { background: #008ecc !important; }
         
-        .hero { background: rgba(28, 30, 33, 0.8); color: white; padding: 80px 20px; text-align: center; }
-        .hero h1 { font-size: 3rem; margin-bottom: 15px; }
-        .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto; color: #cbd5e1; }
+        /* Hero Banner */
+        .hero { text-align: center; padding: 100px 20px; background: linear-gradient(rgba(28, 30, 33, 0.7), rgba(28, 30, 33, 0.95)); }
+        .hero h1 { font-size: 4.5rem; margin-bottom: 15px; color: #00a8ff; text-transform: uppercase; letter-spacing: 2px;}
+        .hero p { font-size: 1.4rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 30px auto; }
+        .hero-btn { background: #2ed573; color: white; padding: 15px 35px; border-radius: 30px; font-size: 1.2rem; font-weight: bold; text-decoration: none; display: inline-block; transition: transform 0.3s, background 0.3s; }
+        .hero-btn:hover { background: #27ae60; transform: translateY(-3px); }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+        /* Verse of the Week Section */
+        .verse-card { background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #1e293b; text-align: center; margin-bottom: 50px; border-left: 8px solid #f39c12; }
+        .verse-title { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: #f39c12; font-weight: bold; margin-bottom: 15px; }
+        .verse-text { font-size: 2rem; font-family: 'Georgia', serif; font-style: italic; line-height: 1.4; margin-bottom: 15px; }
+        .verse-ref { font-size: 1.2rem; font-weight: bold; color: #64748b; }
+
+        /* Quick Access Features Grid */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .feature-card { background: #334155; padding: 30px; border-radius: 15px; text-align: center; color: white; text-decoration: none; transition: transform 0.3s, background 0.3s; border: 1px solid #475569;}
+        .feature-card:hover { transform: translateY(-5px); background: #475569; }
+        .feature-icon { font-size: 3rem; margin-bottom: 15px; }
+        .feature-card h3 { font-size: 1.5rem; margin-bottom: 10px; color: #00a8ff; }
+        .feature-card p { color: #cbd5e1; font-size: 1.05rem; }
+
+        /* Connect / Socials Footer */
+        .connect-section { background: #1e293b; padding: 60px 20px; text-align: center; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .connect-section h2 { font-size: 2.5rem; color: #2ed573; margin-bottom: 20px; }
+        .connect-details { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 30px; }
+        .detail-box { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; min-width: 250px; }
+        .detail-box h4 { color: #00a8ff; font-size: 1.2rem; margin-bottom: 5px; }
+        .detail-box p { color: #cbd5e1; font-size: 1.1rem; }
         
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        
-        .card { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-align: center; color: #333; display: flex; flex-direction: column; justify-content: space-between; }
-        .card h2 { color: #1e293b; margin-bottom: 15px; }
-        .card p { color: #64748b; margin-bottom: 25px; flex-grow: 1; }
-        
-        .timer-box { background: #fff0f0; padding: 15px; border-radius: 8px; font-size: 1.8rem; font-weight: bold; color: #e74c3c; margin-top: auto; }
-        
-        /* The New Spotify Button CSS */
-        .spotify-btn {
-            display: block;
-            background: #1DB954; 
-            color: white;
-            padding: 15px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: background 0.3s, transform 0.2s;
-            margin-top: auto; 
+        .social-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .social-btn { padding: 12px 25px; border-radius: 8px; font-weight: bold; text-decoration: none; color: white; font-size: 1.1rem; transition: opacity 0.3s; }
+        .social-btn:hover { opacity: 0.8; }
+        .btn-insta { background: #E1306C; }
+        .btn-wa { background: #25D366; }
+
+        @media (max-width: 768px) { 
+            .navbar { padding: 10px 20px; } 
+            .nav-links { display: none; } 
+            .hero h1 { font-size: 3rem; }
+            .verse-text { font-size: 1.5rem; }
         }
-        .spotify-btn:hover {
-            background: #1aa34a;
-            transform: scale(1.02);
-        }
-        
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } }
     </style>
 </head>
 <body>
-   <nav class="navbar">
+    <nav class="navbar">
         <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="plans.html">Bible Plans</a>
-            <a href="verse.html">Verse of the Week</a>
             <a href="talk.html">Table Talk</a>
-            <a href="Spiritual-Gift.html">Gifts Quiz</a>
-            <a href="prayer.html">Prayer Room</a>
-            <a href="guidance.html">Real Talk</a>
-            <a href="socials.html" class="login-btn">Socials & Join</a>
+            <a href="spirit-fun.html">Spirit Fun</a>
+            <a href="connect.html">Connect</a>
+            <a href="#join" class="login-btn">Join Us</a>
         </div>
     </nav>
-    <div class="hero">
-        <h1>Impact Youth Amman</h1>
-        <p>Connecting our community through sports, teamwork, and shared experiences. Stay updated on our latest camps, matches, and events right here.</p>
-    </div>
-
+    
+    <header class="hero">
+        <h1>Impact Youth</h1>
+        <p>A community in Amman designed for you to belong, grow, and encounter Jesus.</p>
+        <a href="#join" class="hero-btn">Plan a Visit</a>
+    </header>
+    
     <div class="container">
-        <div class="card">
-            <h2>Next Event</h2>
-            <p>The countdown is on for our weekly Wednesday meetup at 7:00 PM!</p>
-            <div class="timer-box" id="countdown">Loading...</div>
+        
+        <div class="verse-card">
+            <div class="verse-title">Focus of the Week</div>
+            <div class="verse-text">"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."</div>
+            <div class="verse-ref">Romans 12:2</div>
         </div>
 
-        <div class="card">
-            <h2>Worship Playlist</h2>
-            <p>What we're listening to.</p>
-            <a href="https://open.spotify.com/playlist/1LhIRMo9k5GN8tHagjUdyt?si=872ceb4bf8f64333" target="_blank" class="spotify-btn">Open in Spotify</a>
+        <div class="features-grid">
+            <a href="talk.html" class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Table Talk</h3>
+                <p>Generate deep, random discussion questions for your small group.</p>
+            </a>
+            
+            <a href="spirit-fun.html" class="feature-card">
+                <div class="feature-icon">🎮</div>
+                <h3>Spirit Fun</h3>
+                <p>Play Bible trivia, guess the worship emoji, or take the gifts quiz.</p>
+            </a>
+            
+            <a href="connect.html" class="feature-card">
+                <div class="feature-icon">🙏</div>
+                <h3>The Drop Box</h3>
+                <p>Submit an anonymous prayer request, ask a tough question, or give a suggestion.</p>
+            </a>
         </div>
+
+        <section id="join" class="connect-section">
+            <h2>You Belong Here.</h2>
+            
+            <div class="connect-details">
+                <div class="detail-box">
+                    <h4>🗓️ When We Meet</h4>
+                    <p>Every Wednesday</p>
+                    <p>6:00 PM - 8:00 PM</p>
+                </div>
+                <div class="detail-box">
+                    <h4>📍 Where We Meet</h4>
+                    <p>Impact Church Amman</p>
+                    <p>Main Youth Hall</p>
+                </div>
+            </div>
+
+            <div class="social-buttons">
+                <a href="#" class="social-btn btn-insta">📷 Follow on Instagram</a>
+                <a href="#" class="social-btn btn-wa">💬 Join WhatsApp Group</a>
+            </div>
+        </section>
+
     </div>
-
-    <script>
-        function updateCountdown() {
-            const now = new Date();
-            let target = new Date();
-            target.setDate(now.getDate() + ((3 + 7 - now.getDay()) % 7));
-            target.setHours(19, 0, 0, 0);
-            if (now > target) { target.setDate(target.getDate() + 7); }
-            const diff = target - now;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-    </script>
 </body>
 </html>

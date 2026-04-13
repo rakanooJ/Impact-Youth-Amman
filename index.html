@@ -52,7 +52,7 @@
         }
         .login-btn:hover { background: #008ecc !important; }
         
-        /* 3. Hero & Countdown */
+        /* 3. Hero & Countdown Section */
         .hero { 
             text-align: center; 
             padding: 100px 20px; 
@@ -98,7 +98,7 @@
 
         .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
-        /* 4. Verse Card */
+        /* 4. Verse of the Week Card */
         .verse-card { 
             background: rgba(255, 255, 255, 0.95); 
             padding: 40px; 
@@ -120,7 +120,7 @@
         }
         .verse-ref { font-size: 1.2rem; font-weight: bold; color: #64748b; }
 
-        /* 5. Features Grid */
+        /* 5. Features Grid Layout */
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px; }
         .feature-card { 
             background: #334155; 
@@ -133,12 +133,12 @@
             border: 1px solid #475569;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .feature-card:hover { transform: translateY(-5px); background: #475569; }
+        .feature-card:hover { transform: translateY(-5px); background: #475569; border-color: #00a8ff; }
         .feature-icon { font-size: 3.5rem; margin-bottom: 15px; }
         .feature-card h3 { font-size: 1.8rem; margin-bottom: 10px; color: #00a8ff; }
         .feature-card p { color: #cbd5e1; font-size: 1.1rem; }
 
-        /* 6. Spotify Section */
+        /* 6. Spotify Section (Fixed Zeyne Player) */
         .spotify-section { 
             background: #191414; 
             padding: 40px; 
@@ -150,7 +150,7 @@
         }
         .spotify-section h2 { color: #1DB954; margin-bottom: 25px; font-size: 2.5rem; }
 
-        /* 7. Connect / Footer */
+        /* 7. Connect / Location Section */
         .connect-section { 
             background: #1e293b; 
             padding: 70px 20px; 
@@ -178,7 +178,7 @@
         .btn-insta { background: #E1306C; }
         .btn-wa { background: #25D366; }
 
-        /* Mobile Adjustments */
+        /* Tablet/Mobile Tweaks */
         @media (max-width: 768px) { 
             .navbar { padding: 10px 20px; } 
             .nav-links { display: none; } 
@@ -210,6 +210,7 @@
     </header>
     
     <div class="container">
+        
         <div class="verse-card">
             <div class="verse-title">Focus of the Week</div>
             <div class="verse-text">"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."</div>
@@ -220,24 +221,24 @@
             <a href="talk.html" class="feature-card">
                 <div class="feature-icon">💬</div>
                 <h3>Table Talk</h3>
-                <p>Deep, random questions for your group.</p>
+                <p>Deep, random questions for your small group.</p>
             </a>
             <a href="spirit-fun.html" class="feature-card">
                 <div class="feature-icon">🎮</div>
                 <h3>Spirit Fun</h3>
-                <p>Play games, trivia, and quizzes.</p>
+                <p>Play games, trivia, and discover your gifts.</p>
             </a>
             <a href="connect.html" class="feature-card">
                 <div class="feature-icon">🙏</div>
                 <h3>The Drop Box</h3>
-                <p>Submit prayer requests and questions.</p>
+                <p>Fill in your prayer requests and questions here.</p>
             </a>
         </div>
 
         <div class="spotify-section">
             <h2>🎧 Impact Sounds</h2>
             <iframe style="border-radius:12px" 
-                src="https://open.spotify.com/embed/track/5iH6Z8M2Tq8WzP8GfR6QZ1" 
+                src="https://open.spotify.com/embed/track/5iH6Z8M2Tq8WzP8GfR6QZ1?utm_source=generator&theme=0" 
                 width="100%" height="152" frameBorder="0" 
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
                 loading="lazy">
@@ -260,8 +261,8 @@
             </div>
 
             <div class="social-buttons">
-                <a href="https://www.instagram.com/impact.jo" target="_blank" class="social-btn btn-insta">📷 Instagram</a>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_ZRXFIlamicTpG2RFINCYA8Q-x3W9Q9A-xfYxmpPmNLnZAQ/viewform?usp=header" target="_blank" class="social-btn btn-wa">💬 Join WhatsApp</a>
+                <a href="https://www.instagram.com/impact.jo" target="_blank" class="social-btn btn-insta">📷 Follow on Instagram</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_ZRXFIlamicTpG2RFINCYA8Q-x3W9Q9A-xfYxmpPmNLnZAQ/viewform?usp=header" target="_blank" class="social-btn btn-wa">💬 Join WhatsApp Group</a>
             </div>
         </section>
     </div>

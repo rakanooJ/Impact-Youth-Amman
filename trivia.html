@@ -4,46 +4,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Impact Youth Amman - Bible Trivia">
-    <title>Trivia - Impact Youth Amman</title>
+    <title>Bible Trivia - Impact Youth Amman</title>
     <style>
+        /* 1. Global Reset & Professional Background */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', sans-serif; background-image: url('background.png'); background-size: cover; background-attachment: fixed; background-position: center; background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-image: url('background.png'); 
+            background-size: cover; 
+            background-attachment: fixed; 
+            background-position: center; 
+            background-color: #1c1e21; 
+            color: #f8f9fa; 
+            line-height: 1.6; 
+        }
         
-        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;}
+        /* 2. Navigation Bar (Matched to Home) */
+        .navbar { 
+            background-color: #1c1e21; 
+            padding: 10px 50px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid #333; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+        }
         .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 15px; font-weight: 500; transition: color 0.3s; font-size: 0.95rem; }
+        .nav-links a { 
+            color: white; 
+            text-decoration: none; 
+            margin-left: 15px; 
+            font-weight: 500; 
+            transition: color 0.3s; 
+            font-size: 1rem; 
+        }
         .nav-links a:hover { color: #00a8ff; }
-        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 15px; }
-        
-        .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
-        .header-title h1 { font-size: 3rem; margin-bottom: 10px; color: #f39c12; }
-        .header-title p { font-size: 1.1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
-        
-        .container { max-width: 700px; margin: 40px auto; padding: 0 20px; text-align: center; perspective: 1000px; }
-        
-        /* 3D Flip Card CSS */
-        .flip-card { background-color: transparent; width: 100%; height: 350px; margin-bottom: 30px; }
-        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-        
-        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; border-radius: 15px; }
-        .flip-card-front { background: rgba(255, 255, 255, 0.95); color: #1e293b; }
-        .flip-card-back { background: #00a8ff; color: white; transform: rotateY(180deg); }
-        
-        .quote-text { font-size: 1.8rem; font-weight: bold; line-height: 1.4; font-family: 'Georgia', serif; font-style: italic; }
-        .result-title { font-size: 2.2rem; font-weight: bold; margin-bottom: 10px; }
-        .result-detail { font-size: 1.1rem; font-weight: 500; }
-        .result-detail a { color: white; font-weight: bold; text-decoration: underline; transition: color 0.3s; }
-        .result-detail a:hover { color: #f1c40f; }
+        .login-btn { 
+            background-color: #00a8ff; 
+            padding: 8px 16px; 
+            border-radius: 5px; 
+            color: white !important; 
+            margin-left: 15px; 
+            font-weight: bold;
+        }
 
-        .controls { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .btn { padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: transform 0.2s; color: white; flex: 1; min-width: 200px; }
-        .btn:hover { transform: translateY(-3px); }
-        .btn-a { background: #e74c3c; }
-        .btn-b { background: #9b59b6; }
-        .btn-next { background: #2ed573; display: none; margin: 0 auto; margin-top: 20px;}
+        /* 3. Header Styling */
+        .header-title { 
+            text-align: center; 
+            padding: 50px 20px; 
+            background: rgba(28, 30, 33, 0.8); 
+            border-bottom: 1px solid #333;
+        }
+        .header-title h1 { 
+            font-size: 3.5rem; 
+            color: #2ed573; 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        /* 4. Game Card & Question Box */
+        .container { max-width: 700px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        .game-card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 60px 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6); 
+            color: #1e293b; 
+            position: relative;
+            border-top: 10px solid #2ed573;
+        }
+        
+        .level-badge { 
+            background: #3498db; 
+            color: white; 
+            padding: 8px 25px; 
+            border-radius: 25px; 
+            font-weight: bold; 
+            font-size: 1rem; 
+            text-transform: uppercase; 
+            margin-bottom: 30px; 
+            display: inline-block; 
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
 
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .quote-text { font-size: 1.4rem; } }
+        .question-text { 
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            margin-bottom: 35px; 
+            color: #0f172a; 
+            line-height: 1.2;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* 5. Inputs & Buttons */
+        input[type="text"] { 
+            width: 100%; 
+            padding: 18px; 
+            border-radius: 10px; 
+            border: 2px solid #cbd5e1; 
+            font-size: 1.3rem; 
+            text-align: center; 
+            margin-bottom: 20px; 
+            background: #f8f9fa;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus { border-color: #00a8ff; outline: none; }
+        
+        .btn { 
+            width: 100%; 
+            padding: 18px; 
+            border: none; 
+            border-radius: 10px; 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            color: white; 
+            margin-bottom: 12px;
+            display: block;
+        }
+        .btn-submit { background: #2ed573; box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3); }
+        .btn-submit:hover { background: #27ae60; transform: translateY(-2px); }
+        
+        .btn-reveal { background: #e74c3c; }
+        .btn-skip { background: #cbd5e1; color: #475569; }
+
+        .feedback { font-size: 1.4rem; font-weight: bold; margin-top: 20px; min-height: 30px; }
+        .correct { color: #27ae60; }
+        .wrong { color: #e74c3c; }
+
+        @media (max-width: 768px) { 
+            .navbar { padding: 10px 20px; } 
+            .nav-links { display: none; } 
+            .header-title h1 { font-size: 2.5rem; }
+            .question-text { font-size: 1.6rem; }
+        }
     </style>
 </head>
 <body>
@@ -51,112 +153,137 @@
         <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="verse.html">Verse</a>
-            <a href="talk.html">Table Talk</a>
-            <a href="Spiritual-Gift.html">Gifts Quiz</a>
-            <a href="trivia.html">Trivia</a>
-            <a href="challenge.html">Challenge</a>
-            <a href="prayer.html">Prayer</a>
-            <a href="socials.html" class="login-btn">Socials</a>
+            <a href="plans.html">Bible Plans</a>
+            <a href="guidance.html">Real Talk</a>
+            <a href="spirit-fun.html">Spirit Fun</a>
+            <a href="connect.html">Connect</a>
+            <a href="index.html#join" class="login-btn">Join Us</a>
         </div>
     </nav>
     
     <div class="header-title">
-        <h1>Who Said It?</h1>
-        <p>Is it a verse from the Bible, or a quote from Pop Culture? Test your knowledge.</p>
+        <h1>Bible Trivia</h1>
     </div>
     
     <div class="container">
-        <div class="flip-card" id="card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="quote-text" id="quote-display">Loading quote...</div>
-                </div>
-                <div class="flip-card-back">
-                    <div class="result-title" id="result-title">Correct!</div>
-                    <div class="result-detail" id="result-detail">It was in the Bible!</div>
-                </div>
-            </div>
-        </div>
+        <div class="game-card">
+            <div class="level-badge" id="level-tag">Loading...</div>
+            <div class="question-text" id="question-box">Preparing the Word...</div>
+            
+            <input type="text" id="guess-input" placeholder="Type your answer here..." autocomplete="off">
+            
+            <button class="btn btn-submit" onclick="checkAnswer()">Check Answer</button>
+            <button class="btn btn-reveal" onclick="revealAnswer()">🏳️ Give Up (Show Answer)</button>
+            <button class="btn btn-skip" onclick="nextQuestion()">⏭️ Skip to next</button>
 
-        <div class="controls" id="guess-buttons">
-            <button class="btn btn-a" id="btn-a" onclick="checkAnswer('A')">Option A</button>
-            <button class="btn btn-b" id="btn-b" onclick="checkAnswer('B')">Option B</button>
+            <div class="feedback" id="feedback-msg"></div>
         </div>
-        <button class="btn btn-next" id="btn-next" onclick="nextQuestion()">Next Question ➡️</button>
     </div>
 
     <script>
-        const triviaVault = [
-            { quote: "\"I will not fear, for you are ever with me.\"", optA: "The Bible", optB: "A Taylor Swift Song", answer: "A", detail: "<a href='https://www.biblegateway.com/passage/?search=Psalm+23%3A4&version=NIV' target='_blank'>Psalm 23:4</a><br><br><em>'Even though I walk through the darkest valley, I will fear no evil, for you are with me...'</em>" },
-            { quote: "\"The truth will set you free.\"", optA: "The Bible", optB: "The Matrix", answer: "A", detail: "<a href='https://www.biblegateway.com/passage/?search=John+8%3A32&version=NIV' target='_blank'>John 8:32</a><br><br><em>'Then you will know the truth, and the truth will set you free.'</em>" },
-            { quote: "\"I can do all this through him who gives me strength.\"", optA: "The Bible", optB: "Nike Slogan", answer: "A", detail: "<a href='https://www.biblegateway.com/passage/?search=Philippians+4%3A13&version=NIV' target='_blank'>Philippians 4:13</a><br><br><em>'I can do all this through him who gives me strength.'</em>" },
-            { quote: "\"Where your treasure is, there your heart will be also.\"", optA: "A Pirate Legend", optB: "The Bible", answer: "B", detail: "<a href='https://www.biblegateway.com/passage/?search=Matthew+6%3A21&version=NIV' target='_blank'>Matthew 6:21</a><br><br><em>'For where your treasure is, there your heart will be also.'</em>" },
-            { quote: "\"A cord of three strands is not quickly broken.\"", optA: "The Bible", optB: "Lord of the Rings", answer: "A", detail: "<a href='https://www.biblegateway.com/passage/?search=Ecclesiastes+4%3A12&version=NIV' target='_blank'>Ecclesiastes 4:12</a><br><br><em>'Though one may be overpowered, two can defend themselves. A cord of three strands is not quickly broken.'</em>" },
-            { quote: "\"Do not conform to the pattern of this world.\"", optA: "Steve Jobs", optB: "The Bible", answer: "B", detail: "<a href='https://www.biblegateway.com/passage/?search=Romans+12%3A2&version=NIV' target='_blank'>Romans 12:2</a><br><br><em>'Do not conform to the pattern of this world, but be transformed by the renewing of your mind.'</em>" },
-            { quote: "\"He who is without sin, cast the first stone.\"", optA: "The Bible", optB: "Gandhi", answer: "A", detail: "<a href='https://www.biblegateway.com/passage/?search=John+8%3A7&version=NIV' target='_blank'>John 8:7</a><br><br><em>'Let any one of you who is without sin be the first to throw a stone at her.'</em>" },
-            { quote: "\"As iron sharpens iron, so one person sharpens another.\"", optA: "A Blacksmith Proverb", optB: "The Bible", answer: "B", detail: "<a href='https://www.biblegateway.com/passage/?search=Proverbs+27%3A17&version=NIV' target='_blank'>Proverbs 27:17</a><br><br><em>'As iron sharpens iron, so one person sharpens another.'</em>" },
-            { quote: "\"Love is patient, love is kind.\"", optA: "The Bible", optB: "A Hallmark Card", answer: "A", detail: "<a href='https://www.biblegateway.com/passage/?search=1+Corinthians+13%3A4&version=NIV' target='_blank'>1 Corinthians 13:4</a><br><br><em>'Love is patient, love is kind. It does not envy, it does not boast, it is not proud.'</em>" },
-            { quote: "\"Be strong and courageous. Do not be afraid.\"", optA: "The Bible", optB: "Mufasa (Lion King)", answer: "A", detail: "<a href='https://www.biblegateway.com/passage/?search=Joshua+1%3A9&version=NIV' target='_blank'>Joshua 1:9</a><br><br><em>'Have I not commanded you? Be strong and courageous.'</em>" },
-            { quote: "\"For I know the plans I have for you.\"", optA: "A Graduation Speech", optB: "The Bible", answer: "B", detail: "<a href='https://www.biblegateway.com/passage/?search=Jeremiah+29%3A11&version=NIV' target='_blank'>Jeremiah 29:11</a><br><br><em>'For I know the plans I have for you, declares the Lord...'</em>" },
-            { quote: "\"Trust in the Lord with all your heart.\"", optA: "The Bible", optB: "A Bumper Sticker", answer: "A", detail: "<a href='https://www.biblegateway.com/passage/?search=Proverbs+3%3A5&version=NIV' target='_blank'>Proverbs 3:5</a><br><br><em>'Trust in the Lord with all your heart and lean not on your own understanding.'</em>" },
-            { quote: "\"In the beginning God created the heavens and the earth.\"", optA: "The Bible", optB: "The Big Bang Theory", answer: "A", detail: "<a href='https://www.biblegateway.com/passage/?search=Genesis+1%3A1&version=NIV' target='_blank'>Genesis 1:1</a><br><br><em>'In the beginning God created the heavens and the earth.'</em>" },
-            { quote: "\"For God so loved the world...\"", optA: "The Bible", optB: "A Valentine's Poem", answer: "A", detail: "<a href='https://www.biblegateway.com/passage/?search=John+3%3A16&version=NIV' target='_blank'>John 3:16</a><br><br><em>'For God so loved the world that he gave his one and only Son...'</em>" },
-            { quote: "\"God helps those who help themselves.\"", optA: "Benjamin Franklin", optB: "The Bible", answer: "A", detail: "<strong>Not in the Bible!</strong><br><br>This is a famous quote made popular by Benjamin Franklin. The Bible actually teaches that God helps those who *cannot* help themselves!" },
-            { quote: "\"Money is the root of all evil.\"", optA: "The Bible", optB: "A Common Misquote", answer: "B", detail: "<strong>It's a misquote!</strong><br><br>The actual verse is <a href='https://www.biblegateway.com/passage/?search=1+Timothy+6%3A10&version=NIV' target='_blank'>1 Timothy 6:10</a>: <em>'For the <strong>love</strong> of money is a root of all kinds of evil.'</em>" },
-            { quote: "\"This too shall pass.\"", optA: "The Bible", optB: "A Persian Adage", answer: "B", detail: "<strong>Not in the Bible!</strong><br><br>It sounds super biblical, but this is actually an ancient Persian proverb popularized by English poets in the 1800s." },
-            { quote: "\"Cleanliness is next to godliness.\"", optA: "The Bible", optB: "John Wesley", answer: "B", detail: "<strong>Not in the Bible!</strong><br><br>This was actually coined by a preacher named John Wesley in a sermon in 1791." },
-            { quote: "\"Do or do not. There is no try.\"", optA: "The Bible", optB: "Yoda (Star Wars)", answer: "B", detail: "<strong>Master Yoda</strong><br><br>This is from Star Wars: Episode V - The Empire Strikes Back!" },
-            { quote: "\"To thine own self be true.\"", optA: "The Bible", optB: "William Shakespeare", answer: "B", detail: "<strong>William Shakespeare</strong><br><br>This is a famous line spoken by the character Polonius in the play *Hamlet*." },
-            { quote: "\"Even the darkest night will end and the sun will rise.\"", optA: "The Bible", optB: "Les Misérables", answer: "B", detail: "<strong>Victor Hugo</strong><br><br>This beautiful quote is actually from the classic novel and musical, *Les Misérables*." },
-            { quote: "\"Hate cannot drive out hate; only love can do that.\"", optA: "Dr. Martin Luther King Jr.", optB: "The Apostle Paul", answer: "A", detail: "<strong>Dr. Martin Luther King Jr.</strong><br><br>While it perfectly matches the heart of Jesus, this specific quote is from MLK's book *Strength to Love*." },
-            { quote: "\"With great power comes great responsibility.\"", optA: "King Solomon", optB: "Uncle Ben", answer: "B", detail: "<strong>Spider-Man</strong><br><br>This is the famous lesson Peter Parker learns from his Uncle Ben. (Though Luke 12:48 teaches a very similar principle!)" },
-            { quote: "\"Not all those who wander are lost.\"", optA: "J.R.R. Tolkien", optB: "The Book of Psalms", answer: "A", detail: "<strong>The Lord of the Rings</strong><br><br>This is a line from a famous poem written by Tolkien for the character Aragorn." },
-            { quote: "\"May the Force be with you.\"", optA: "The Apostle Peter", optB: "Obi-Wan Kenobi", answer: "B", detail: "<strong>Star Wars</strong><br><br>Definitely not in the Bible! But 'The Lord be with you' is said many times throughout Scripture." }
+        // FULL LIBRARY OF 50 QUESTIONS
+        let questions = [
+            { q: "Who built the Ark?", a: ["noah", "نوح"], level: "Easy" },
+            { q: "How many disciples did Jesus have?", a: ["12", "twelve", "١٢"], level: "Easy" },
+            { q: "Where was Jesus born?", a: ["bethlehem", "بيت لحم"], level: "Easy" },
+            { q: "Who was the first man?", a: ["adam", "آدم"], level: "Easy" },
+            { q: "Who killed Goliath?", a: ["david", "داود"], level: "Easy" },
+            { q: "What is the first book of the Bible?", a: ["genesis", "تكوين"], level: "Easy" },
+            { q: "Who was swallowed by a big fish?", a: ["jonah", "يونس"], level: "Easy" },
+            { q: "Who led the Israelites out of Egypt?", a: ["moses", "موسى"], level: "Easy" },
+            { q: "How many commandments were there?", a: ["10", "ten", "١٠"], level: "Easy" },
+            { q: "Who was the strongest man in the Bible?", a: ["samson", "شمشون"], level: "Easy" },
+            { q: "Who was the first King of Israel?", a: ["saul", "شاول"], level: "Medium" },
+            { q: "Which disciple denied Jesus 3 times?", a: ["peter", "بطرس"], level: "Medium" },
+            { q: "What is the longest book in the Bible?", a: ["psalms", "مزامير"], level: "Medium" },
+            { q: "Who baptized Jesus?", a: ["john", "يوحنا"], level: "Medium" },
+            { q: "How many days was Lazarus in the tomb?", a: ["4", "four", "٤"], level: "Medium" },
+            { q: "What was Paul's name before he converted?", a: ["saul", "شاول"], level: "Medium" },
+            { q: "Who was Jacob's twin brother?", a: ["esau", "عيسو"], level: "Medium" },
+            { q: "What sea did Moses part?", a: ["red sea", "البحر الاحمر"], level: "Medium" },
+            { q: "Who wrote the book of Revelation?", a: ["john", "يوحنا"], level: "Medium" },
+            { q: "Who recognized Jesus as Messiah as a baby?", a: ["simeon", "سمعان"], level: "Expert" },
+            { q: "What is the shortest verse in the Bible?", a: ["jesus wept", "بكى يسوع"], level: "Expert" },
+            { q: "How many books are in the New Testament?", a: ["27", "٢٧"], level: "Expert" },
+            { q: "Who was the oldest man (969 years)?", a: ["methuselah", "متوشالح"], level: "Expert" },
+            { q: "On what mountain were the 10 Commandments given?", a: ["sinai", "سيناء"], level: "Expert" },
+            { q: "Who was the youngest king of Israel?", a: ["josiah", "يوشيا"], level: "Expert" },
+            { q: "Which tribe were the priests from?", a: ["levi", "لاوي"], level: "Expert" },
+            { q: "What was the name of the mountain of sacrifice?", a: ["moriah", "المريا"], level: "Expert" },
+            { q: "How many brothers did Joseph have?", a: ["11", "١١"], level: "Medium" },
+            { q: "Who was the wife of Isaac?", a: ["rebekah", "رفقة"], level: "Expert" },
+            { q: "What was the first plague in Egypt?", a: ["blood", "دم"], level: "Medium" },
+            { q: "Who took over as leader after Moses?", a: ["joshua", "يشوع"], level: "Medium" },
+            { q: "What city did the walls fall down?", a: ["jericho", "اريحا"], level: "Easy" },
+            { q: "Who was the tax collector disciple?", a: ["matthew", "متى"], level: "Medium" },
+            { q: "Which disciple was a doctor?", a: ["luke", "لوقا"], level: "Expert" },
+            { q: "What is the last word in the Bible?", a: ["amen", "آمين"], level: "Expert" },
+            { q: "Who escaped from Sodom?", a: ["lot", "لوط"], level: "Medium" },
+            { q: "Who was David's best friend?", a: ["jonathan", "يوناثان"], level: "Expert" },
+            { q: "Which book comes after the 4 Gospels?", a: ["acts", "اعمال الرسل"], level: "Medium" },
+            { q: "Who was the first woman?", a: ["eve", "حواء"], level: "Easy" },
+            { q: "How many days did it rain during the flood?", a: ["40", "forty", "٤٠"], level: "Easy" },
+            { q: "What did the dove bring back to Noah?", a: ["olive", "زيتون"], level: "Medium" },
+            { q: "Who was the Queen who saved the Jews?", a: ["esther", "استير"], level: "Medium" },
+            { q: "What was Jesus' first miracle?", a: ["wine", "خمر"], level: "Easy" },
+            { q: "Who is the 'Alpha and Omega'?", a: ["jesus", "يسوع", "god"], level: "Easy" },
+            { q: "Who interpreted Pharaoh's dreams?", a: ["joseph", "يوسف"], level: "Medium" },
+            { q: "Who was the sister of Moses?", a: ["miriam", "مريم"], level: "Expert" },
+            { q: "What did God create on the first day?", a: ["light", "النور"], level: "Medium" },
+            { q: "Who lived in the desert eating honey?", a: ["john", "يوحنا"], level: "Easy" },
+            { q: "What was the name of the giant David killed?", a: ["goliath", "جليات"], level: "Easy" },
+            { q: "How many tribes of Israel were there?", a: ["12", "twelve", "١٢"], level: "Easy" }
         ];
 
-        let currentQ = {};
-        const card = document.getElementById("card");
-        const quoteDisplay = document.getElementById("quote-display");
-        const btnA = document.getElementById("btn-a");
-        const btnB = document.getElementById("btn-b");
-        const guessButtons = document.getElementById("guess-buttons");
-        const nextBtn = document.getElementById("btn-next");
-        const resultTitle = document.getElementById("result-title");
-        const resultDetail = document.getElementById("result-detail");
+        let currentQ = 0;
 
-        function loadRandomQuestion() {
-            const randomIndex = Math.floor(Math.random() * triviaVault.length);
-            currentQ = triviaVault[randomIndex];
-            
-            quoteDisplay.innerText = currentQ.quote;
-            btnA.innerText = currentQ.optA;
-            btnB.innerText = currentQ.optB;
-            
-            card.classList.remove("flipped");
-            guessButtons.style.display = "flex";
-            nextBtn.style.display = "none";
-        }
-
-        function checkAnswer(selectedOption) {
-            if (selectedOption === currentQ.answer) {
-                resultTitle.innerText = "🎯 Correct!";
-                document.querySelector('.flip-card-back').style.background = "#2ed573";
-            } else {
-                resultTitle.innerText = "❌ Wrong!";
-                document.querySelector('.flip-card-back').style.background = "#e74c3c";
+        // SHUFFLE ALGORITHM (Fisher-Yates)
+        function shuffleQs() {
+            for (let i = questions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [questions[i], questions[j]] = [questions[j], questions[i]];
             }
-            
-            resultDetail.innerHTML = currentQ.detail; // Renders HTML links correctly!
-            card.classList.add("flipped");
-            
-            guessButtons.style.display = "none";
-            nextBtn.style.display = "block";
         }
 
-        function nextQuestion() { loadRandomQuestion(); }
-        
-        loadRandomQuestion();
+        function loadQuestion() {
+            if (currentQ >= questions.length) {
+                alert("🏆 You've cleared all 50 questions! Shuffling for a new round.");
+                currentQ = 0;
+                shuffleQs();
+            }
+            let q = questions[currentQ];
+            document.getElementById("level-tag").innerText = q.level;
+            document.getElementById("question-box").innerText = q.q;
+            document.getElementById("guess-input").value = "";
+            document.getElementById("feedback-msg").innerText = "";
+            document.getElementById("feedback-msg").className = "feedback";
+        }
+
+        function checkAnswer() {
+            let guess = document.getElementById("guess-input").value.toLowerCase().trim();
+            if (questions[currentQ].a.some(ans => guess.includes(ans))) {
+                document.getElementById("feedback-msg").innerHTML = "🎯 Correct! Excellent.";
+                document.getElementById("feedback-msg").className = "feedback correct";
+                currentQ++;
+                setTimeout(loadQuestion, 1500);
+            } else {
+                document.getElementById("feedback-msg").innerHTML = "❌ Not quite! Try again.";
+                document.getElementById("feedback-msg").className = "feedback wrong";
+            }
+        }
+
+        function revealAnswer() {
+            document.getElementById("feedback-msg").innerHTML = "The answer was: <b>" + questions[currentQ].a[0] + "</b>";
+            document.getElementById("feedback-msg").className = "feedback";
+            currentQ++;
+            setTimeout(loadQuestion, 3000);
+        }
+
+        function nextQuestion() { currentQ++; loadQuestion(); }
+
+        // Start the game
+        shuffleQs();
+        loadQuestion();
     </script>
 </body>
 </html>

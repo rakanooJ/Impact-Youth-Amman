@@ -7,120 +7,59 @@
     <title>Guidance & Real Talk - Impact Youth Amman</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background-image: url('background.png'); background-size: cover; background-attachment: fixed; background-position: center; background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; }
         
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background-image: url('background.png');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-color: #1c1e21; 
-            color: #f8f9fa; 
-            line-height: 1.6; 
-        }
-        
-        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;}
+        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;}
         .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 15px; font-weight: 500; transition: color 0.3s; font-size: 1rem; }
         .nav-links a:hover { color: #00a8ff; }
-        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 20px; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 15px; transition: background 0.3s; }
+        .login-btn:hover { background: #008ecc !important; }
         
         .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
         .header-title h1 { font-size: 3rem; margin-bottom: 10px; }
         
-        .container { 
-            max-width: 1000px; 
-            margin: 40px auto; 
-            padding: 0 20px; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; 
-            padding-bottom: 40px;
-        }
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding-bottom: 40px; }
         
-        .card { 
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 30px; 
-            border-radius: 10px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
-            text-align: center; 
-            color: #333; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-        }
-        
+        .card { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-align: center; color: #333; display: flex; flex-direction: column; justify-content: space-between; }
         .card h3 { color: #1e293b; margin-bottom: 15px; font-size: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .card p { color: #475569; margin-bottom: 25px; flex-grow: 1; text-align: left; font-size: 0.95rem; line-height: 1.7; }
 
-        /* Style for the clickable Bible verses */
         .verse-link { color: #00a8ff; text-decoration: none; font-weight: bold; transition: color 0.3s; }
         .verse-link:hover { text-decoration: underline; color: #1e293b; }
 
-        .video-btn { 
-            display: block; 
-            background: #e74c3c; 
-            color: white; 
-            padding: 12px 24px; 
-            text-decoration: none; 
-            border-radius: 5px; 
-            font-weight: bold; 
-            text-align: center; 
-            transition: background 0.3s; 
-            margin-top: auto; 
-        }
+        .video-btn { display: block; background: #e74c3c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; text-align: center; transition: background 0.3s; margin-top: auto; }
         .video-btn:hover { background: #c0392b; }
 
-        /* The New Theosumma Bottom Box CSS */
-        .cta-box {
-            grid-column: 1 / -1; /* Forces it to stretch across the whole grid */
-            background: linear-gradient(135deg, #1e293b, #2c3e50);
-            color: white;
-            padding: 40px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            margin-top: 20px;
-        }
+        .cta-box { grid-column: 1 / -1; background: linear-gradient(135deg, #1e293b, #2c3e50); color: white; padding: 40px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); margin-top: 20px; }
         .cta-box h2 { font-size: 2rem; margin-bottom: 10px; color: #f8f9fa; }
         .cta-box p { font-size: 1.1rem; color: #cbd5e1; margin-bottom: 25px; }
-        .cta-btn {
-            display: inline-block;
-            background: #00a8ff;
-            color: white;
-            padding: 15px 40px;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: background 0.3s, transform 0.2s;
-        }
+        .cta-btn { display: inline-block; background: #00a8ff; color: white; padding: 15px 40px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 1.2rem; transition: background 0.3s, transform 0.2s; }
         .cta-btn:hover { background: #008ecc; transform: scale(1.05); }
 
         @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } }
     </style>
 </head>
 <body>
-  <nav class="navbar">
+    <nav class="navbar">
         <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="plans.html">Bible Plans</a>
-            <a href="verse.html">Verse of the Week</a>
-            <a href="talk.html">Table Talk</a>
-            <a href="Spiritual-Gift.html">Gifts Quiz</a>
-            <a href="prayer.html">Prayer Room</a>
             <a href="guidance.html">Real Talk</a>
-            <a href="socials.html" class="login-btn">Socials & Join</a>
+            <a href="talk.html">Table Talk</a>
+            <a href="spirit-fun.html">Spirit Fun</a>
+            <a href="connect.html">Connect</a>
+            <a href="index.html#join" class="login-btn">Join Us</a>
         </div>
     </nav>
+    
     <div class="header-title">
         <h1>Real Talk & Guidance</h1>
         <p>A library of biblical wisdom and practical advice for navigating daily life.</p>
     </div>
     
     <div class="container">
-        
         <div class="card">
             <h3>Dating & Relationships</h3>
             <p>Culture treats relationships like a trial run for intimacy, but Scripture calls us to guard our hearts (<a href="https://www.biblegateway.com/passage/?search=Proverbs+4:23&version=GNT" target="_blank" class="verse-link">Proverbs 4:23</a>). Focus on becoming the right person before obsessing over finding the right person. "Do not be yoked together with unbelievers" (<a href="https://www.biblegateway.com/passage/?search=2+Corinthians+6:14&version=GNT" target="_blank" class="verse-link">2 Corinthians 6:14</a>) isn't a restriction to ruin your fun; it's a protection to keep your life's foundation solid.</p>
@@ -156,8 +95,6 @@
             <p>Theology doesn't have to be confusing. Ask the big questions, challenge your doubts, and get deep, biblical answers tailored for you.</p>
             <a href="https://theosumma.com/chat/c314bc3c-3ff5-4789-bf27-1a282448e407" target="_blank" class="cta-btn">Ask Theosumma</a>
         </div>
-
     </div>
-
 </body>
 </html>

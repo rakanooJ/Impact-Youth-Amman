@@ -44,7 +44,6 @@
             <a href="index.html">Home</a>
             <a href="plans.html">Bible Plans</a>
             <a href="guidance.html">Real Talk</a>
-            <a href="talk.html">Table Talk</a>
             <a href="spirit-fun.html">Spirit Fun</a>
             <a href="connect.html">Connect</a>
             <a href="index.html#join" class="login-btn">Join Us</a>
@@ -62,21 +61,16 @@
                 <label for="submission-type">What are you sending us?</label>
                 <select id="submission-type" onchange="switchForm()">
                     <option value="prayer">🙏 Prayer Request Form</option>
-                    <option value="question">❓ Anonymous Q&A Form</option>
-                    <option value="suggestion">💡 Youth Group Suggestion Form</option>
+                    <option value="qna">❓ Q&A and Suggestions Form</option>
                 </select>
             </div>
 
             <div id="prayer" class="google-form-container active-form">
-                <iframe src="YOUR_PRAYER_FORM_LINK_HERE">Loading...</iframe>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdvg39ep0_D05gBTp27G9dPwqVRuU1mCAzKCJQNhNAbyESsZQ/viewform?usp=header">Loading Prayer Form...</iframe>
             </div>
 
-            <div id="question" class="google-form-container">
-                <iframe src="YOUR_QUESTION_FORM_LINK_HERE">Loading...</iframe>
-            </div>
-
-            <div id="suggestion" class="google-form-container">
-                <iframe src="YOUR_SUGGESTION_FORM_LINK_HERE">Loading...</iframe>
+            <div id="qna" class="google-form-container">
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe0bn2kgaEt1yMpDZQQAMQwEigog6lkc9Y4-rXMKE7RnVjZwQ/viewform?usp=header">Loading Q&A Form...</iframe>
             </div>
 
         </div>
@@ -85,11 +79,11 @@
     <script>
         function switchForm() {
             document.getElementById("prayer").classList.remove("active-form");
-            document.getElementById("question").classList.remove("active-form");
-            document.getElementById("suggestion").classList.remove("active-form");
+            document.getElementById("qna").classList.remove("active-form");
+            
             const selectedType = document.getElementById("submission-type").value;
             document.getElementById(selectedType).classList.add("active-form");
         }
     </script>
 </body>
-</html>
+</html>s

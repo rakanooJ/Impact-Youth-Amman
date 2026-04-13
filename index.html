@@ -23,19 +23,19 @@
         /* 2. Professional Navigation Bar */
         .navbar { 
             background-color: #1c1e21; 
-            padding: 10px 50px; 
+            padding: 12px 60px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             border-bottom: 1px solid #333; 
             position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
         .nav-links a { 
             color: white; 
             text-decoration: none; 
-            margin-left: 15px; 
+            margin-left: 20px; 
             font-weight: 500; 
             transition: color 0.3s; 
             font-size: 1rem; 
@@ -43,116 +43,121 @@
         .nav-links a:hover { color: #00a8ff; }
         .login-btn { 
             background-color: #00a8ff; 
-            padding: 8px 16px; 
-            border-radius: 5px; 
+            padding: 10px 22px; 
+            border-radius: 6px; 
             color: white !important; 
-            margin-left: 15px; 
+            margin-left: 20px; 
             font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 168, 255, 0.3);
         }
 
         /* 3. Hero & Countdown Styling */
         .hero { 
             text-align: center; 
-            padding: 100px 20px; 
+            padding: 110px 20px; 
             background: linear-gradient(rgba(28, 30, 33, 0.7), rgba(28, 30, 33, 0.95)); 
         }
         .hero h1 { 
-            font-size: 4.5rem; 
-            margin-bottom: 15px; 
+            font-size: 4.8rem; 
+            margin-bottom: 20px; 
             color: #00a8ff; 
             text-transform: uppercase; 
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            letter-spacing: 3px;
+            text-shadow: 3px 3px 15px rgba(0,0,0,0.6);
         }
         .countdown-container { 
             background: rgba(0, 168, 255, 0.1); 
             border: 1px solid #00a8ff; 
-            padding: 20px; 
-            border-radius: 15px; 
+            padding: 25px; 
+            border-radius: 18px; 
             margin: 20px auto; 
-            max-width: 500px; 
+            max-width: 520px; 
             text-align: center; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
         .countdown-timer { 
-            font-size: 2.2rem; 
+            font-size: 2.4rem; 
             font-weight: bold; 
             color: #2ed573; 
             font-family: 'Courier New', Courier, monospace; 
         }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+        .container { max-width: 1150px; margin: 0 auto; padding: 50px 25px; }
 
-        /* 4. Verse Card (High-End Design) */
+        /* 4. Verse Card (The Master Styling) */
         .verse-card { 
             background: rgba(255, 255, 255, 0.95); 
-            padding: 40px; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            padding: 45px; 
+            border-radius: 18px; 
+            box-shadow: 0 15px 45px rgba(0,0,0,0.6); 
             color: #1e293b; 
             text-align: center; 
-            margin-bottom: 50px; 
-            border-left: 8px solid #f39c12; 
+            margin-bottom: 60px; 
+            border-left: 10px solid #f39c12; 
         }
-        .verse-title { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: #f39c12; font-weight: bold; margin-bottom: 15px; }
+        .verse-title { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 3px; color: #f39c12; font-weight: 800; margin-bottom: 18px; }
         .verse-text { 
-            font-size: 2.2rem; 
+            font-size: 2.4rem; 
             font-family: 'Georgia', serif; 
             font-style: italic; 
             line-height: 1.4; 
-            margin-bottom: 15px; 
+            margin-bottom: 18px; 
             color: #0f172a;
         }
-        .verse-ref { font-size: 1.2rem; font-weight: bold; color: #64748b; }
+        .verse-ref { font-size: 1.3rem; font-weight: bold; color: #64748b; }
 
-        /* 5. Features Dashboard */
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        /* 5. Dashboard Grid */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; margin-bottom: 70px; }
         .feature-card { 
             background: #334155; 
-            padding: 40px; 
-            border-radius: 15px; 
+            padding: 45px; 
+            border-radius: 18px; 
             text-align: center; 
             color: white; 
             text-decoration: none; 
-            transition: transform 0.3s, background 0.3s; 
+            transition: all 0.3s ease; 
             border: 1px solid #475569;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
-        .feature-card:hover { transform: translateY(-5px); background: #475569; border-color: #00a8ff; }
-        .feature-icon { font-size: 3.5rem; margin-bottom: 15px; }
-        .feature-card h3 { font-size: 1.8rem; margin-bottom: 10px; color: #00a8ff; }
+        .feature-card:hover { transform: translateY(-8px); background: #3e4e63; border-color: #00a8ff; box-shadow: 0 12px 30px rgba(0,0,0,0.5); }
+        .feature-icon { font-size: 3.8rem; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 1.9rem; margin-bottom: 12px; color: #00a8ff; }
 
-        /* 6. Spotify Section (Fixed Playlist Embed) */
+        /* 6. FIXED SPOTIFY SECTION */
         .spotify-section { 
             background: #191414; 
-            padding: 40px; 
-            border-radius: 15px; 
+            padding: 45px; 
+            border-radius: 18px; 
             border: 1px solid #1DB954; 
             text-align: center; 
-            margin-bottom: 60px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 70px; 
+            box-shadow: 0 15px 45px rgba(0,0,0,0.6);
         }
-        .spotify-section h2 { color: #1DB954; margin-bottom: 25px; font-size: 2.5rem; }
+        .spotify-section h2 { color: #1DB954; margin-bottom: 30px; font-size: 2.6rem; }
 
-        /* 7. Join Us Section */
+        /* 7. Footer / Connect Styling */
         .connect-section { 
             background: #1e293b; 
-            padding: 70px 20px; 
+            padding: 80px 25px; 
             text-align: center; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            border-radius: 18px; 
+            box-shadow: 0 15px 45px rgba(0,0,0,0.6); 
+            border: 1px solid #333;
         }
-        .connect-section h2 { font-size: 2.8rem; color: #2ed573; margin-bottom: 25px; }
-        .connect-details { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; }
-        .detail-box { background: rgba(0,0,0,0.2); padding: 25px; border-radius: 10px; min-width: 280px; }
-        .detail-box h4 { color: #00a8ff; font-size: 1.4rem; margin-bottom: 10px; }
+        .connect-section h2 { font-size: 3rem; color: #2ed573; margin-bottom: 30px; }
+        .detail-box { background: rgba(0,0,0,0.25); padding: 30px; border-radius: 12px; display: inline-block; min-width: 300px; margin-bottom: 40px; }
+        .detail-box h4 { color: #00a8ff; font-size: 1.5rem; margin-bottom: 10px; }
         
-        .social-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .social-btn { padding: 15px 30px; border-radius: 10px; font-weight: bold; text-decoration: none; color: white; font-size: 1.2rem; transition: 0.2s; }
+        .social-buttons { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
+        .social-btn { padding: 18px 35px; border-radius: 12px; font-weight: bold; text-decoration: none; color: white; font-size: 1.3rem; transition: 0.3s; }
+        .social-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
         .btn-insta { background: #E1306C; }
         .btn-wa { background: #25D366; }
 
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .hero h1 { font-size: 3rem; } .verse-text { font-size: 1.6rem; } }
+        @media (max-width: 768px) { 
+            .navbar { padding: 12px 25px; } .nav-links { display: none; } 
+            .hero h1 { font-size: 3rem; } .verse-text { font-size: 1.6rem; } 
+        }
     </style>
 </head>
 <body>
@@ -171,7 +176,7 @@
     <header class="hero">
         <h1>Impact Youth</h1>
         <div class="countdown-container">
-            <p style="margin-bottom: 10px; color: #cbd5e1; font-weight: bold;">NEXT SERVICE IN:</p>
+            <p style="margin-bottom: 12px; color: #cbd5e1; font-weight: bold; font-size: 1.1rem;">NEXT SERVICE IN:</p>
             <div id="countdown" class="countdown-timer">Calculating...</div>
         </div>
     </header>
@@ -204,25 +209,24 @@
         <div class="spotify-section">
             <h2>🎧 Impact Sounds</h2>
             <iframe style="border-radius:12px" 
-                src="https://open.spotify.com/embed/playlist/27l87V6S7zCly7Z69m7q2p?utm_source=generator&theme=0" 
-                width="100%" height="352" frameBorder="0" 
-                allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                src="https://open.spotify.com/embed/track/5iH6Z8M2Tq8WzP8GfR6QZ1?utm_source=generator&theme=0" 
+                width="100%" height="152" frameBorder="0" 
+                allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
                 loading="lazy">
             </iframe>
         </div>
 
         <section id="join" class="connect-section">
             <h2>You Belong Here.</h2>
-            <div class="connect-details">
-                <div class="detail-box">
-                    <h4>🗓️ Wednesdays @ 7:00 PM</h4>
-                    <p>Amman Baptist School Hall</p>
-                </div>
+            <div class="detail-box">
+                <h4>🗓️ Wednesdays @ 7:00 PM</h4>
+                <p>Amman Baptist School Hall</p>
             </div>
 
             <div class="social-buttons">
                 <a href="https://www.instagram.com/impact.jo" target="_blank" class="social-btn btn-insta">📷 Instagram</a>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_ZRXFIlamicTpG2RFINCYA8Q-x3W9Q9A-xfYxmpPmNLnZAQ/viewform?usp=header" target="_blank" class="social-btn btn-wa">💬 Join WhatsApp</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_ZRXFIlamicTpG2RFINCYA8Q-x3W9Q9A-xfYxmpPmNLnZAQ/viewform?usp=header" target="_blank" class="social-btn btn-wa">💬 WhatsApp Group</a>
             </div>
         </section>
     </div>
@@ -239,11 +243,7 @@
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
             const mins = Math.floor((diff / 1000 / 60) % 60);
             const secs = Math.floor((diff / 1000) % 60);
-            if (now.getDay() === 3 && now.getHours() >= 19 && now.getHours() < 21) {
-                document.getElementById("countdown").innerHTML = "WE ARE LIVE! 🔥";
-            } else {
-                document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
-            }
+            document.getElementById("countdown").innerHTML = (now.getDay() === 3 && now.getHours() >= 19 && now.getHours() < 21) ? "WE ARE LIVE! 🔥" : `${days}d ${hours}h ${mins}m ${secs}s`;
         }
         setInterval(updateCountdown, 1000); updateCountdown();
     </script>

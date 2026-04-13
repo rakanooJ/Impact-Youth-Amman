@@ -6,8 +6,9 @@
     <meta name="description" content="Impact Youth Amman - Games & Spirit Fun">
     <title>Spirit Fun - Impact Youth Amman</title>
     <style>
-        /* 1. Global Reset & Body */
+        /* 1. Global Reset & Body Styling */
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-image: url('background.png'); 
@@ -19,7 +20,7 @@
             line-height: 1.6; 
         }
         
-        /* 2. Navigation Bar */
+        /* 2. Professional Navigation Bar */
         .navbar { 
             background-color: #1c1e21; 
             padding: 10px 50px; 
@@ -51,13 +52,14 @@
         }
         .login-btn:hover { background: #008ecc !important; }
         
+        /* 3. Header Section */
         .header-title { 
             text-align: center; 
-            padding: 60px 20px; 
+            padding: 80px 20px; 
             background: linear-gradient(rgba(28, 30, 33, 0.7), rgba(28, 30, 33, 0.95)); 
         }
         .header-title h1 { 
-            font-size: 3.5rem; 
+            font-size: 4rem; 
             color: #2ed573; 
             text-transform: uppercase; 
             letter-spacing: 2px;
@@ -66,10 +68,10 @@
 
         .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
-        /* 3. Verse Card (Matched to Home) */
+        /* 4. Verse of the Week Card (Restored) */
         .verse-card { 
             background: rgba(255, 255, 255, 0.95); 
-            padding: 30px; 
+            padding: 40px; 
             border-radius: 15px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             color: #1e293b; 
@@ -77,46 +79,81 @@
             margin-bottom: 50px; 
             border-left: 8px solid #f39c12; 
         }
-        .verse-title { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: #f39c12; font-weight: bold; margin-bottom: 10px; }
+        .verse-title { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: #f39c12; font-weight: bold; margin-bottom: 15px; }
         .verse-text { 
-            font-size: 1.8rem; 
+            font-size: 2.2rem; 
             font-family: 'Georgia', serif; 
             font-style: italic; 
             line-height: 1.4; 
-            margin-bottom: 10px; 
+            margin-bottom: 15px; 
             color: #0f172a;
         }
-        .verse-ref { font-size: 1.1rem; font-weight: bold; color: #64748b; }
+        .verse-ref { font-size: 1.2rem; font-weight: bold; color: #64748b; }
 
-        /* 4. Game Grid */
+        /* 5. Games Grid Layout */
         .game-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
             gap: 30px; 
             margin-bottom: 60px; 
         }
         .game-card { 
             background: #334155; 
-            padding: 40px; 
+            padding: 45px 30px; 
             border-radius: 15px; 
             text-align: center; 
             color: white; 
             text-decoration: none; 
-            transition: transform 0.3s, background 0.3s; 
+            transition: transform 0.3s, background 0.3s, border-color 0.3s; 
             border: 1px solid #475569;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        .game-card:hover { transform: translateY(-8px); background: #475569; border-color: #00a8ff; }
-        .game-icon { font-size: 3.5rem; margin-bottom: 15px; display: block; }
-        .game-card h3 { font-size: 1.8rem; margin-bottom: 10px; color: #00a8ff; }
-        .game-card p { color: #cbd5e1; font-size: 1.1rem; }
+        .game-card:hover { 
+            transform: translateY(-10px); 
+            background: #475569; 
+            border-color: #00a8ff;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .game-icon { 
+            font-size: 4rem; 
+            margin-bottom: 20px; 
+            display: block;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
+        }
+        .game-card h3 { 
+            font-size: 2rem; 
+            margin-bottom: 12px; 
+            color: #00a8ff; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .game-card p { 
+            color: #cbd5e1; 
+            font-size: 1.15rem; 
+            line-height: 1.5;
+        }
 
-        /* Mobile Adjustments */
+        /* 6. Footer CTA */
+        .footer-cta {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(28, 30, 33, 0.8);
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        .footer-cta h2 { font-size: 2.5rem; color: #2ed573; margin-bottom: 15px; }
+        .footer-cta p { font-size: 1.2rem; color: #cbd5e1; margin-bottom: 25px; }
+
+        /* Tablet & Mobile Media Queries */
         @media (max-width: 768px) { 
             .navbar { padding: 10px 20px; } 
             .nav-links { display: none; } 
-            .header-title h1 { font-size: 2.5rem; } 
-            .verse-text { font-size: 1.4rem; } 
+            .header-title h1 { font-size: 2.8rem; } 
+            .verse-text { font-size: 1.6rem; } 
+            .game-grid { gap: 20px; }
         }
     </style>
 </head>
@@ -133,9 +170,9 @@
         </div>
     </nav>
     
-    <div class="header-title">
+    <header class="header-title">
         <h1>Spirit Fun</h1>
-    </div>
+    </header>
     
     <div class="container">
         
@@ -150,28 +187,37 @@
             <a href="emoji.html" class="game-card">
                 <span class="game-icon">🧩</span>
                 <h3>Emoji Decoder</h3>
-                <p>Can you guess the Arabic worship song or Bible character from emojis?</p>
+                <p>Can you guess the Arabic worship song or Bible story using only emojis?</p>
             </a>
 
             <a href="trivia.html" class="game-card">
                 <span class="game-icon">📖</span>
                 <h3>Bible Trivia</h3>
-                <p>Test your knowledge of the Word with our level-based quiz system.</p>
+                <p>Challenge yourself with our deep Bible knowledge quiz system.</p>
             </a>
 
             <a href="Spiritual-Gift.html" class="game-card">
                 <span class="game-icon">🔥</span>
                 <h3>Gifts Quiz</h3>
-                <p>Discover your spiritual gifts and see how God has wired you to serve.</p>
+                <p>Discover the unique spiritual gifts God has placed inside of you.</p>
             </a>
 
             <a href="challenge.html" class="game-card">
                 <span class="game-icon">⚔️</span>
                 <h3>Weekly Challenge</h3>
-                <p>Practical steps to live out your faith in Amman this week.</p>
+                <p>Practical faith challenges to live out the Gospel in Amman this week.</p>
             </a>
 
         </div>
+
+        <section class="footer-cta">
+            <h2>Ready to grow?</h2>
+            <p>Faith is more than just games. Dive into our reading plans or get some real advice.</p>
+            <div style="display:flex; justify-content:center; gap:20px;">
+                <a href="plans.html" style="background:#00a8ff; color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">View Bible Plans</a>
+                <a href="guidance.html" style="background:#f39c12; color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">Get Guidance</a>
+            </div>
+        </section>
     </div>
 </body>
 </html>

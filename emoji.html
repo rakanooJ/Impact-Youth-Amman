@@ -73,25 +73,45 @@
     </div>
 
     <script>
-        const puzzles = [
+       const puzzles = [
             // ARABIC WORSHIP
             { category: "Arabic Worship", emojis: "👑🙌✨", answers: ["azeem", "عظيم", "عظيم عظيم", "azeem azeem"], hint: "Better Life - Great, Great..." },
             { category: "Arabic Worship", emojis: "🏠🕊️❤️", answers: ["sokna allah", "سكنى الله", "سكني الله"], hint: "The dwelling of God in us..." },
             { category: "Arabic Worship", emojis: "🕊️🙌🔥", answers: ["ya rooh allah", "يا روح الله", "روح الله"], hint: "Invoking the Holy Spirit..." },
-            { category: "Arabic Worship", emojis: "⛪🎼🙌", answers: ["fariq al hayah al afdal", "الحياة الأفضل", "better life"], hint: "The name of the most famous Arabic worship team..." },
-            
+            { category: "Arabic Worship", emojis: "✈️🛣️🌅", answers: ["safar", "سفر"], hint: "Zeyne - A journey of faith..." },
+            { category: "Arabic Worship", emojis: "👑🌍🙌", answers: ["malek el molouk", "ملك الملوك"], hint: "King of Kings..." },
+            { category: "Arabic Worship", emojis: "❤️✝️🙌", answers: ["yasou enta habeebi", "يسوع انت حبيبي"], hint: "Jesus, You are my beloved..." },
+            { category: "Arabic Worship", emojis: "⛰️🙌✨", answers: ["el shaddai", "الشداي"], hint: "God Almighty..." },
+            { category: "Arabic Worship", emojis: "🕊️🌊😌", answers: ["salamaouka", "سلامك"], hint: "Your peace like a river..." },
+            { category: "Arabic Worship", emojis: "🚶‍♂️🏠❤️", answers: ["ana jayee", "انا جاي"], hint: "I am coming back home..." },
+            { category: "Arabic Worship", emojis: "✨🙌🕊️", answers: ["hodouraka", "حضورك"], hint: "In Your presence..." },
+
             // BIBLE CHARACTERS
-            { category: "Bible Character", emojis: "🦁🙏🕳️", answers: ["daniel", "دانيال"], hint: "Thrown into a den of hungry cats..." },
-            { category: "Bible Character", emojis: "🔨🚢🌧️", answers: ["noah", "نوح"], hint: "Built a massive boat when it wasn't even raining..." },
-            { category: "Bible Character", emojis: "👑🎸🐑", answers: ["david", "داود"], hint: "Shepherd, Musician, King..." },
-            { category: "Bible Character", emojis: "🔥🌳🐑", answers: ["moses", "موسى"], hint: "Saw a bush on fire that didn't burn up..." },
+            { category: "Bible Character", emojis: "🦁🙏🕳️", answers: ["daniel", "دانيال"], hint: "Survivor of the lion's den." },
+            { category: "Bible Character", emojis: "🔨🚢🌧️", answers: ["noah", "نوح"], hint: "Built the Ark." },
+            { category: "Bible Character", emojis: "👑🎸🐑", answers: ["david", "داود"], hint: "Shepherd boy turned King." },
+            { category: "Bible Character", emojis: "🔥🌳🐑", answers: ["moses", "موسى"], hint: "Led Egypt out of slavery." },
+            { category: "Bible Character", emojis: "👑📜🇮🇱", answers: ["esther", "استير"], hint: "A brave Queen who saved her people." },
+            { category: "Bible Character", emojis: "✉️🏛️⛓️", answers: ["paul", "بولس"], hint: "Wrote most of the New Testament." },
+            { category: "Bible Character", emojis: "⚓🐟🗝️", answers: ["peter", "بطرس"], hint: "The fisherman who lead the early church." },
+            { category: "Bible Character", emojis: "💇‍♂️💪🏛️", answers: ["samson", "شمشون"], hint: "Extremely strong but lost his hair." },
+            { category: "Bible Character", emojis: "🧥🌈🇪🇬", answers: ["joseph", "يوسف"], hint: "Had a coat of many colors." },
+            { category: "Bible Character", emojis: "🤰🕊️⭐️", answers: ["mary", "مريم"], hint: "The mother of Jesus." },
+            { category: "Bible Character", emojis: "📖⚖️👑", answers: ["solomon", "سليمان"], hint: "The wisest King." },
+            { category: "Bible Character", emojis: "🏜️🍯💧", answers: ["john the baptist", "يوحنا المعمدان"], hint: "Lived in the desert eating honey." },
 
-            // BIBLE STORIES
-            { category: "Bible Story", emojis: "🧱🗼🗣️❓", answers: ["tower of babel", "برج بابل", "بابل"], hint: "Where languages were confused..." },
-            { category: "Bible Story", emojis: "🍞🐟5️⃣0️⃣0️⃣0️⃣", answers: ["feeding the 5000", "اشباع الجموع", "الخمس خبزات"], hint: "A massive picnic with only 5 loaves and 2 fish..." },
-            { category: "Bible Story", emojis: "🎺🧱🏰💥", answers: ["jericho", "اريحا", "اسوار اريحا", "walls of jericho"], hint: "The walls came tumbling down after some trumpet blasts..." }
+            // BIBLE STORIES & EVENTS
+            { category: "Bible Story", emojis: "🌊🚶‍♂️💨🚶‍♂️🌊", answers: ["red sea", "البحر الاحمر", "شق البحر"], hint: "Moses parting the waters." },
+            { category: "Bible Story", emojis: "🌳🍎🐍", answers: ["eden", "جنة عدن", "adam and eve"], hint: "The very first sin." },
+            { category: "Bible Story", emojis: "🧱🗼🗣️❓", answers: ["tower of babel", "برج بابل"], hint: "Where languages were confused." },
+            { category: "Bible Story", emojis: "🍞🐟5️⃣0️⃣0️⃣0️⃣", answers: ["feeding the 5000", "اشباع الجموع"], hint: "A miracle with lunch." },
+            { category: "Bible Story", emojis: "🎺🧱🏰💥", answers: ["jericho", "اريحا", "walls of jericho"], hint: "Walls falling down." },
+            { category: "Bible Story", emojis: "🍷💧🏺", answers: ["wedding at cana", "عرس قانا الجليل"], hint: "Jesus' first miracle." },
+            { category: "Bible Story", emojis: "🪦🌯🚶‍♂️", answers: ["lazarus", "لعازر"], hint: "Come out of the grave!" },
+            { category: "Bible Story", emojis: "🪨🎯🛡️", answers: ["david and goliath", "داود وجليات"], hint: "A giant vs a stone." },
+            { category: "Bible Story", emojis: "⭐️👶🐑", answers: ["christmas", "الميلاد", "nativity"], hint: "The birth of the Savior." },
+            { category: "Bible Story", emojis: "🪦☀️✝️", answers: ["resurrection", "القيامة", "easter"], hint: "He is Risen!" }
         ];
-
         let currentPuzzle;
         
         function loadPuzzle() {

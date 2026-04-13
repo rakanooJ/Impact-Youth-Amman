@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - Spirit Fun">
+    <title>Spirit Fun - Impact Youth Amman</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background-image: url('background.png'); background-size: cover; background-attachment: fixed; background-position: center; background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; }
+        
+        .navbar { background-color: #1c1e21; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;}
+        .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; font-size: 1rem; }
+        .nav-links a:hover { color: #00a8ff; }
+        .login-btn { background-color: #00a8ff; padding: 8px 16px; border-radius: 5px; color: white !important; margin-left: 20px; }
+        
+        .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.8); color: white; }
+        .header-title h1 { font-size: 3rem; margin-bottom: 10px; color: #9b59b6; }
+        .header-title p { font-size: 1.1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
+        
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        
+        .hub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+
+        .hub-card { background: rgba(255, 255, 255, 0.95); border-radius: 15px; padding: 40px 30px; text-align: center; text-decoration: none; color: #1e293b; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; align-items: center; border-top: 5px solid transparent; }
+        .hub-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.7); }
+
+        .card-quiz { border-top-color: #00a8ff; }
+        .card-trivia { border-top-color: #f39c12; }
+        .card-challenge { border-top-color: #e74c3c; }
+        .card-emoji { border-top-color: #2ed573; }
+
+        .icon { font-size: 4rem; margin-bottom: 20px; }
+        .hub-card h2 { font-size: 1.8rem; margin-bottom: 15px; color: #0f172a; }
+        .hub-card p { font-size: 1.05rem; color: #475569; }
+
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="verse.html">Verse</a>
+            <a href="talk.html">Table Talk</a>
+            <a href="spirit-fun.html">Spirit Fun</a>
+            <a href="prayer.html">Prayer Room</a>
+            <a href="socials.html" class="login-btn">Socials</a>
+        </div>
+    </nav>
+    
+    <div class="header-title">
+        <h1>Spirit Fun</h1>
+        <p>Test your knowledge, discover how you are wired, and take on practical challenges to grow your faith.</p>
+    </div>
+    
+    <div class="container">
+        <div class="hub-grid">
+            
+            <a href="Spiritual-Gift.html" class="hub-card card-quiz">
+                <div class="icon">🎁</div>
+                <h2>Spiritual Gifts</h2>
+                <p>Take the assessment to discover how God wired you to serve the church.</p>
+            </a>
+
+            <a href="trivia.html" class="hub-card card-trivia">
+                <div class="icon">🧠</div>
+                <h2>Who Said It?</h2>
+                <p>Is it a famous verse from the Bible, or a quote from Pop Culture? Test your knowledge.</p>
+            </a>
+
+            <a href="challenge.html" class="hub-card card-challenge">
+                <div class="icon">🔥</div>
+                <h2>30-Day Challenge</h2>
+                <p>Unlock a new daily mission and put your faith into action. Track your progress here.</p>
+            </a>
+
+            <a href="emoji.html" class="hub-card card-emoji">
+                <div class="icon">🎵</div>
+                <h2>Worship Emoji</h2>
+                <p>Can you guess the famous worship song using only a string of emojis? Decode the puzzle.</p>
+            </a>
+
+        </div>
+    </div>
+</body>
+</html>

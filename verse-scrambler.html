@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - Verse Scrambler">
+    <title>Verse Scrambler - Impact Youth Amman</title>
+    <style>
+        /* 1. Global Reset & Pro Background */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-image: url('background.png'); 
+            background-size: cover; background-attachment: fixed; background-position: center; 
+            background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; 
+        }
+        
+        /* 2. Professional Navigation Bar */
+        .navbar { 
+            background-color: #1c1e21; padding: 12px 60px; display: flex; 
+            justify-content: space-between; align-items: center; border-bottom: 1px solid #333;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; font-size: 1rem; }
+        .nav-links a:hover { color: #00a8ff; }
+
+        /* 3. Header & Arcade HUD */
+        .header-title { text-align: center; padding: 40px 20px 20px; background: rgba(28, 30, 33, 0.85); }
+        .header-title h1 { font-size: 3.5rem; color: #2ed573; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); margin-bottom: 10px; }
+        
+        .hud-container { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
+        .hud-box { background: #1e293b; border: 2px solid #475569; padding: 10px 25px; border-radius: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.4); min-width: 180px; }
+        .hud-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: bold; }
+        .stopwatch { font-size: 2.5rem; font-family: 'Courier New', monospace; font-weight: bold; color: #00a8ff; }
+        .high-score { font-size: 1.5rem; font-family: 'Courier New', monospace; font-weight: bold; color: #f1c40f; }
+
+        /* 4. Game Container */
+        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; text-align: center; }
+
+        /* 5. The Building Area (Where correct words go) */
+        .build-area { 
+            background: rgba(255, 255, 255, 0.95); min-height: 150px; border-radius: 18px; 
+            padding: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border-top: 8px solid #2ed573;
+            margin-bottom: 30px; display: flex; flex-wrap: wrap; gap: 10px; align-content: flex-start;
+        }
+        .placeholder-text { color: #94a3b8; font-size: 1.2rem; width: 100%; text-align: center; font-style: italic; margin-top: 20px; }
+
+        /* 6. The Scrambled Blocks */
+        .word-bank { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 40px; }
+        
+        .word-block { 
+            background: #1e293b; color: white; padding: 15px 25px; border-radius: 10px; 
+            font-size: 1.4rem; font-weight: bold; cursor: pointer; border: 2px solid #475569;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: all 0.2s; user-select: none;
+        }
+        .word-block:hover { transform: translateY(-3px); border-color: #00a8ff; background: #2c3e50; }
+        .word-block:active { transform: translateY(1px); }
+        
+        /* State Classes for Blocks */
+        .block-locked { background: #2ed573 !important; border-color: #27ae60 !important; cursor: default; transform: none !important; box-shadow: none; pointer-events: none; }
+        .block-error { animation: shake 0.4s both; background: #e74c3c !important; border-color: #c0392b !important; }
+
+        @keyframes shake { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+
+        /* 7. Level Selection & Controls */
+        .verse-reference { font-size: 1.8rem; font-weight: 900; color: #f8f9fa; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .btn { padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: white; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .btn-start { background: #00a8ff; font-size: 1.5rem; width: 100%; padding: 25px; margin-bottom: 20px; }
+        .btn-start:hover { background: #008ecc; }
+        .btn-reset { background: #e74c3c; margin-top: 20px; display: none; }
+
+        .game-active-ui { display: none; }
+        
+        /* Penalty notification */
+        .penalty-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(231, 76, 60, 0.3); z-index: 999; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
+        .penalty-flash.show { opacity: 1; }
+
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .hud-container { flex-direction: column; gap: 15px; } .word-block { font-size: 1.1rem; padding: 10px 15px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="spirit-fun.html">Back to Fun</a>
+            <a href="connect.html">Connect</a>
+        </div>
+    </nav>
+    
+    <div class="header-title">
+        <h1>Time Attack</h1>
+        <div class="hud-container">
+            <div class="hud-box">
+                <div class="hud-label">Stopwatch</div>
+                <div class="stopwatch" id="timer">0.00s</div>
+            </div>
+            <div class="hud-box">
+                <div class="hud-label">Personal Best</div>
+                <div class="high-score" id="best-time">--.--s</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="penalty-flash" id="penalty-screen"></div>
+
+    <div class="container">
+        
+        <button class="btn btn-start" id="start-btn" onclick="startGame()">▶️ Start Level 1</button>
+
+        <div class="game-active-ui" id="game-ui">
+            
+            <div class="verse-reference" id="reference-text">Romans 12:2</div>
+            
+            <div class="build-area" id="build-area">
+                <div class="placeholder-text" id="placeholder">Tap the words in the correct order below...</div>
+            </div>
+
+            <div class="word-bank" id="word-bank">
+                </div>
+
+            <button class="btn btn-reset" id="reset-btn" onclick="initLevel()">Next Level ⏭️</button>
+        </div>
+    </div>
+
+    <script>
+        // THE VAULT: Levels get progressively harder/longer
+        const levels = [
+            { ref: "Philippians 4:13", text: "I can do all things through Christ who strengthens me" },
+            { ref: "Proverbs 3:5", text: "Trust in the Lord with all your heart" },
+            { ref: "Romans 12:2", text: "Do not conform to the pattern of this world but be transformed" },
+            { ref: "John 14:6", text: "I am the way and the truth and the life" },
+            { ref: "1 Peter 5:7", text: "Cast all your anxiety on him because he cares for you" },
+            { ref: "Joshua 1:9", text: "Be strong and courageous do not be afraid" },
+            { ref: "Isaiah 40:31", text: "But those who hope in the Lord will renew their strength" },
+            { ref: "Matthew 6:33", text: "But seek first his kingdom and his righteousness" }
+        ];
+
+        let currentLevel = 0;
+        let targetWords = [];
+        let currentIndex = 0; // Tracks which word the user needs to tap next
+        
+        // Timer Variables
+        let startTime, timerInterval;
+        let penaltySeconds = 0;
+        let isPlaying = false;
+
+        const timerEl = document.getElementById("timer");
+        const bestTimeEl = document.getElementById("best-time");
+        const startBtn = document.getElementById("start-btn");
+        const gameUI = document.getElementById("game-ui");
+        const buildArea = document.getElementById("build-area");
+        const wordBank = document.getElementById("word-bank");
+        const placeholder = document.getElementById("placeholder");
+        const resetBtn = document.getElementById("reset-btn");
+        const referenceText = document.getElementById("reference-text");
+        const penaltyScreen = document.getElementById("penalty-screen");
+
+        // Check for local storage high score on load
+        let savedBest = localStorage.getItem("impactScramblerBest");
+        if (savedBest) bestTimeEl.innerText = savedBest + "s";
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function startGame() {
+            currentLevel = 0;
+            startBtn.style.display = "none";
+            gameUI.style.display = "block";
+            initLevel();
+        }
+
+        function initLevel() {
+            if (currentLevel >= levels.length) {
+                alert("🏆 You beat all levels! Taking you back to the start.");
+                currentLevel = 0;
+            }
+
+            let levelData = levels[currentLevel];
+            referenceText.innerText = levelData.ref;
+            
+            // Split verse into an array of words
+            targetWords = levelData.text.split(" ");
+            currentIndex = 0;
+            penaltySeconds = 0;
+
+            // Reset UI
+            buildArea.innerHTML = '<div class="placeholder-text" id="placeholder">Tap the words in the correct order below...</div>';
+            wordBank.innerHTML = '';
+            resetBtn.style.display = "none";
+
+            // Create scrambled array
+            let scrambledWords = [...targetWords].map((word, idx) => ({ word, id: idx }));
+            shuffle(scrambledWords);
+
+            // Generate Word Blocks in the Bank
+            scrambledWords.forEach(item => {
+                let btn = document.createElement("div");
+                btn.className = "word-block";
+                btn.innerText = item.word;
+                btn.dataset.id = item.id; // Store the correct index order
+                btn.onclick = () => checkWord(btn, item.id);
+                wordBank.appendChild(btn);
+            });
+
+            // Start Stopwatch
+            isPlaying = true;
+            startTime = Date.now();
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 10); // Update every 10ms for smooth decimals
+        }
+
+        function updateTimer() {
+            if (!isPlaying) return;
+            let elapsedTime = (Date.now() - startTime) / 1000;
+            elapsedTime += penaltySeconds;
+            timerEl.innerText = elapsedTime.toFixed(2) + "s";
+        }
+
+        function checkWord(btnElement, wordId) {
+            if (!isPlaying) return;
+
+            if (wordId === currentIndex) {
+                // CORRECT TAP
+                document.getElementById("placeholder")?.remove(); // Remove instruction text
+                
+                // Move button to build area
+                btnElement.classList.add("block-locked");
+                buildArea.appendChild(btnElement);
+                
+                currentIndex++;
+
+                // Check for Level Complete
+                if (currentIndex === targetWords.length) {
+                    levelComplete();
+                }
+            } else {
+                // WRONG TAP (Penalty)
+                penaltySeconds += 3; // Add 3 seconds to the clock
+                
+                btnElement.classList.add("block-error");
+                penaltyScreen.classList.add("show");
+                
+                setTimeout(() => {
+                    btnElement.classList.remove("block-error");
+                    penaltyScreen.classList.remove("show");
+                }, 300);
+            }
+        }
+
+        function levelComplete() {
+            isPlaying = false;
+            clearInterval(timerInterval);
+            
+            // Calculate final time
+            let finalTime = ((Date.now() - startTime) / 1000) + penaltySeconds;
+            timerEl.innerText = finalTime.toFixed(2) + "s";
+            
+            // Check High Score
+            let currentBest = parseFloat(localStorage.getItem("impactScramblerBest")) || 999.99;
+            if (finalTime < currentBest) {
+                localStorage.setItem("impactScramblerBest", finalTime.toFixed(2));
+                bestTimeEl.innerText = finalTime.toFixed(2) + "s";
+                bestTimeEl.style.color = "#2ed573"; // Flash green for new record
+            }
+
+            // Setup Next Level
+            currentLevel++;
+            resetBtn.style.display = "inline-block";
+            
+            if (currentLevel >= levels.length) {
+                resetBtn.innerText = "Play Again 🔄";
+            } else {
+                resetBtn.innerText = `Next Level: ${levels[currentLevel].ref} ⏭️`;
+            }
+        }
+    </script>
+</body>
+</html>

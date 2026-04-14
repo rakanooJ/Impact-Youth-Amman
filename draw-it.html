@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - Draw It Game">
+    <title>Draw It! - Impact Youth Amman</title>
+    <style>
+        /* 1. Global Reset & Pro Background */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-image: url('background.png'); 
+            background-size: cover; background-attachment: fixed; background-position: center; 
+            background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; 
+        }
+        
+        /* 2. Professional Navigation Bar */
+        .navbar { 
+            background-color: #1c1e21; padding: 12px 60px; display: flex; 
+            justify-content: space-between; align-items: center; border-bottom: 1px solid #333;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; font-size: 1rem; }
+        .nav-links a:hover { color: #00a8ff; }
+
+        /* 3. Header Styling */
+        .header-title { text-align: center; padding: 50px 20px 30px; background: rgba(28, 30, 33, 0.85); border-bottom: 1px solid #333; }
+        .header-title h1 { font-size: 3.8rem; color: #f39c12; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); margin-bottom: 10px; }
+        .header-title p { font-size: 1.2rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
+
+        /* 4. Main Game Container */
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        
+        .game-card { 
+            background: rgba(255, 255, 255, 0.95); padding: 50px 40px; border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6); color: #1e293b; border-top: 10px solid #f39c12;
+            min-height: 350px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            margin-bottom: 30px; position: relative;
+        }
+
+        .prompt-label { font-size: 1.1rem; font-weight: 900; color: #f39c12; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        
+        .prompt-text { 
+            font-size: 2.5rem; font-weight: bold; color: #0f172a; line-height: 1.3; 
+            min-height: 120px; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* 5. Buttons & Controls */
+        .btn { padding: 20px 40px; border: none; border-radius: 12px; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: white; text-transform: uppercase; transition: all 0.2s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .btn:active { transform: translateY(2px); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        
+        .btn-generate { background: linear-gradient(135deg, #00a8ff, #0097e6); width: 100%; margin-bottom: 40px; }
+        .btn-generate:hover { filter: brightness(1.1); transform: translateY(-3px); }
+
+        /* 6. Drawing Timer HUD */
+        .timer-hud { 
+            background: #1e293b; border: 2px solid #475569; padding: 25px; 
+            border-radius: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .timer-text { font-size: 3.5rem; font-family: 'Courier New', monospace; font-weight: bold; color: #2ed573; margin: 0 20px; }
+        .timer-text.warning { color: #e74c3c; animation: pulse 1s infinite; }
+        
+        .btn-timer { background: #334155; font-size: 1.2rem; padding: 15px 25px; border-radius: 8px; }
+        .btn-timer:hover { background: #475569; }
+
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        @media (max-width: 768px) { 
+            .navbar { padding: 10px 20px; } .nav-links { display: none; } 
+            .prompt-text { font-size: 1.8rem; } .timer-hud { flex-direction: column; gap: 15px; } 
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="spirit-fun.html">Back to Fun</a>
+            <a href="connect.html">Connect</a>
+        </div>
+    </nav>
+    
+    <div class="header-title">
+        <h1>Draw It!</h1>
+        <p>Grab a marker. Hit generate. You have 60 seconds to draw the prompt for your team.</p>
+    </div>
+    
+    <div class="container">
+        
+        <div class="game-card">
+            <div class="prompt-label">Your Scenario</div>
+            <div class="prompt-text" id="prompt-display">Hit the button to generate a scenario...</div>
+        </div>
+
+        <button class="btn btn-generate" onclick="generatePrompt()">🎲 Spin for a Prompt</button>
+
+        <div class="timer-hud">
+            <div style="color: #cbd5e1; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Drawing Timer</div>
+            <div class="timer-text" id="clock">60</div>
+            <button class="btn btn-timer" id="timer-btn" onclick="toggleTimer()">▶️ Start</button>
+        </div>
+
+    </div>
+
+    <script>
+        // THE VAULT: 35 Hilarious & Chaotic Drawing Prompts
+        const prompts = [
+            "Noah trying to separate two fighting kangaroos on the Ark.",
+            "Jonah doing his taxes inside the giant fish.",
+            "Moses forgetting the WiFi password at Mount Sinai.",
+            "David taking a selfie with Goliath.",
+            "Peter trying to water-ski on the Sea of Galilee.",
+            "Samson getting a terrible haircut at a salon.",
+            "Paul writing a letter to the Romans on a vintage typewriter.",
+            "Zacchaeus stuck in a tree because of a mean cat.",
+            "Elijah calling down an Uber chariot of fire.",
+            "The Three Wise Men following a GPS instead of the star.",
+            "Jesus multiplying pizzas and sodas instead of fish and bread.",
+            "Gideon blowing a plastic vuvuzela instead of a trumpet.",
+            "Daniel petting the lions like they are cute house cats.",
+            "Lazarus waking up and immediately asking for coffee.",
+            "King Solomon trying to organize his massive shoe closet.",
+            "Eve trying to hide an apple core behind her back.",
+            "Abraham trying to explain to Sarah why they are moving again.",
+            "John the Baptist ordering a locust-flavored frappe.",
+            "Mary and Joseph stuck in traffic on a donkey.",
+            "The walls of Jericho falling down because the music was too loud.",
+            "Shadrach, Meshach, and Abednego roasting marshmallows in the furnace.",
+            "A Pharisee measuring the exact length of a piece of string.",
+            "Pharaoh slipping on a frog in his palace.",
+            "Balaam's donkey refusing to move because it saw a squirrel.",
+            "Thomas bringing a magnifying glass to inspect Jesus' hands.",
+            "Nicodemus sneaking around at night wearing a fake mustache.",
+            "Martha aggressively vacuuming while Mary sits and listens.",
+            "Esau crying because he dropped his bowl of stew.",
+            "Jacob wrestling an angel but tapping out.",
+            "The disciples trying to row a boat with tiny spoons.",
+            "Judas counting his silver coins on a calculator.",
+            "A Roman soldier trying to figure out how a crossword puzzle works.",
+            "King David accidentally playing the wrong chord on his harp.",
+            "Methuselah trying to blow out 969 candles on a birthday cake.",
+            "Ezekiel staring confused at a wheel covered in eyes."
+        ];
+
+        const display = document.getElementById("prompt-display");
+        const clock = document.getElementById("clock");
+        const timerBtn = document.getElementById("timer-btn");
+        
+        let isSpinning = false;
+        let timeLeft = 60;
+        let timerInterval;
+        let isTimerRunning = false;
+
+        // Slot Machine Effect
+        function generatePrompt() {
+            if (isSpinning) return;
+            isSpinning = true;
+            
+            // Reset timer automatically when generating a new prompt
+            resetTimer();
+
+            let spins = 0;
+            const spinSpeed = 50; // milliseconds
+            const totalSpins = 20;
+
+            display.style.color = "#94a3b8"; // Dim color while spinning
+
+            const slotMachine = setInterval(() => {
+                const randomText = prompts[Math.floor(Math.random() * prompts.length)];
+                display.innerText = randomText;
+                spins++;
+
+                if (spins >= totalSpins) {
+                    clearInterval(slotMachine);
+                    const finalPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+                    display.innerText = finalPrompt;
+                    display.style.color = "#0f172a"; // Dark bold color for final prompt
+                    isSpinning = false;
+                }
+            }, spinSpeed);
+        }
+
+        // Timer Logic
+        function toggleTimer() {
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                timerBtn.innerText = "▶️ Resume";
+                isTimerRunning = false;
+            } else {
+                if (timeLeft <= 0) resetTimer(); // Auto-reset if they hit start at 0
+                
+                timerBtn.innerText = "⏸️ Pause";
+                isTimerRunning = true;
+                clock.classList.remove("warning");
+
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    clock.innerText = timeLeft;
+
+                    if (timeLeft <= 10) {
+                        clock.classList.add("warning");
+                    }
+
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        isTimerRunning = false;
+                        timerBtn.innerText = "🔄 Reset";
+                        clock.innerText = "TIME!";
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            timeLeft = 60;
+            clock.innerText = timeLeft;
+            clock.classList.remove("warning");
+            timerBtn.innerText = "▶️ Start";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - Fact or Fiction">
+    <title>Mythbusters - Impact Youth Amman</title>
+    <style>
+        /* 1. Global Reset & Pro Background */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-image: url('background.png'); 
+            background-size: cover; background-attachment: fixed; background-position: center; 
+            background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; 
+        }
+        
+        /* 2. Professional Navigation Bar */
+        .navbar { 
+            background-color: #1c1e21; padding: 12px 60px; display: flex; 
+            justify-content: space-between; align-items: center; border-bottom: 1px solid #333;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; font-size: 1rem; }
+        .nav-links a:hover { color: #00a8ff; }
+
+        /* 3. Header Styling */
+        .header-title { text-align: center; padding: 40px 20px 20px; background: rgba(28, 30, 33, 0.85); border-bottom: 1px solid #333; }
+        .header-title h1 { font-size: 3.5rem; color: #f39c12; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); margin-bottom: 10px; }
+        .header-title p { font-size: 1.2rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
+
+        /* 4. Game Container & HUD */
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; text-align: center; perspective: 1000px; }
+        
+        .hud { display: flex; justify-content: space-between; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; padding: 0 20px; }
+        .score-display { color: #00a8ff; }
+
+        /* 5. The 3D Flip Card */
+        .flip-card { background-color: transparent; width: 100%; min-height: 450px; perspective: 1000px; margin-bottom: 30px; }
+        
+        .flip-card-inner {
+            position: relative; width: 100%; height: 100%; text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 50px 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: center;
+        }
+
+        /* Front of Card (The Question) */
+        .flip-card-front { color: #1e293b; border-top: 10px solid #f39c12; }
+        .statement-text { font-size: 2.2rem; font-weight: bold; line-height: 1.3; color: #0f172a; margin-bottom: 40px; }
+        
+        .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .btn-choice { padding: 20px; border: none; border-radius: 12px; font-size: 1.4rem; font-weight: bold; cursor: pointer; color: white; text-transform: uppercase; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-choice:hover { transform: translateY(-3px); }
+        .btn-choice:active { transform: translateY(1px); }
+        .btn-fact { background: #00a8ff; box-shadow: 0 5px 15px rgba(0, 168, 255, 0.4); }
+        .btn-fiction { background: #e74c3c; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
+
+        /* Back of Card (The Answer) */
+        .flip-card-back { transform: rotateY(180deg); color: #1e293b; border-top: 10px solid #2ed573; }
+        .verdict-title { font-size: 2.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; }
+        .verdict-correct { color: #27ae60; }
+        .verdict-wrong { color: #e74c3c; }
+        .explanation-text { font-size: 1.3rem; line-height: 1.6; color: #475569; margin-bottom: 30px; }
+        
+        .btn-next { background: #1e293b; padding: 18px 40px; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: white; transition: 0.3s; margin: 0 auto; display: inline-block; }
+        .btn-next:hover { background: #334155; transform: translateY(-2px); }
+
+        /* End Screen */
+        #end-screen { display: none; background: rgba(255, 255, 255, 0.95); padding: 50px; border-radius: 20px; color: #1e293b; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border-top: 10px solid #2ed573; }
+        .final-score { font-size: 4rem; color: #00a8ff; font-weight: 900; margin: 20px 0; }
+
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .statement-text { font-size: 1.6rem; } .controls-grid { grid-template-columns: 1fr; gap: 15px; } .flip-card { min-height: 500px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="spirit-fun.html">Back to Fun</a>
+            <a href="connect.html">Connect</a>
+        </div>
+    </nav>
+    
+    <div class="header-title">
+        <h1>Fact or Fiction?</h1>
+        <p>Test your knowledge against common Christian myths and cultural misunderstandings.</p>
+    </div>
+    
+    <div class="container" id="game-container">
+        
+        <div class="hud">
+            <span id="progress-text">Myth 1 of 15</span>
+            <span class="score-display">Score: <span id="score-text">0</span></span>
+        </div>
+
+        <div class="flip-card" id="card-container">
+            <div class="flip-card-inner" id="card-inner">
+                
+                <div class="flip-card-front">
+                    <div class="statement-text" id="statement">"Loading the first myth..."</div>
+                    <div class="controls-grid">
+                        <button class="btn-choice btn-fact" onclick="checkAnswer(true)">✅ It's a Fact</button>
+                        <button class="btn-choice btn-fiction" onclick="checkAnswer(false)">🚫 It's Fiction</button>
+                    </div>
+                </div>
+
+                <div class="flip-card-back" id="card-back">
+                    <div class="verdict-title" id="verdict">You Got It!</div>
+                    <div class="explanation-text" id="explanation">Explanation goes here.</div>
+                    <button class="btn-next" onclick="nextCard()">Next Statement ⏭️</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="end-screen">
+        <h2>Assessment Complete!</h2>
+        <div class="final-score" id="final-score-display">0 / 15</div>
+        <p style="font-size: 1.2rem; color: #475569; margin-bottom: 30px;" id="final-message">Great job challenging what you know!</p>
+        <button class="btn-next" style="background: #2ed573;" onclick="location.reload()">Play Again 🔄</button>
+    </div>
+
+    <script>
+        // THE VAULT: 20 Biblical Curveballs
+        const vault = [
+            { s: "Jonah was swallowed by a whale.", ans: false, exp: "Fiction! The Bible never says 'whale'. It specifically calls it a 'huge fish' that God provided." },
+            { s: "There were exactly three wise men at the manger.", ans: false, exp: "Fiction! The Bible says 'Magi from the east' came, and they brought 3 specific gifts (gold, frankincense, myrrh), but it never says there were exactly three men. It could have been an entire caravan!" },
+            { s: "Money is the root of all evil.", ans: false, exp: "Fiction! 1 Timothy 6:10 says 'the LOVE of money is a root of all kinds of evil.' Money itself is just a tool." },
+            { s: "Jesus had brothers and sisters.", ans: true, exp: "Fact! Mark 6:3 lists Jesus' brothers as James, Joseph, Judas, and Simon, and mentions his sisters as well." },
+            { s: "Eve ate an apple in the Garden of Eden.", ans: false, exp: "Fiction! Genesis just says she ate the 'fruit' from the tree. The apple myth came from artwork centuries later." },
+            { s: "God won't give you more than you can handle.", ans: false, exp: "Fiction! 1 Corinthians 10:13 says God won't *tempt* you beyond what you can bear. But life will definitely give you burdens heavier than you can carry—that's why we are told to rely on God's strength, not our own!" },
+            { s: "Cleanliness is next to godliness.", ans: false, exp: "Fiction! That phrase is nowhere in the Bible. It was actually coined by John Wesley in a sermon in 1778." },
+            { s: "A talking donkey once saved a prophet's life.", ans: true, exp: "Fact! In Numbers 22, God opens the mouth of Balaam's donkey to warn him about an angel standing in the road with a sword." },
+            { s: "Angels have two wings and shiny halos.", ans: false, exp: "Fiction! The Bible describes angels in wild ways. Seraphim have six wings. Cherubim have four faces. Halos are an invention of medieval artists." },
+            { s: "The Bible talks about a king so fat that when he was stabbed, his fat swallowed the sword.", ans: true, exp: "Fact! Judges 3:21-22 describes the gruesome assassination of the very overweight King Eglon by Ehud." },
+            { s: "Satan is the ruler of Hell.", ans: false, exp: "Fiction! Satan doesn't rule Hell; it is his ultimate punishment. Revelation says he will be thrown into the lake of fire to be tormented." },
+            { s: "God helps those who help themselves.", ans: false, exp: "Fiction! This is a quote from Benjamin Franklin, not the Bible. The Gospel is actually the opposite: God helps those who *cannot* help themselves (Romans 5:8)." },
+            { s: "Noah took exactly two of every animal on the ark.", ans: false, exp: "Fiction! Genesis 7:2 says he took *seven* pairs of every clean animal, and one pair of the unclean animals." },
+            { s: "Moses was the one who led the Israelites into the Promised Land.", ans: false, exp: "Fiction! Moses led them through the desert, but he wasn't allowed to enter. Joshua was the one who finally led them across the Jordan River." },
+            { s: "Mary Magdalene was a prostitute.", ans: false, exp: "Fiction! There is absolutely no biblical evidence for this. The Bible only says Jesus cast seven demons out of her, and she became a devoted follower." }
+        ];
+
+        let playList = [];
+        let currentIndex = 0;
+        let score = 0;
+
+        const statementEl = document.getElementById("statement");
+        const cardInner = document.getElementById("card-inner");
+        const cardBack = document.getElementById("card-back");
+        const verdictEl = document.getElementById("verdict");
+        const explanationEl = document.getElementById("explanation");
+        const progressEl = document.getElementById("progress-text");
+        const scoreEl = document.getElementById("score-text");
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function initGame() {
+            playList = [...vault];
+            shuffle(playList);
+            currentIndex = 0;
+            score = 0;
+            loadCard();
+        }
+
+        function loadCard() {
+            let current = playList[currentIndex];
+            progressEl.innerText = `Myth ${currentIndex + 1} of ${playList.length}`;
+            scoreEl.innerText = score;
+            statementEl.innerText = `"${current.s}"`;
+        }
+
+        function checkAnswer(userGuess) {
+            let current = playList[currentIndex];
+            let isCorrect = (userGuess === current.ans);
+
+            // Update Back of Card UI
+            if (isCorrect) {
+                score++;
+                scoreEl.innerText = score;
+                verdictEl.innerText = "✅ Spot On!";
+                verdictEl.className = "verdict-title verdict-correct";
+                cardBack.style.borderTopColor = "#2ed573";
+            } else {
+                verdictEl.innerText = "❌ Nope!";
+                verdictEl.className = "verdict-title verdict-wrong";
+                cardBack.style.borderTopColor = "#e74c3c";
+            }
+
+            explanationEl.innerText = current.exp;
+
+            // Trigger the 3D Flip
+            cardInner.parentElement.classList.add("flipped");
+        }
+
+        function nextCard() {
+            // Flip back over
+            cardInner.parentElement.classList.remove("flipped");
+
+            setTimeout(() => {
+                currentIndex++;
+                if (currentIndex >= playList.length) {
+                    showEndScreen();
+                } else {
+                    loadCard();
+                }
+            }, 600); // Wait for the flip animation to finish before swapping text
+        }
+
+        function showEndScreen() {
+            document.getElementById("game-container").style.display = "none";
+            const endScreen = document.getElementById("end-screen");
+            endScreen.style.display = "block";
+            
+            document.getElementById("final-score-display").innerText = `${score} / ${playList.length}`;
+            
+            let msg = "";
+            if(score === playList.length) msg = "Perfect score! You are a Bible scholar.";
+            else if(score >= 10) msg = "Great job! You know your stuff.";
+            else msg = "Looks like culture got you on a few of those! Keep studying.";
+            
+            document.getElementById("final-message").innerText = msg;
+        }
+
+        // Start the game on load
+        initGame();
+    </script>
+</body>
+</html>

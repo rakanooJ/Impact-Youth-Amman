@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impact Youth Amman - Taboo Party Game">
+    <title>Forbidden Words - Impact Youth Amman</title>
+    <style>
+        /* 1. Global Reset & Pro Background */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-image: url('background.png'); 
+            background-size: cover; background-attachment: fixed; background-position: center; 
+            background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; 
+        }
+        
+        /* 2. Professional Navigation Bar */
+        .navbar { 
+            background-color: #1c1e21; padding: 12px 60px; display: flex; 
+            justify-content: space-between; align-items: center; border-bottom: 1px solid #333;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; font-size: 1rem; }
+        .nav-links a:hover { color: #00a8ff; }
+
+        /* 3. Header Styling */
+        .header-title { text-align: center; padding: 50px 20px 20px; background: rgba(28, 30, 33, 0.85); }
+        .header-title h1 { font-size: 3.5rem; color: #9b59b6; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .header-title p { font-size: 1.2rem; color: #cbd5e1; max-width: 600px; margin: 10px auto; }
+
+        /* 4. Game HUD (Timer & Score) */
+        .hud-container { display: flex; justify-content: center; gap: 40px; margin: 20px 0; }
+        .hud-box { 
+            background: #1e293b; border: 2px solid #475569; padding: 15px 30px; 
+            border-radius: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        .hud-label { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: bold; }
+        .timer-text { font-size: 3rem; font-family: 'Courier New', monospace; font-weight: bold; color: #2ed573; transition: color 0.3s; }
+        .score-text { font-size: 3rem; font-weight: bold; color: #00a8ff; }
+        .timer-warning { color: #e74c3c !important; animation: pulse 1s infinite; }
+
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* 5. The Taboo Card */
+        .container { max-width: 600px; margin: 0 auto 40px; padding: 0 20px; text-align: center; }
+        .game-card { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6); color: #1e293b; border-top: 10px solid #9b59b6;
+            min-height: 400px; transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .game-card.error-shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; border-top-color: #e74c3c; }
+
+        @keyframes shake { 10%, 90% { transform: translate3d(-5px, 0, 0); } 20%, 80% { transform: translate3d(5px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-10px, 0, 0); } 40%, 60% { transform: translate3d(10px, 0, 0); } }
+
+        .main-word { font-size: 3.5rem; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px; }
+        .forbidden-label { font-size: 1.1rem; color: #e74c3c; font-weight: bold; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
+        
+        .forbidden-list { list-style: none; padding: 0; margin-bottom: 30px; }
+        .forbidden-word { font-size: 1.8rem; font-weight: bold; color: #334155; padding: 8px 0; border-bottom: 1px dashed #cbd5e1; }
+        .forbidden-word:last-child { border-bottom: none; }
+
+        /* 6. Game Controls */
+        .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .btn { padding: 20px; border: none; border-radius: 12px; font-size: 1.3rem; font-weight: bold; cursor: pointer; color: white; text-transform: uppercase; transition: all 0.2s; }
+        .btn:active { transform: translateY(2px); }
+        .btn-correct { background: #2ed573; box-shadow: 0 5px 15px rgba(46, 213, 115, 0.4); }
+        .btn-correct:hover { background: #27ae60; }
+        .btn-buzzer { background: #e74c3c; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
+        .btn-buzzer:hover { background: #c0392b; }
+        
+        .btn-start { background: #00a8ff; width: 100%; margin-bottom: 20px; font-size: 1.5rem; padding: 25px; box-shadow: 0 5px 20px rgba(0, 168, 255, 0.4); }
+        .btn-start:hover { background: #008ecc; }
+
+        .game-active-ui { display: none; }
+
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .main-word { font-size: 2.5rem; } .forbidden-word { font-size: 1.4rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="spirit-fun.html">Back to Fun</a>
+            <a href="connect.html">Connect</a>
+        </div>
+    </nav>
+    
+    <div class="header-title">
+        <h1>Forbidden Words</h1>
+        <p>Get your team to guess the top word WITHOUT saying any of the red words below it!</p>
+    </div>
+
+    <div class="hud-container">
+        <div class="hud-box">
+            <div class="hud-label">Time Left</div>
+            <div class="timer-text" id="timer">60</div>
+        </div>
+        <div class="hud-box">
+            <div class="hud-label">Score</div>
+            <div class="score-text" id="score">0</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        
+        <button class="btn btn-start" id="start-btn" onclick="startGame()">▶️ Start 60-Second Round</button>
+
+        <div class="game-active-ui" id="game-ui">
+            <div class="game-card" id="card">
+                <div class="main-word" id="main-word">MOSES</div>
+                <div class="forbidden-label">🚫 Do Not Say 🚫</div>
+                <ul class="forbidden-list" id="forbidden-list">
+                    <li class="forbidden-word">Egypt</li>
+                    <li class="forbidden-word">Sea</li>
+                    <li class="forbidden-word">Pharaoh</li>
+                    <li class="forbidden-word">Commandments</li>
+                </ul>
+            </div>
+
+            <div class="controls-grid">
+                <button class="btn btn-buzzer" onclick="buzzPenalty()">🚨 BUZZER (Skip)</button>
+                <button class="btn btn-correct" onclick="correctGuess()">✅ Correct</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // THE MEGA VAULT: 60 High-Quality Taboo Words
+        const deck = [
+            { main: "Moses", forbidden: ["Egypt", "Sea", "Pharaoh", "Commandments"] },
+            { main: "Noah", forbidden: ["Ark", "Flood", "Animals", "Rainbow"] },
+            { main: "David", forbidden: ["Goliath", "King", "Sling", "Harp"] },
+            { main: "Peter", forbidden: ["Rock", "Water", "Deny", "Fisherman"] },
+            { main: "Eve", forbidden: ["Adam", "Apple", "Garden", "Snake"] },
+            { main: "Jonah", forbidden: ["Whale", "Nineveh", "Run", "Boat"] },
+            { main: "Samson", forbidden: ["Hair", "Delilah", "Strong", "Pillars"] },
+            { main: "Abraham", forbidden: ["Isaac", "Sarah", "Father", "Stars"] },
+            { main: "Daniel", forbidden: ["Lions", "Den", "Pray", "Babylon"] },
+            { main: "Joseph", forbidden: ["Coat", "Dreams", "Brothers", "Egypt"] },
+            { main: "Goliath", forbidden: ["Giant", "David", "Stone", "Philistine"] },
+            { main: "Judas", forbidden: ["Betray", "Silver", "Kiss", "Disciple"] },
+            { main: "Lazarus", forbidden: ["Dead", "Tomb", "Rise", "Four"] },
+            { main: "Solomon", forbidden: ["Wise", "King", "Temple", "Wives"] },
+            { main: "Elijah", forbidden: ["Chariot", "Fire", "Prophet", "Baal"] },
+            { main: "Bethlehem", forbidden: ["Born", "Jesus", "Manger", "Star"] },
+            { main: "Jerusalem", forbidden: ["City", "Capital", "Israel", "Temple"] },
+            { main: "Cross", forbidden: ["Wood", "Nails", "Jesus", "Die"] },
+            { main: "Manna", forbidden: ["Bread", "Heaven", "Desert", "Eat"] },
+            { main: "Baptism", forbidden: ["Water", "John", "Dunk", "Holy"] },
+            { main: "Paul", forbidden: ["Saul", "Letters", "Blind", "Damascus"] },
+            { main: "Gideon", forbidden: ["Fleece", "Trumpets", "Army", "Torches"] },
+            { main: "Zacchaeus", forbidden: ["Short", "Tree", "Tax", "Collector"] },
+            { main: "Esther", forbidden: ["Queen", "King", "Save", "Beauty"] },
+            { main: "Matthew", forbidden: ["Tax", "Collector", "Gospel", "Disciple"] },
+            { main: "Mary", forbidden: ["Virgin", "Mother", "Jesus", "Joseph"] },
+            { main: "Eden", forbidden: ["Garden", "Adam", "Eve", "Tree"] },
+            { main: "Holy Spirit", forbidden: ["Ghost", "Trinity", "Fire", "Pentecost"] },
+            { main: "Communion", forbidden: ["Bread", "Wine", "Blood", "Body"] },
+            { main: "Angel", forbidden: ["Wings", "Halo", "Heaven", "Fly"] },
+            { main: "Ark of the Covenant", forbidden: ["Gold", "Box", "Indiana Jones", "Commandments"] },
+            { main: "Thomas", forbidden: ["Doubt", "Twin", "Feel", "Holes"] },
+            { main: "John the Baptist", forbidden: ["Locusts", "Honey", "River", "Head"] },
+            { main: "Sarah", forbidden: ["Abraham", "Laugh", "Old", "Isaac"] },
+            { main: "Isaac", forbidden: ["Sacrifice", "Abraham", "Ram", "Son"] },
+            { main: "Esau", forbidden: ["Jacob", "Stew", "Birthright", "Hairy"] },
+            { main: "Ruth", forbidden: ["Boaz", "Naomi", "Glean", "Moab"] },
+            { main: "Samuel", forbidden: ["Voice", "Night", "Prophet", "Eli"] },
+            { main: "Saul", forbidden: ["First", "King", "David", "Spear"] },
+            { main: "Galilee", forbidden: ["Sea", "Walk", "Water", "Boat"] },
+            { main: "Nazareth", forbidden: ["Jesus", "Hometown", "Good", "City"] },
+            { main: "Burning Bush", forbidden: ["Moses", "Fire", "Shoes", "Speak"] },
+            { main: "Crown of Thorns", forbidden: ["Head", "Jesus", "King", "Bleed"] },
+            { main: "Empty Tomb", forbidden: ["Stone", "Rolled", "Risen", "Three"] },
+            { main: "Prayer", forbidden: ["Talk", "God", "Eyes", "Amen"] },
+            { main: "Worship", forbidden: ["Sing", "Music", "Praise", "Hands"] },
+            { main: "Bible", forbidden: ["Book", "Read", "Word", "Pages"] },
+            { main: "Church", forbidden: ["Building", "Sunday", "Pastor", "People"] },
+            { main: "Tithe", forbidden: ["Money", "Ten", "Percent", "Offering"] },
+            { main: "Pilate", forbidden: ["Wash", "Hands", "Governor", "Crucify"] },
+            { main: "Martha", forbidden: ["Mary", "Kitchen", "Busy", "Sister"] },
+            { main: "Stephen", forbidden: ["Stoned", "First", "Martyr", "Deacon"] },
+            { main: "Timothy", forbidden: ["Young", "Paul", "Letter", "Pastor"] },
+            { main: "Mount Sinai", forbidden: ["Moses", "Mountain", "Commandments", "Tablets"] },
+            { main: "Jordan River", forbidden: ["Baptize", "Water", "Cross", "Joshua"] },
+            { main: "Satan", forbidden: ["Devil", "Hell", "Lucifer", "Tempt"] },
+            { main: "Pharisees", forbidden: ["Rules", "Hypocrites", "Leaders", "Law"] },
+            { main: "Nicodemus", forbidden: ["Night", "Born", "Again", "Pharisee"] },
+            { main: "Job", forbidden: ["Suffer", "Boils", "Wife", "Lost"] },
+            { main: "Raven", forbidden: ["Bird", "Noah", "Elijah", "Black"] }
+        ];
+
+        let playDeck = [];
+        let score = 0;
+        let timeLeft = 60;
+        let timerInterval;
+
+        const timerEl = document.getElementById("timer");
+        const scoreEl = document.getElementById("score");
+        const startBtn = document.getElementById("start-btn");
+        const gameUI = document.getElementById("game-ui");
+        const card = document.getElementById("card");
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function startGame() {
+            playDeck = [...deck];
+            shuffle(playDeck);
+            score = 0;
+            timeLeft = 60;
+            scoreEl.innerText = score;
+            timerEl.classList.remove("timer-warning");
+            
+            startBtn.style.display = "none";
+            gameUI.style.display = "block";
+            
+            loadCard();
+            
+            // Start the 60 second countdown
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerEl.innerText = timeLeft;
+                
+                if (timeLeft <= 10) {
+                    timerEl.classList.add("timer-warning");
+                }
+                
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function loadCard() {
+            if (playDeck.length === 0) {
+                playDeck = [...deck];
+                shuffle(playDeck);
+            }
+            
+            const currentCard = playDeck.pop();
+            document.getElementById("main-word").innerText = currentCard.main;
+            
+            const listEl = document.getElementById("forbidden-list");
+            listEl.innerHTML = "";
+            currentCard.forbidden.forEach(word => {
+                const li = document.createElement("li");
+                li.className = "forbidden-word";
+                li.innerText = word;
+                listEl.appendChild(li);
+            });
+            
+            // Quick pop animation
+            card.style.transform = "scale(0.95)";
+            setTimeout(() => card.style.transform = "scale(1)", 100);
+        }
+
+        function correctGuess() {
+            score++;
+            scoreEl.innerText = score;
+            loadCard();
+        }
+
+        function buzzPenalty() {
+            card.classList.add("error-shake");
+            
+            setTimeout(() => {
+                card.classList.remove("error-shake");
+                loadCard();
+            }, 400);
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            gameUI.style.display = "none";
+            startBtn.style.display = "block";
+            startBtn.innerText = `🕒 Time's Up! Final Score: ${score}. Play Again?`;
+            timerEl.innerText = "0";
+            timerEl.classList.remove("timer-warning");
+        }
+    </script>
+</body>
+</html>

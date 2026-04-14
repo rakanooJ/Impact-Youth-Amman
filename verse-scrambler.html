@@ -127,18 +127,68 @@
     </div>
 
     <script>
-        // THE VAULT: Levels get progressively harder/longer
+       // THE 50-LEVEL MARATHON VAULT
         const levels = [
-            { ref: "Philippians 4:13", text: "I can do all things through Christ who strengthens me" },
+            // Stage 1: Easy (1-5)
+            { ref: "John 11:35", text: "Jesus wept" },
+            { ref: "1 Thessalonians 5:16", text: "Rejoice always" },
             { ref: "Proverbs 3:5", text: "Trust in the Lord with all your heart" },
-            { ref: "Romans 12:2", text: "Do not conform to the pattern of this world but be transformed" },
+            { ref: "Philippians 4:13", text: "I can do all things through Christ who strengthens me" },
+            { ref: "Romans 12:12", text: "Be joyful in hope patient in affliction faithful in prayer" },
+            
+            // Stage 2: Medium (6-15)
             { ref: "John 14:6", text: "I am the way and the truth and the life" },
             { ref: "1 Peter 5:7", text: "Cast all your anxiety on him because he cares for you" },
             { ref: "Joshua 1:9", text: "Be strong and courageous do not be afraid" },
-            { ref: "Isaiah 40:31", text: "But those who hope in the Lord will renew their strength" },
-            { ref: "Matthew 6:33", text: "But seek first his kingdom and his righteousness" }
-        ];
+            { ref: "Psalm 119:105", text: "Your word is a lamp for my feet a light on my path" },
+            { ref: "Matthew 5:14", text: "You are the light of the world A town built on a hill cannot be hidden" },
+            { ref: "Proverbs 16:9", text: "In their hearts humans plan their course but the Lord establishes their steps" },
+            { ref: "Colossians 3:2", text: "Set your minds on things above not on earthly things" },
+            { ref: "Romans 8:31", text: "If God is for us who can be against us" },
+            { ref: "Jeremiah 29:11", text: "For I know the plans I have for you declares the Lord" },
+            { ref: "Ephesians 2:8", text: "For it is by grace you have been saved through faith" },
+            
+            // Stage 3: Hard (16-25)
+            { ref: "Romans 12:2", text: "Do not conform to the pattern of this world but be transformed by the renewing of your mind" },
+            { ref: "Isaiah 40:31", text: "But those who hope in the Lord will renew their strength they will soar on wings like eagles" },
+            { ref: "Matthew 6:33", text: "But seek first his kingdom and his righteousness and all these things will be given to you as well" },
+            { ref: "Proverbs 4:23", text: "Above all else guard your heart for everything you do flows from it" },
+            { ref: "Galatians 5:22", text: "But the fruit of the Spirit is love joy peace forbearance kindness goodness faithfulness" },
+            { ref: "James 1:19", text: "Everyone should be quick to listen slow to speak and slow to become angry" },
+            { ref: "Philippians 4:6", text: "Do not be anxious about anything but in every situation by prayer and petition present your requests to God" },
+            { ref: "2 Timothy 1:7", text: "For the Spirit God gave us does not make us timid but gives us power love and self discipline" },
+            { ref: "Hebrews 11:1", text: "Now faith is confidence in what we hope for and assurance about what we do not see" },
+            { ref: "Micah 6:8", text: "He has shown you O mortal what is good And what does the Lord require of you To act justly and to love mercy and to walk humbly with your God" },
 
+            // Stage 4: Expert (26-40)
+            { ref: "Psalm 23:1-2", text: "The Lord is my shepherd I lack nothing He makes me lie down in green pastures he leads me beside quiet waters" },
+            { ref: "Matthew 28:19", text: "Therefore go and make disciples of all nations baptizing them in the name of the Father and of the Son and of the Holy Spirit" },
+            { ref: "Romans 8:28", text: "And we know that in all things God works for the good of those who love him who have been called according to his purpose" },
+            { ref: "1 Corinthians 13:4", text: "Love is patient love is kind It does not envy it does not boast it is not proud" },
+            { ref: "Ephesians 6:11", text: "Put on the full armor of God so that you can take your stand against the devil's schemes" },
+            { ref: "Psalm 46:1", text: "God is our refuge and strength an ever present help in trouble" },
+            { ref: "Proverbs 3:6", text: "In all your ways submit to him and he will make your paths straight" },
+            { ref: "Isaiah 41:10", text: "So do not fear for I am with you do not be dismayed for I am your God" },
+            { ref: "Matthew 11:28", text: "Come to me all you who are weary and burdened and I will give you rest" },
+            { ref: "John 3:16", text: "For God so loved the world that he gave his one and only Son that whoever believes in him shall not perish but have eternal life" },
+            { ref: "Romans 5:8", text: "But God demonstrates his own love for us in this While we were still sinners Christ died for us" },
+            { ref: "2 Corinthians 5:17", text: "Therefore if anyone is in Christ the new creation has come The old has gone the new is here" },
+            { ref: "Galatians 2:20", text: "I have been crucified with Christ and I no longer live but Christ lives in me" },
+            { ref: "Philippians 4:8", text: "Finally brothers and sisters whatever is true whatever is noble whatever is right whatever is pure whatever is lovely whatever is admirable" },
+            { ref: "Colossians 3:23", text: "Whatever you do work at it with all your heart as working for the Lord not for human masters" },
+
+            // Stage 5: Extreme (41-50)
+            { ref: "Psalm 139:14", text: "I praise you because I am fearfully and wonderfully made your works are wonderful I know that full well" },
+            { ref: "Isaiah 53:5", text: "But he was pierced for our transgressions he was crushed for our iniquities the punishment that brought us peace was on him" },
+            { ref: "Matthew 5:16", text: "In the same way let your light shine before others that they may see your good deeds and glorify your Father in heaven" },
+            { ref: "John 14:27", text: "Peace I leave with you my peace I give you I do not give to you as the world gives Do not let your hearts be troubled" },
+            { ref: "Romans 12:1", text: "Therefore I urge you brothers and sisters in view of Gods mercy to offer your bodies as a living sacrifice holy and pleasing to God" },
+            { ref: "1 Corinthians 10:13", text: "No temptation has overtaken you except what is common to mankind And God is faithful he will not let you be tempted beyond what you can bear" },
+            { ref: "Ephesians 2:10", text: "For we are Gods handiwork created in Christ Jesus to do good works which God prepared in advance for us to do" },
+            { ref: "Philippians 2:3", text: "Do nothing out of selfish ambition or vain conceit Rather in humility value others above yourselves" },
+            { ref: "Hebrews 4:12", text: "For the word of God is alive and active Sharper than any double edged sword it penetrates even to dividing soul and spirit" },
+            { ref: "1 John 1:9", text: "If we confess our sins he is faithful and just and will forgive us our sins and purify us from all unrighteousness" }
+        ];
         let currentLevel = 0;
         let targetWords = [];
         let currentIndex = 0; // Tracks which word the user needs to tap next

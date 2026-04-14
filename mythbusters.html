@@ -135,8 +135,9 @@
     <script>
         // THE VAULT: 20 Biblical Curveballs
        // THE 30-MYTH MEGA VAULT
+     // THE 50-MYTH MEGA VAULT (For 1-Hour Debates)
         const vault = [
-            // Original 15
+            // Original Block
             { s: "Jonah was swallowed by a whale.", ans: false, exp: "Fiction! The Bible never says 'whale'. It specifically calls it a 'huge fish' that God provided." },
             { s: "There were exactly three wise men at the manger.", ans: false, exp: "Fiction! The Bible says 'Magi from the east' came, and they brought 3 specific gifts (gold, frankincense, myrrh), but it never says there were exactly three men. It could have been an entire caravan!" },
             { s: "Money is the root of all evil.", ans: false, exp: "Fiction! 1 Timothy 6:10 says 'the LOVE of money is a root of all kinds of evil.' Money itself is just a tool." },
@@ -152,7 +153,6 @@
             { s: "Noah took exactly two of every animal on the ark.", ans: false, exp: "Fiction! Genesis 7:2 says he took *seven* pairs of every clean animal, and one pair of the unclean animals." },
             { s: "Moses was the one who led the Israelites into the Promised Land.", ans: false, exp: "Fiction! Moses led them through the desert, but he wasn't allowed to enter. Joshua was the one who finally led them across the Jordan River." },
             { s: "Mary Magdalene was a prostitute.", ans: false, exp: "Fiction! There is absolutely no biblical evidence for this. The Bible only says Jesus cast seven demons out of her, and she became a devoted follower." },
-            // THE 15 NEW EXPERT ONES
             { s: "The Wise Men visited Jesus on the night He was born.", ans: false, exp: "Fiction! By the time the Magi arrived, Jesus was likely between 1 and 2 years old, living in a 'house' (Matthew 2:11), not a stable." },
             { s: "Delilah cut Samson's hair.", ans: false, exp: "Fiction! Judges 16:19 says she put him to sleep on her lap, and then she 'called a man to shave off the seven braids of his hair.'" },
             { s: "The phrase 'This too shall pass' is in the Bible.", ans: false, exp: "Fiction! This is a famous proverb, but you won't find it anywhere in scripture." },
@@ -167,7 +167,28 @@
             { s: "Jesus wrote something in the dirt with his finger.", ans: true, exp: "Fact! In John 8, when the Pharisees brought the woman caught in adultery, Jesus bent down and wrote on the ground with his finger. No one knows what He wrote!" },
             { s: "The Apostle Peter was married.", ans: true, exp: "Fact! Mark 1:30 explicitly mentions Jesus healing Peter's mother-in-law, which means Peter had a wife." },
             { s: "God told Adam and Eve not to touch the Tree of Knowledge.", ans: false, exp: "Fiction! God only told them not to EAT from it. Eve is the one who added 'and you must not touch it' when she was talking to the snake in Genesis 3:3." },
-            { s: "There is a talking bush in the Bible.", ans: true, exp: "Fact! God speaks to Moses out of a burning bush in Exodus 3." }
+            { s: "There is a talking bush in the Bible.", ans: true, exp: "Fact! God speaks to Moses out of a burning bush in Exodus 3." },
+            // THE 20 MARATHON ADDITIONS
+            { s: "The Bible says 'The lion will lay down with the lamb.'", ans: false, exp: "Fiction! Check Isaiah 11:6. It actually says 'The WOLF will live with the lamb, and the leopard will lie down with the goat.'" },
+            { s: "Jesus was born on December 25th.", ans: false, exp: "Fiction! The Bible gives no date. Given that shepherds were out in the fields at night, it was much more likely spring or early fall. Dec 25 was chosen centuries later." },
+            { s: "There is an entire book in the Bible that never mentions the word 'God'.", ans: true, exp: "Fact! The Book of Esther never once mentions God, Lord, or any divine title, yet His providence is seen throughout the whole story." },
+            { s: "Mary rode a donkey to Bethlehem.", ans: false, exp: "Fiction! The Bible never mentions a donkey. It just says she and Joseph traveled there. It's highly likely they walked or joined a caravan." },
+            { s: "The Apostle Paul used to make tents for a living.", ans: true, exp: "Fact! Acts 18:3 explicitly states that Paul worked as a tentmaker alongside Priscilla and Aquila to support his ministry." },
+            { s: "Satan is described as having horns and a pitchfork.", ans: false, exp: "Fiction! The Bible actually describes Satan disguising himself as an 'angel of light' (2 Corinthians 11:14). The red horns and pitchfork come from medieval mythology." },
+            { s: "There was a man in the Bible who walked completely naked and barefoot for 3 years.", ans: true, exp: "Fact! God commanded the prophet Isaiah to strip off his sackcloth and sandals and walk around naked for three years as a sign against Egypt and Cush (Isaiah 20:2-3)." },
+            { s: "The Ark of the Covenant was eventually found and hidden in Ethiopia.", ans: false, exp: "Fiction! While there are many legends (and Indiana Jones movies) about it, the Bible never records what happened to the Ark after the Babylonians destroyed the Temple in 586 BC." },
+            { s: "God sent a fish to swallow Jonah to punish him.", ans: false, exp: "Fiction! God sent the fish to SAVE Jonah from drowning in the stormy sea. It was an act of mercy, not a punishment." },
+            { s: "Jesus had a disciple who was a political rebel.", ans: true, exp: "Fact! Simon the Zealot (Luke 6:15). The Zealots were a radical, violent political group that wanted to overthrow the Roman government." },
+            { s: "The Bible says 'To thine own self be true.'", ans: false, exp: "Fiction! That is a famous line from William Shakespeare's play *Hamlet*. The Bible actually teaches us to deny ourselves and follow Christ." },
+            { s: "Noah built the Ark in 40 days.", ans: false, exp: "Fiction! It rained for 40 days, but building the massive Ark took Noah decades, possibly up to 100 years." },
+            { s: "Goliath had brothers who were also giants.", ans: true, exp: "Fact! 2 Samuel 21 mentions several other giant Philistine warriors who were related to Goliath, and David's men killed them." },
+            { s: "The fruit of the Spirit includes 'happiness'.", ans: false, exp: "Fiction! Galatians 5:22 lists 'love, JOY, peace...', but not happiness. Happiness is circumstantial; joy is eternal." },
+            { s: "Jesus was a carpenter.", ans: true, exp: "Fact! Mark 6:3 refers to Jesus as a 'tekton' in Greek, which means a craftsman, builder, or carpenter." },
+            { s: "The phrase 'God works in mysterious ways' is a Bible verse.", ans: false, exp: "Fiction! This comes from an old hymn written by William Cowper in 1773, not the scriptures." },
+            { s: "John the Baptist was Jesus' cousin.", ans: true, exp: "Fact! Luke 1 tells us that Mary (Jesus' mother) and Elizabeth (John's mother) were relatives, often translated as cousins." },
+            { s: "David wrote the entire Book of Psalms.", ans: false, exp: "Fiction! David wrote about 73 of them. Others were written by Asaph, the Sons of Korah, Solomon, Moses, and several anonymous authors." },
+            { s: "A prophet once made a solid iron axe head float on water.", ans: true, exp: "Fact! Elisha did this in 2 Kings 6:6 when a worker dropped a borrowed axe head into the Jordan River." },
+            { s: "The Bible says there are exactly 7 deadly sins.", ans: false, exp: "Fiction! The '7 Deadly Sins' (Pride, Greed, Wrath, Envy, Lust, Gluttony, Sloth) were categorized by early church leaders, not explicitly grouped that way in the Bible (though Proverbs 6 lists 7 things God hates)." }
         ];
         let playList = [];
         let currentIndex = 0;

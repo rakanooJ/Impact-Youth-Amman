@@ -6,36 +6,25 @@
     <meta name="description" content="Impact Youth Amman - The Grid Game">
     <title>The Grid - Impact Youth Amman</title>
     <style>
-        /* Global Reset */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-color: #1c1e21; color: #f8f9fa; 
             background-image: url('background.png'); background-size: cover; background-attachment: fixed;
         }
-
-        /* Navigation */
         .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .logo img { height: 60px; border-radius: 50%; }
         .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
         .nav-links a:hover { color: #00a8ff; }
-
-        /* Headers */
         .header-title { text-align: center; padding: 40px 20px; background: rgba(28, 30, 33, 0.9); }
         .header-title h1 { font-size: 3rem; color: #00a8ff; text-transform: uppercase; letter-spacing: 2px; }
-
         .container { max-width: 800px; margin: 30px auto; padding: 0 20px; text-align: center; }
-
-        /* The Grid Area */
         .game-area { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        
         .solved-area { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         .solved-row { padding: 20px; border-radius: 10px; text-align: center; font-weight: bold; color: #1e293b; animation: popIn 0.5s ease; }
         .solved-title { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
         .solved-words { font-size: 1rem; font-weight: normal; }
-
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        
         .tile { 
             background: #e2e8f0; color: #0f172a; font-weight: bold; font-size: 1.1rem; 
             padding: 25px 10px; border-radius: 8px; cursor: pointer; text-transform: uppercase;
@@ -44,20 +33,14 @@
         .tile:hover { background: #cbd5e1; }
         .tile.selected { background: #1e293b; color: white; transform: scale(0.95); }
         .tile.shake { animation: shake 0.4s; background: #e74c3c; color: white; }
-
-        /* Controls */
         .controls { margin-top: 30px; display: flex; justify-content: center; gap: 15px; }
         .btn { padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: white; text-transform: uppercase; }
         .btn-submit { background: #00a8ff; }
         .btn-submit:hover { background: #008ecc; }
         .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
         .btn-deselect { background: #475569; }
-
-        /* Mistakes Tracker */
         .mistakes { margin-top: 20px; font-size: 1.2rem; color: #1e293b; font-weight: bold; }
         .dots { color: #e74c3c; font-size: 1.5rem; letter-spacing: 5px; }
-
-        /* End Screen */
         .end-screen { display: none; margin-top: 20px; }
         .end-text { font-size: 2.5rem; font-weight: bold; margin-bottom: 20px; }
         .btn-next { background: #2ed573; padding: 15px 40px; font-size: 1.5rem; border:none; border-radius:10px; color:white; cursor:pointer; font-weight:bold; transition: 0.2s; }
@@ -65,7 +48,6 @@
 
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } }
-
         @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } .tile { padding: 20px 5px; font-size: 1rem; } .navbar { padding: 10px 20px; } .nav-links { display: none; } }
     </style>
 </head>
@@ -78,23 +60,15 @@
             <a href="connect.html">Connect</a>
         </div>
     </nav>
-    
-    <div class="header-title">
-        <h1>The Grid</h1>
-        <p>Group the 16 words into 4 connected biblical categories.</p>
-    </div>
-    
+    <div class="header-title"><h1>The Grid</h1><p>Group the 16 words into 4 connected biblical categories.</p></div>
     <div class="container">
         <div class="game-area">
-            
             <div class="solved-area" id="solved-area"></div>
             <div class="grid" id="grid"></div>
-            
             <div class="end-screen" id="end-screen">
                 <div class="end-text" id="end-message">Perfect Board!</div>
                 <button class="btn-next" onclick="loadNextPuzzle()">Next Puzzle ⏭️</button>
             </div>
-
             <div id="game-controls">
                 <div class="mistakes">Mistakes remaining: <span class="dots" id="mistake-dots">⚫⚫⚫⚫</span></div>
                 <div class="controls">
@@ -102,12 +76,10 @@
                     <button class="btn btn-submit" id="submit-btn" onclick="checkSelection()" disabled>Submit 4</button>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script>
-        // THE 15-PUZZLE MEGA VAULT
         const puzzles = [
             { categories: [ { title: "Books of the Law", words: ["Genesis", "Exodus", "Leviticus", "Numbers"], color: "#f1c40f" }, { title: "Fruits of the Spirit", words: ["Love", "Joy", "Peace", "Patience"], color: "#2ed573" }, { title: "Famous Mountains", words: ["Sinai", "Carmel", "Zion", "Ararat"], color: "#00a8ff" }, { title: "People Swallowed by Things", words: ["Jonah", "Korah", "Dathan", "Abiram"], color: "#9b59b6" } ] },
             { categories: [ { title: "Plagues of Egypt", words: ["Frogs", "Blood", "Locusts", "Darkness"], color: "#f1c40f" }, { title: "Sons of Jacob", words: ["Joseph", "Benjamin", "Judah", "Reuben"], color: "#2ed573" }, { title: "Weapons in the Bible", words: ["Sling", "Sword", "Spear", "Jawbone"], color: "#00a8ff" }, { title: "Things Made of Wood", words: ["Ark", "Cross", "Staff", "Manger"], color: "#9b59b6" } ] },
@@ -189,11 +161,7 @@
         }
 
         function updateSubmitButton() { submitBtn.disabled = selectedWords.length !== 4; }
-
-        function deselectAll() {
-            selectedWords = [];
-            renderGrid();
-        }
+        function deselectAll() { selectedWords = []; renderGrid(); }
 
         function checkSelection() {
             const currentPuzzle = puzzles[currentPuzzleIndex];
@@ -208,7 +176,6 @@
             }
 
             if (matchedCategory) {
-                // SUCCESS
                 solvedCategories.push(matchedCategory.title);
                 activeWords = activeWords.filter(item => !selectedWords.includes(item.word));
                 selectedWords = [];
@@ -220,7 +187,6 @@
                 solvedArea.appendChild(row);
 
                 if (solvedCategories.length === 4) {
-                    // WIN STATE
                     gridEl.innerHTML = "";
                     gameControls.style.display = "none";
                     endMessage.innerText = "Perfect Board!";
@@ -230,7 +196,6 @@
                     renderGrid();
                 }
             } else {
-                // FAILURE
                 const tiles = document.querySelectorAll(".tile.selected");
                 tiles.forEach(tile => {
                     tile.classList.add("shake");
@@ -241,7 +206,7 @@
                 updateMistakeUI();
                 
                 if (mistakes <= 0) {
-                    setTimeout(revealAnswers, 500); // Wait for shake animation before revealing
+                    setTimeout(revealAnswers, 500); 
                 } else {
                     setTimeout(deselectAll, 500);
                 }
@@ -254,7 +219,6 @@
 
             const currentPuzzle = puzzles[currentPuzzleIndex];
             currentPuzzle.categories.forEach(cat => {
-                // If they didn't solve it, show it to them slightly faded
                 if (!solvedCategories.includes(cat.title)) {
                     const row = document.createElement("div");
                     row.className = "solved-row";
@@ -265,7 +229,6 @@
                 }
             });
 
-            // GAME OVER STATE
             endMessage.innerText = "Game Over!";
             endMessage.style.color = "#e74c3c";
             endScreen.style.display = "block";
@@ -281,12 +244,15 @@
         function loadNextPuzzle() {
             currentPuzzleIndex++;
             if (currentPuzzleIndex >= puzzles.length) {
-                alert("You beat all the puzzles! Resetting to the beginning.");
+                alert("You beat all the puzzles! Reshuffling and restarting.");
                 currentPuzzleIndex = 0;
+                shuffle(puzzles);
             }
             loadPuzzle();
         }
 
+        // INIT GAME WITH SHUFFLED PUZZLES
+        shuffle(puzzles);
         loadPuzzle();
     </script>
 </body>

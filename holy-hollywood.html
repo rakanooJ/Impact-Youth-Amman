@@ -80,7 +80,7 @@
     
     <div class="container">
         <div class="game-card">
-            <div id="progress-counter">Quote 1 / 65</div>
+            <div id="progress-counter">Loading...</div>
             <div class="quote-box" id="quote-display">"Loading the challenge..."</div>
             
             <div class="choice-grid">
@@ -94,76 +94,46 @@
     </div>
 
     <script>
-        // EXPERT LIBRARY: 65 AMBIGUOUS QUOTES
+        // EXPERT LIBRARY: 40 BRUTAL CROSSOVER QUOTES
         const library = [
-            // TRICKY BIBLE
+            // BIBLE VERSES THAT SOUND LIKE ACTION/FANTASY MOVIES
+            { q: "He trains my hands for war, my fingers for battle.", a: "bible", ref: "Psalm 144:1" },
+            { q: "Their throats are open graves; their tongues practice deceit.", a: "bible", ref: "Romans 3:13" },
+            { q: "I will sweep away everything from the face of the earth.", a: "bible", ref: "Zephaniah 1:2" },
+            { q: "Can a man scoop fire into his lap without his clothes being burned?", a: "bible", ref: "Proverbs 6:27" },
+            { q: "Woe to the earth and the sea, because the devil has gone down to you!", a: "bible", ref: "Revelation 12:12" },
+            { q: "A living dog is better than a dead lion.", a: "bible", ref: "Ecclesiastes 9:4" },
+            { q: "Skin for skin!", a: "bible", ref: "Job 2:4" },
+            { q: "Let us eat and drink, for tomorrow we die.", a: "bible", ref: "1 Corinthians 15:32" },
+            { q: "If I perish, I perish.", a: "bible", ref: "Esther 4:16" },
+            { q: "Tear out your right eye and throw it away.", a: "bible", ref: "Matthew 5:29" },
+            { q: "The wicked flee though no one pursues.", a: "bible", ref: "Proverbs 28:1" },
             { q: "I have escaped by the skin of my teeth.", a: "bible", ref: "Job 19:20" },
-            { q: "Deep calls to deep at the roar of your waterfalls.", a: "bible", ref: "Psalm 42:7" },
-            { q: "The heart is deceitful above all things.", a: "bible", ref: "Jeremiah 17:9" },
             { q: "I am a brother to dragons and a companion to owls.", a: "bible", ref: "Job 30:29" },
-            { q: "Vanity of vanities, all is vanity.", a: "bible", ref: "Ecclesiastes 1:2" },
-            { q: "A man's enemies are the men of his own house.", a: "bible", ref: "Micah 7:6" },
-            { q: "For they have sown the wind, and they shall reap the whirlwind.", a: "bible", ref: "Hosea 8:7" },
             { q: "He who digs a pit will fall into it.", a: "bible", ref: "Proverbs 26:27" },
-            { q: "The sun also rises, and the sun goes down.", a: "bible", ref: "Ecclesiastes 1:5" },
-            { q: "A righteous man falls seven times, and rises again.", a: "bible", ref: "Proverbs 24:16" },
-            { q: "Even in laughter the heart may ache.", a: "bible", ref: "Proverbs 14:13" },
-            { q: "The words of a talebearer are as wounds.", a: "bible", ref: "Proverbs 18:8" },
-            { q: "I will make your name great, and you will be a blessing.", a: "bible", ref: "Genesis 12:2" },
-            { q: "The light shines in the darkness, and the darkness has not overcome it.", a: "bible", ref: "John 1:5" },
-            { q: "What has been is what will be, and what has been done is what will be done.", a: "bible", ref: "Ecclesiastes 1:9" },
-            { q: "Can a man take fire in his bosom, and his clothes not be burned?", a: "bible", ref: "Proverbs 6:27" },
-            { q: "Woe to those who call evil good and good evil.", a: "bible", ref: "Isaiah 5:20" },
-            { q: "The heavens declare the glory of God; the skies proclaim the work of his hands.", a: "bible", ref: "Psalm 19:1" },
-            { q: "A soft answer turns away wrath.", a: "bible", ref: "Proverbs 15:1" },
-            { q: "The earth is the Lord's, and everything in it.", a: "bible", ref: "Psalm 24:1" },
-            { q: "I have fought the good fight, I have finished the race.", a: "bible", ref: "2 Timothy 4:7" },
-            { q: "Love never fails.", a: "bible", ref: "1 Corinthians 13:8" },
-            { q: "The fear of the Lord is the beginning of wisdom.", a: "bible", ref: "Psalm 111:10" },
-            { q: "I can do all things through Christ who strengthens me.", a: "bible", ref: "Philippians 4:13" },
-            { q: "As iron sharpens iron, so one person sharpens another.", a: "bible", ref: "Proverbs 27:17" },
-            { q: "Be strong and courageous. Do not be afraid.", a: "bible", ref: "Joshua 1:9" },
-            { q: "God is our refuge and strength, an ever-present help in trouble.", a: "bible", ref: "Psalm 46:1" },
-            { q: "For I know the plans I have for you.", a: "bible", ref: "Jeremiah 29:11" },
-            { q: "The grass withers and the flowers fall, but the word of our God endures forever.", a: "bible", ref: "Isaiah 40:8" },
-            { q: "He leads me beside quiet waters.", a: "bible", ref: "Psalm 23:2" },
-            { q: "The Lord will fight for you; you need only to be still.", a: "bible", ref: "Exodus 14:14" },
-            { q: "I am the way, the truth, and the life.", a: "bible", ref: "John 14:6" },
-            { q: "Trust in the Lord with all your heart.", a: "bible", ref: "Proverbs 3:5" },
+            { q: "A man's enemies are the men of his own house.", a: "bible", ref: "Micah 7:6" },
+            { q: "Out of the eater, something to eat; out of the strong, something sweet.", a: "bible", ref: "Judges 14:14" },
 
-            // TRICKY MOVIE
-            { q: "All we have to decide is what to do with the time that is given us.", a: "movie", ref: "Lord of the Rings (Gandalf)" },
-            { q: "It is not our abilities that show what we truly are… it is our choices.", a: "movie", ref: "Harry Potter (Dumbledore)" },
-            { q: "What we do in life echoes in eternity.", a: "movie", ref: "Gladiator (Maximus)" },
-            { q: "The world is changed. I feel it in the water. I feel it in the earth.", a: "movie", ref: "Lord of the Rings (Galadriel)" },
-            { q: "Hope is a good thing, maybe the best of things.", a: "movie", ref: "The Shawshank Redemption" },
-            { q: "Death is just another path, one that we all must take.", a: "movie", ref: "Lord of the Rings" },
-            { q: "Mercy is not something that you give. It's something that you earn.", a: "movie", ref: "Man of Steel" },
-            { q: "Your eyes can deceive you; don't trust them.", a: "movie", ref: "Star Wars (Obi-Wan)" },
-            { q: "Great men are not born great, they grow great.", a: "movie", ref: "The Godfather" },
-            { q: "Even the smallest person can change the course of the future.", a: "movie", ref: "Lord of the Rings" },
-            { q: "I would rather have a life with you than all the ages of the world alone.", a: "movie", ref: "Lord of the Rings (Arwen)" },
-            { q: "Do or do not. There is no try.", a: "movie", ref: "The Empire Strikes Back (Yoda)" },
+            // MOVIE QUOTES THAT SOUND LIKE BIBLICAL PROVERBS & LAMENTATIONS
+            { q: "I will strike down upon thee with great vengeance and furious anger.", a: "movie", ref: "Pulp Fiction (Made-up Ezekiel quote!)" },
+            { q: "Even the smallest person can change the course of the future.", a: "movie", ref: "The Lord of the Rings" },
+            { q: "Fear is the mind-killer.", a: "movie", ref: "Dune" },
+            { q: "The night is dark and full of terrors.", a: "movie", ref: "Game of Thrones" },
+            { q: "The things you own end up owning you.", a: "movie", ref: "Fight Club" },
+            { q: "All we have to decide is what to do with the time that is given us.", a: "movie", ref: "The Lord of the Rings" },
+            { q: "Am I not merciful?", a: "movie", ref: "Gladiator" },
+            { q: "Do not pity the dead. Pity the living, and above all, those who live without love.", a: "movie", ref: "Harry Potter" },
+            { q: "Some men just want to watch the world burn.", a: "movie", ref: "The Dark Knight" },
+            { q: "To the stars through difficulties.", a: "movie", ref: "Ad Astra" },
+            { q: "Hope is a good thing, maybe the best of things, and no good thing ever dies.", a: "movie", ref: "The Shawshank Redemption" },
+            { q: "Many that live deserve death. And some that die deserve life. Can you give it to them?", a: "movie", ref: "The Lord of the Rings" },
             { q: "With great power comes great responsibility.", a: "movie", ref: "Spider-Man" },
-            { q: "I'm the king of the world!", a: "movie", ref: "Titanic" },
-            { q: "May the Force be with you.", a: "movie", ref: "Star Wars" },
-            { q: "I'll be back.", a: "movie", ref: "The Terminator" },
-            { q: "You're gonna need a bigger boat.", a: "movie", ref: "Jaws" },
-            { q: "There's no place like home.", a: "movie", ref: "The Wizard of Oz" },
-            { q: "Life is like a box of chocolates.", a: "movie", ref: "Forrest Gump" },
-            { q: "Houston, we have a problem.", a: "movie", ref: "Apollo 13" },
-            { q: "You had me at hello.", a: "movie", ref: "Jerry Maguire" },
-            { q: "I'm going to make him an offer he can't refuse.", a: "movie", ref: "The Godfather" },
-            { q: "Carpe diem. Seize the day, boys.", a: "movie", ref: "Dead Poets Society" },
-            { q: "I see dead people.", a: "movie", ref: "The Sixth Sense" },
-            { q: "Bond. James Bond.", a: "movie", ref: "Dr. No" },
-            { q: "To infinity and beyond!", a: "movie", ref: "Toy Story" },
-            { q: "Why so serious?", a: "movie", ref: "The Dark Knight" },
-            { q: "Keep your friends close, but your enemies closer.", a: "movie", ref: "The Godfather Part II" },
-            { q: "Here's looking at you, kid.", a: "movie", ref: "Casablanca" },
-            { q: "I'm the one who knocks!", a: "movie", ref: "Breaking Bad" },
-            { q: "Say hello to my little friend!", a: "movie", ref: "Scarface" },
-            { q: "Hasta la vista, baby.", a: "movie", ref: "Terminator 2" }
+            { q: "What we do in life echoes in eternity.", a: "movie", ref: "Gladiator" },
+            { q: "Death is just another path, one that we all must take.", a: "movie", ref: "The Lord of the Rings" },
+            { q: "Great men are not born great, they grow great.", a: "movie", ref: "The Godfather" },
+            { q: "Mercy is not something that you give. It's something that you earn.", a: "movie", ref: "Man of Steel" },
+            { q: "It is not our abilities that show what we truly are… it is our choices.", a: "movie", ref: "Harry Potter" },
+            { q: "The world is changed. I feel it in the water. I feel it in the earth.", a: "movie", ref: "The Lord of the Rings" }
         ];
 
         let currentIdx = 0;
@@ -180,7 +150,8 @@
                 alert("🏆 Epic Achievement! You cleared the Expert set. Reshuffling...");
                 currentIdx = 0; shuffle(library);
             }
-            document.getElementById("progress-counter").innerText = `Quote ${currentIdx + 1} / 65`;
+            // DYNAMIC COUNTER FIX HERE
+            document.getElementById("progress-counter").innerText = `Quote ${currentIdx + 1} / ${library.length}`;
             document.getElementById("quote-display").innerText = `"${library[currentIdx].q}"`;
             document.getElementById("feedback-msg").innerHTML = "";
         }
@@ -197,7 +168,7 @@
                     `<span class="wrong">❌ Misjudged! It's ${item.a.toUpperCase()}.</span><br><span class="reference-box">Ref: ${item.ref}</span>`;
             }
             currentIdx++;
-            setTimeout(loadQuote, 2400); // Wait long enough to read the ref
+            setTimeout(loadQuote, 2800); // Gives them a little more time to read the funny references before jumping
         }
 
         function nextQuote() { currentIdx++; loadQuote(); }

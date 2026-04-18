@@ -6,7 +6,6 @@
     <meta name="description" content="Impact Youth Amman - Escape The Vault">
     <title>Escape Room - Impact Youth Amman</title>
     <style>
-        /* Global Reset & Dark Vault Theme */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body { 
@@ -15,18 +14,10 @@
             background-image: radial-gradient(circle at center, #111 0%, #000 100%);
             min-height: 100vh;
         }
-        
-        /* Navigation Bar */
-        .navbar { 
-            background-color: #111; padding: 12px 60px; display: flex; 
-            justify-content: space-between; align-items: center; border-bottom: 1px solid #333;
-            font-family: 'Segoe UI', sans-serif;
-        }
+        .navbar { background-color: #111; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; font-family: 'Segoe UI', sans-serif; }
         .logo img { height: 60px; width: auto; border-radius: 50%; filter: grayscale(100%); }
         .nav-links a { color: #888; text-decoration: none; margin-left: 20px; font-weight: 500; }
         .nav-links a:hover { color: #2ed573; }
-
-        /* Vault Container */
         .container { max-width: 650px; margin: 40px auto; padding: 0 20px; text-align: center; }
         
         .vault-card { 
@@ -34,11 +25,9 @@
             box-shadow: 0 0 30px rgba(46, 213, 115, 0.2); border: 2px solid #2ed573;
             display: flex; flex-direction: column; align-items: center; transition: all 0.3s;
         }
-
         .vault-card.error { border-color: #e74c3c; box-shadow: 0 0 50px rgba(231, 76, 60, 0.5); }
         .vault-card.success { border-color: #f1c40f; box-shadow: 0 0 50px rgba(241, 196, 15, 0.5); }
 
-        /* Intro Screen Specifics */
         #intro-screen { border-color: #00a8ff; box-shadow: 0 0 30px rgba(0, 168, 255, 0.2); font-family: 'Segoe UI', sans-serif; }
         .intro-title { font-size: 2.5rem; color: #00a8ff; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px; font-weight: 900;}
         .instruction-list { text-align: left; color: #cbd5e1; font-size: 1.2rem; margin-bottom: 30px; width: 100%; background: #111; padding: 25px; border-radius: 8px; border: 1px solid #333;}
@@ -46,11 +35,9 @@
         .highlight-red { color: #e74c3c; font-weight: bold; }
         .highlight-yellow { color: #f1c40f; font-weight: bold; }
         
-        /* Timer */
         .timer-box { font-size: 4rem; font-weight: bold; color: #e74c3c; text-shadow: 0 0 15px rgba(231, 76, 60, 0.8); margin-bottom: 20px; letter-spacing: 5px; }
         .timer-box.warning { animation: pulse 1s infinite; }
 
-        /* Clue & Hint Area */
         .level-text { font-size: 1.2rem; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
         .clue-box { background: #111; padding: 25px; border: 1px solid #333; border-radius: 8px; font-size: 1.2rem; margin-bottom: 15px; width: 100%; color: #fff; font-family: 'Segoe UI', sans-serif;}
         
@@ -59,14 +46,12 @@
         .btn-hint:hover { background: rgba(243, 156, 18, 0.2); }
         .hint-text { display: none; margin-top: 15px; padding: 15px; background: rgba(243, 156, 18, 0.1); border-left: 4px solid #f39c12; color: #f1c40f; font-size: 1.5rem; width: 100%; font-family: 'Segoe UI', sans-serif;}
 
-        /* Digital Display */
         .display-box { 
             background: #000; border: 2px solid #333; width: 100%; height: 80px; 
             border-radius: 8px; margin-bottom: 30px; display: flex; justify-content: center; align-items: center;
             font-size: 3rem; letter-spacing: 15px; color: #2ed573; text-shadow: 0 0 10px rgba(46, 213, 115, 0.8);
         }
 
-        /* Keypad */
         .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 350px; }
         .key-btn { 
             background: #111; border: 1px solid #333; color: #fff; font-size: 2rem; 
@@ -76,7 +61,6 @@
         .key-btn.clear { color: #e74c3c; font-size: 1.5rem; }
         .key-btn.enter { color: #2ed573; font-size: 1.5rem; background: rgba(46, 213, 115, 0.1); border-color: #2ed573; }
 
-        /* End Screens */
         .end-screen, #game-ui { display: none; text-align: center; }
         .end-title { font-size: 3rem; margin-bottom: 20px; text-transform: uppercase; }
         .end-sub { font-size: 1.5rem; color: #fff; font-family: 'Segoe UI', sans-serif; margin-bottom: 30px;}
@@ -99,7 +83,6 @@
     </nav>
     
     <div class="container">
-        
         <div class="vault-card" id="intro-screen">
             <div class="intro-title">Mission Briefing</div>
             <ul class="instruction-list">
@@ -153,72 +136,22 @@
             <div class="end-sub">You ran out of time. The early church data has been lost.</div>
             <button class="btn-restart" style="background: #e74c3c;" onclick="location.reload()">Try Again</button>
         </div>
-
     </div>
 
     <script>
-        // THE 12-LOCK MEGA VAULT (Consistent Chapter & Verse Logic)
         const locks = [
-            {
-                clue: "The shortest expression of divine sorrow. Two words in English. Enter the Chapter and Verse where the Messiah wept.",
-                hint: "😢📖 (Gospel of John)",
-                code: "1135" // John 11:35
-            },
-            {
-                clue: "A young shepherd, five smooth stones, one fallen giant. Enter the exact Chapter and Verse where the stone sinks into the Philistine's forehead.",
-                hint: "👦🐑 🪨😵 (Found in 1 Samuel)",
-                code: "1749" // 1 Samuel 17:49
-            },
-            {
-                clue: "The flood waters recede. Enter the exact Chapter and Verse in Genesis where the Ark finally comes to rest on the mountains of Ararat.",
-                hint: "🚢⛰️ (Found in Genesis)",
-                code: "0804" // Genesis 8:4
-            },
-            {
-                clue: "The Betrayal. Open to the Gospel of Matthew. Enter the exact Chapter and Verse where the chief priests count out thirty pieces of silver for Judas.",
-                hint: "🪙🪙🪙 (Found in Matthew)",
-                code: "2615" // Matthew 26:15
-            },
-            {
-                clue: "A rebellious son returns home to a running father. Enter the Chapter and Verse where he confesses: 'Father, I have sinned against heaven and against you.'",
-                hint: "🐖🏃‍♂️🫂 (Found in Luke)",
-                code: "1521" // Luke 15:21
-            },
-            {
-                clue: "Three men refused to bow to a golden statue, but a fourth appeared in the fire. Enter the Chapter and Verse where the king says he sees four men walking unbound.",
-                hint: "🔥🤴😲 (Found in Daniel)",
-                code: "0325" // Daniel 3:25
-            },
-            {
-                clue: "A prophet is thrown to the beasts because he prayed three times a day. Enter the Chapter and Verse where the king finds him alive the next morning.",
-                hint: "🦁🙏👑 (Found in Daniel)",
-                code: "0620" // Daniel 6:20
-            },
-            {
-                clue: "The most famous Sermon on a Mount. Enter the Chapter and Verse of the 'Golden Rule': Do to others what you would have them do to you.",
-                hint: "⛰️🗣️✨ (Found in Matthew)",
-                code: "0712" // Matthew 7:12
-            },
-            {
-                clue: "The stone is rolled away. Enter the Chapter and Verse in Mark's Gospel where the angel tells the women, 'He has risen! He is not here.'",
-                hint: "🪨🏃‍♀️👼 (Found in Mark)",
-                code: "1606" // Mark 16:6
-            },
-            {
-                clue: "A great prophet is taken up to heaven in a whirlwind by chariots of fire. Enter the Chapter and Verse where Elijah is taken up into heaven.",
-                hint: "🌪️🔥🐴 (Found in 2 Kings)",
-                code: "0211" // 2 Kings 2:11
-            },
-            {
-                clue: "Stand firm with the belt of truth and the breastplate of righteousness. Enter the Chapter and Verse where the Apostle urges believers to 'put on the full armor of God'.",
-                hint: "🛡️⚔️ (Found in Ephesians)",
-                code: "0611" // Ephesians 6:11
-            },
-            {
-                clue: "The ultimate promise at the end of the Bible. Enter the Chapter and Verse where God promises to 'wipe every tear from their eyes.'",
-                hint: "🚫😢✨ (Found in Revelation)",
-                code: "2104" // Revelation 21:4
-            }
+            { clue: "The shortest expression of divine sorrow. Two words in English. Enter the Chapter and Verse where the Messiah wept.", hint: "😢📖 (Gospel of John)", code: "1135" },
+            { clue: "A young shepherd, five smooth stones, one fallen giant. Enter the exact Chapter and Verse where the stone sinks into the Philistine's forehead.", hint: "👦🐑 🪨😵 (Found in 1 Samuel)", code: "1749" },
+            { clue: "The flood waters recede. Enter the exact Chapter and Verse in Genesis where the Ark finally comes to rest on the mountains of Ararat.", hint: "🚢⛰️ (Found in Genesis)", code: "0804" },
+            { clue: "The Betrayal. Open to the Gospel of Matthew. Enter the exact Chapter and Verse where the chief priests count out thirty pieces of silver for Judas.", hint: "🪙🪙🪙 (Found in Matthew)", code: "2615" },
+            { clue: "A rebellious son returns home to a running father. Enter the Chapter and Verse where he confesses: 'Father, I have sinned against heaven and against you.'", hint: "🐖🏃‍♂️🫂 (Found in Luke)", code: "1521" },
+            { clue: "Three men refused to bow to a golden statue, but a fourth appeared in the fire. Enter the Chapter and Verse where the king says he sees four men walking unbound.", hint: "🔥🤴😲 (Found in Daniel)", code: "0325" },
+            { clue: "A prophet is thrown to the beasts because he prayed three times a day. Enter the Chapter and Verse where the king finds him alive the next morning.", hint: "🦁🙏👑 (Found in Daniel)", code: "0620" },
+            { clue: "The most famous Sermon on a Mount. Enter the Chapter and Verse of the 'Golden Rule': Do to others what you would have them do to you.", hint: "⛰️🗣️✨ (Found in Matthew)", code: "0712" },
+            { clue: "The stone is rolled away. Enter the Chapter and Verse in Mark's Gospel where the angel tells the women, 'He has risen! He is not here.'", hint: "🪨🏃‍♀️👼 (Found in Mark)", code: "1606" },
+            { clue: "A great prophet is taken up to heaven in a whirlwind by chariots of fire. Enter the Chapter and Verse where Elijah is taken up into heaven.", hint: "🌪️🔥🐴 (Found in 2 Kings)", code: "0211" },
+            { clue: "Stand firm with the belt of truth and the breastplate of righteousness. Enter the Chapter and Verse where the Apostle urges believers to 'put on the full armor of God'.", hint: "🛡️⚔️ (Found in Ephesians)", code: "0611" },
+            { clue: "The ultimate promise at the end of the Bible. Enter the Chapter and Verse where God promises to 'wipe every tear from their eyes.'", hint: "🚫😢✨ (Found in Revelation)", code: "2104" }
         ];
 
         let currentLevel = 0;
@@ -234,12 +167,21 @@
         const vaultCard = document.getElementById("game-ui");
         const introScreen = document.getElementById("intro-screen");
 
-        // START GAME FROM INTRO SCREEN
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
         function initiateLockdown() {
             introScreen.style.display = "none";
             vaultCard.style.display = "flex";
+            
+            shuffle(locks); // RANDOMIZES THE LOCKS EVERY GAME!
+            
             loadLevel();
-            updateTimerUI(); // Show 20:00 immediately
+            updateTimerUI(); 
             timerInterval = setInterval(updateTimer, 1000);
         }
 
@@ -255,12 +197,9 @@
 
         function showHint() {
             if (hintEl.style.display === "block") return; 
-            
             hintEl.style.display = "block";
-            
             timeLeft -= 15;
             if (timeLeft < 0) timeLeft = 0;
-            
             vaultCard.classList.add("error");
             setTimeout(() => vaultCard.classList.remove("error"), 300);
             updateTimerUI();
@@ -273,10 +212,7 @@
             }
         }
 
-        function clearDisplay() {
-            currentInput = "";
-            updateDisplay();
-        }
+        function clearDisplay() { currentInput = ""; updateDisplay(); }
 
         function updateDisplay() {
             let text = currentInput;
@@ -288,24 +224,16 @@
             if (currentInput.length !== 4) return;
 
             if (currentInput === locks[currentLevel].code) {
-                // SUCCESS
                 vaultCard.classList.add("success");
                 setTimeout(() => vaultCard.classList.remove("success"), 500);
-                
                 currentLevel++;
-                if (currentLevel >= locks.length) {
-                    winGame();
-                } else {
-                    loadLevel();
-                }
+                if (currentLevel >= locks.length) { winGame(); } 
+                else { loadLevel(); }
             } else {
-                // FAILURE (Penalty: -30 Seconds)
                 vaultCard.classList.add("error");
                 setTimeout(() => vaultCard.classList.remove("error"), 500);
-                
                 timeLeft -= 30;
                 if (timeLeft < 0) timeLeft = 0;
-                
                 clearDisplay();
                 updateTimerUI();
             }
@@ -313,10 +241,7 @@
 
         function updateTimer() {
             timeLeft--;
-            if (timeLeft <= 0) {
-                timeLeft = 0;
-                loseGame();
-            }
+            if (timeLeft <= 0) { timeLeft = 0; loseGame(); }
             updateTimerUI();
         }
 
@@ -325,12 +250,8 @@
             const seconds = timeLeft % 60;
             const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             timerEl.innerText = timeString;
-
-            if (timeLeft <= 60 && timeLeft > 0) {
-                timerEl.classList.add("warning");
-            } else {
-                timerEl.classList.remove("warning");
-            }
+            if (timeLeft <= 60 && timeLeft > 0) { timerEl.classList.add("warning"); } 
+            else { timerEl.classList.remove("warning"); }
         }
 
         function winGame() {

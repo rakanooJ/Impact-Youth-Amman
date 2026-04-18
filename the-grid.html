@@ -57,10 +57,11 @@
         .mistakes { margin-top: 20px; font-size: 1.2rem; color: #1e293b; font-weight: bold; }
         .dots { color: #e74c3c; font-size: 1.5rem; letter-spacing: 5px; }
 
-        /* Win Screen */
-        .win-screen { display: none; margin-top: 20px; }
-        .win-text { font-size: 2.5rem; color: #2ed573; font-weight: bold; margin-bottom: 20px; }
-        .btn-next { background: #2ed573; padding: 15px 40px; font-size: 1.5rem; border:none; border-radius:10px; color:white; cursor:pointer; font-weight:bold; }
+        /* End Screen */
+        .end-screen { display: none; margin-top: 20px; }
+        .end-text { font-size: 2.5rem; font-weight: bold; margin-bottom: 20px; }
+        .btn-next { background: #2ed573; padding: 15px 40px; font-size: 1.5rem; border:none; border-radius:10px; color:white; cursor:pointer; font-weight:bold; transition: 0.2s; }
+        .btn-next:hover { transform: scale(1.05); }
 
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } }
@@ -89,8 +90,8 @@
             <div class="solved-area" id="solved-area"></div>
             <div class="grid" id="grid"></div>
             
-            <div class="win-screen" id="win-screen">
-                <div class="win-text">Perfect Board!</div>
+            <div class="end-screen" id="end-screen">
+                <div class="end-text" id="end-message">Perfect Board!</div>
                 <button class="btn-next" onclick="loadNextPuzzle()">Next Puzzle ⏭️</button>
             </div>
 
@@ -106,113 +107,33 @@
     </div>
 
     <script>
-        // THE VAULT: Biblical Connections Puzzles
-       // THE 15-PUZZLE MEGA VAULT (Organized Easy to Hard)
+        // THE 15-PUZZLE MEGA VAULT
         const puzzles = [
-            // PUZZLE 1: The Warmup
-            {
-                categories: [
-                    { title: "Books of the Law", words: ["Genesis", "Exodus", "Leviticus", "Numbers"], color: "#f1c40f" }, // Yellow
-                    { title: "Fruits of the Spirit", words: ["Love", "Joy", "Peace", "Patience"], color: "#2ed573" }, // Green
-                    { title: "Famous Mountains", words: ["Sinai", "Carmel", "Zion", "Ararat"], color: "#00a8ff" }, // Blue
-                    { title: "People Swallowed by Things", words: ["Jonah", "Korah", "Dathan", "Abiram"], color: "#9b59b6" } // Purple
-                ]
-            },
-            // PUZZLE 2: The Core Stories
-            {
-                categories: [
-                    { title: "Plagues of Egypt", words: ["Frogs", "Blood", "Locusts", "Darkness"], color: "#f1c40f" },
-                    { title: "Sons of Jacob", words: ["Joseph", "Benjamin", "Judah", "Reuben"], color: "#2ed573" },
-                    { title: "Weapons in the Bible", words: ["Sling", "Sword", "Spear", "Jawbone"], color: "#00a8ff" },
-                    { title: "Things Made of Wood", words: ["Ark", "Cross", "Staff", "Manger"], color: "#9b59b6" }
-                ]
-            },
-            // PUZZLE 3: The Name Game (Tricky overlaps!)
-            {
-                categories: [
-                    { title: "The 12 Disciples", words: ["James", "John", "Andrew", "Thomas"], color: "#f1c40f" },
-                    { title: "Kings of Israel", words: ["David", "Solomon", "Saul", "Josiah"], color: "#2ed573" },
-                    { title: "Cities Paul Visited", words: ["Ephesus", "Corinth", "Rome", "Philippi"], color: "#00a8ff" },
-                    { title: "Renamed by God", words: ["Abraham", "Israel", "Peter", "Paul"], color: "#9b59b6" }
-                ]
-            },
-            // PUZZLE 4: Prophets & Kings
-            {
-                categories: [
-                    { title: "Major Prophets", words: ["Isaiah", "Jeremiah", "Ezekiel", "Daniel"], color: "#f1c40f" },
-                    { title: "Women of the Bible", words: ["Ruth", "Esther", "Sarah", "Mary"], color: "#2ed573" },
-                    { title: "Items in the Tabernacle", words: ["Altar", "Menorah", "Showbread", "Veil"], color: "#00a8ff" },
-                    { title: "Thrown into Fire", words: ["Shadrach", "Meshach", "Abednego", "Idols"], color: "#9b59b6" }
-                ]
-            },
-            // PUZZLE 5: Numbers & Nature
-            {
-                categories: [
-                    { title: "Significant Numbers", words: ["Three", "Seven", "Twelve", "Forty"], color: "#f1c40f" },
-                    { title: "Biblical Foods", words: ["Bread", "Fish", "Honey", "Figs"], color: "#2ed573" },
-                    { title: "Types of Angels", words: ["Cherubim", "Seraphim", "Archangel", "Watcher"], color: "#00a8ff" },
-                    { title: "Things that Parted", words: ["Red Sea", "Jordan River", "Temple Veil", "Heavens"], color: "#9b59b6" }
-                ]
-            },
-            // PUZZLE 6: Ministry of Jesus
-            {
-                categories: [
-                    { title: "Gifts of the Magi", words: ["Gold", "Frankincense", "Myrrh", "Treasures"], color: "#f1c40f" },
-                    { title: "Miracles of Jesus", words: ["Water to Wine", "Walking on Water", "Feeding 5000", "Healing Blind"], color: "#2ed573" },
-                    { title: "I AM Statements", words: ["The Door", "Good Shepherd", "True Vine", "Light of World"], color: "#00a8ff" },
-                    { title: "Slept through major events", words: ["Jonah", "Peter", "James", "Jesus"], color: "#9b59b6" }
-                ]
-            },
-            // PUZZLE 7: The Exodus Era
-            {
-                categories: [
-                    { title: "Provided in the Wilderness", words: ["Manna", "Quail", "Water", "Cloud"], color: "#f1c40f" },
-                    { title: "Characters in Exodus", words: ["Moses", "Aaron", "Miriam", "Pharaoh"], color: "#2ed573" },
-                    { title: "The Ten Commandments", words: ["Do Not Steal", "Do Not Murder", "Honor Parents", "No Idols"], color: "#00a8ff" },
-                    { title: "Spoke in the Bible", words: ["God", "Satan", "Donkey", "Snake"], color: "#9b59b6" }
-                ]
-            },
-            // PUZZLE 8: Music & Worship
-            {
-                categories: [
-                    { title: "Instruments in Psalms", words: ["Harp", "Lyre", "Trumpet", "Cymbals"], color: "#f1c40f" },
-                    { title: "Writers of Psalms", words: ["David", "Asaph", "Solomon", "Sons of Korah"], color: "#2ed573" },
-                    { title: "Words for Praise", words: ["Hallelujah", "Hosanna", "Amen", "Selah"], color: "#00a8ff" },
-                    { title: "Danced in the Bible", words: ["Miriam", "David", "Salome", "Michal"], color: "#9b59b6" }
-                ]
-            },
-            // PUZZLE 9: The Early Church
-            {
-                categories: [
-                    { title: "Gospels", words: ["Matthew", "Mark", "Luke", "John"], color: "#f1c40f" },
-                    { title: "Wrote Epistles", words: ["Paul", "Peter", "James", "Jude"], color: "#2ed573" },
-                    { title: "Places Jesus Walked", words: ["Jerusalem", "Nazareth", "Bethlehem", "Capernaum"], color: "#00a8ff" },
-                    { title: "Professions of Disciples", words: ["Fisherman", "Tax Collector", "Zealot", "Doctor"], color: "#9b59b6" }
-                ]
-            },
-            // PUZZLE 10: The Expert Test
-            {
-                categories: [
-                    { title: "Armor of God", words: ["Belt", "Breastplate", "Shield", "Helmet"], color: "#f1c40f" },
-                    { title: "Beatitudes", words: ["Meek", "Mourn", "Merciful", "Peacemakers"], color: "#2ed573" },
-                    { title: "Signs of the End (Revelation)", words: ["Seals", "Trumpets", "Bowls", "Beast"], color: "#00a8ff" },
-                    { title: "Fled from God", words: ["Jonah", "Elijah", "Adam", "Moses"], color: "#9b59b6" }
-                ]
-            }
+            { categories: [ { title: "Books of the Law", words: ["Genesis", "Exodus", "Leviticus", "Numbers"], color: "#f1c40f" }, { title: "Fruits of the Spirit", words: ["Love", "Joy", "Peace", "Patience"], color: "#2ed573" }, { title: "Famous Mountains", words: ["Sinai", "Carmel", "Zion", "Ararat"], color: "#00a8ff" }, { title: "People Swallowed by Things", words: ["Jonah", "Korah", "Dathan", "Abiram"], color: "#9b59b6" } ] },
+            { categories: [ { title: "Plagues of Egypt", words: ["Frogs", "Blood", "Locusts", "Darkness"], color: "#f1c40f" }, { title: "Sons of Jacob", words: ["Joseph", "Benjamin", "Judah", "Reuben"], color: "#2ed573" }, { title: "Weapons in the Bible", words: ["Sling", "Sword", "Spear", "Jawbone"], color: "#00a8ff" }, { title: "Things Made of Wood", words: ["Ark", "Cross", "Staff", "Manger"], color: "#9b59b6" } ] },
+            { categories: [ { title: "The 12 Disciples", words: ["James", "John", "Andrew", "Thomas"], color: "#f1c40f" }, { title: "Kings of Israel", words: ["David", "Solomon", "Saul", "Josiah"], color: "#2ed573" }, { title: "Cities Paul Visited", words: ["Ephesus", "Corinth", "Rome", "Philippi"], color: "#00a8ff" }, { title: "Renamed by God", words: ["Abraham", "Israel", "Peter", "Paul"], color: "#9b59b6" } ] },
+            { categories: [ { title: "Major Prophets", words: ["Isaiah", "Jeremiah", "Ezekiel", "Daniel"], color: "#f1c40f" }, { title: "Women of the Bible", words: ["Ruth", "Esther", "Sarah", "Mary"], color: "#2ed573" }, { title: "Items in the Tabernacle", words: ["Altar", "Menorah", "Showbread", "Veil"], color: "#00a8ff" }, { title: "Thrown into Fire", words: ["Shadrach", "Meshach", "Abednego", "Idols"], color: "#9b59b6" } ] },
+            { categories: [ { title: "Significant Numbers", words: ["Three", "Seven", "Twelve", "Forty"], color: "#f1c40f" }, { title: "Biblical Foods", words: ["Bread", "Fish", "Honey", "Figs"], color: "#2ed573" }, { title: "Types of Angels", words: ["Cherubim", "Seraphim", "Archangel", "Watcher"], color: "#00a8ff" }, { title: "Things that Parted", words: ["Red Sea", "Jordan River", "Temple Veil", "Heavens"], color: "#9b59b6" } ] },
+            { categories: [ { title: "Gifts of the Magi", words: ["Gold", "Frankincense", "Myrrh", "Treasures"], color: "#f1c40f" }, { title: "Miracles of Jesus", words: ["Water to Wine", "Walking on Water", "Feeding 5000", "Healing Blind"], color: "#2ed573" }, { title: "I AM Statements", words: ["The Door", "Good Shepherd", "True Vine", "Light of World"], color: "#00a8ff" }, { title: "Slept through major events", words: ["Jonah", "Peter", "James", "Jesus"], color: "#9b59b6" } ] },
+            { categories: [ { title: "Provided in the Wilderness", words: ["Manna", "Quail", "Water", "Cloud"], color: "#f1c40f" }, { title: "Characters in Exodus", words: ["Moses", "Aaron", "Miriam", "Pharaoh"], color: "#2ed573" }, { title: "The Ten Commandments", words: ["Do Not Steal", "Do Not Murder", "Honor Parents", "No Idols"], color: "#00a8ff" }, { title: "Spoke in the Bible", words: ["God", "Satan", "Donkey", "Snake"], color: "#9b59b6" } ] },
+            { categories: [ { title: "Instruments in Psalms", words: ["Harp", "Lyre", "Trumpet", "Cymbals"], color: "#f1c40f" }, { title: "Writers of Psalms", words: ["David", "Asaph", "Solomon", "Sons of Korah"], color: "#2ed573" }, { title: "Words for Praise", words: ["Hallelujah", "Hosanna", "Amen", "Selah"], color: "#00a8ff" }, { title: "Danced in the Bible", words: ["Miriam", "David", "Salome", "Michal"], color: "#9b59b6" } ] },
+            { categories: [ { title: "Gospels", words: ["Matthew", "Mark", "Luke", "John"], color: "#f1c40f" }, { title: "Wrote Epistles", words: ["Paul", "Peter", "James", "Jude"], color: "#2ed573" }, { title: "Places Jesus Walked", words: ["Jerusalem", "Nazareth", "Bethlehem", "Capernaum"], color: "#00a8ff" }, { title: "Professions of Disciples", words: ["Fisherman", "Tax Collector", "Zealot", "Doctor"], color: "#9b59b6" } ] },
+            { categories: [ { title: "Armor of God", words: ["Belt", "Breastplate", "Shield", "Helmet"], color: "#f1c40f" }, { title: "Beatitudes", words: ["Meek", "Mourn", "Merciful", "Peacemakers"], color: "#2ed573" }, { title: "Signs of the End (Revelation)", words: ["Seals", "Trumpets", "Bowls", "Beast"], color: "#00a8ff" }, { title: "Fled from God", words: ["Jonah", "Elijah", "Adam", "Moses"], color: "#9b59b6" } ] }
         ];
 
         let currentPuzzleIndex = 0;
         let activeWords = [];
         let selectedWords = [];
+        let solvedCategories = [];
         let mistakes = 4;
-        let solvedCount = 0;
 
         const gridEl = document.getElementById("grid");
         const solvedArea = document.getElementById("solved-area");
         const submitBtn = document.getElementById("submit-btn");
         const mistakeDots = document.getElementById("mistake-dots");
-        const winScreen = document.getElementById("win-screen");
+        const endScreen = document.getElementById("end-screen");
         const gameControls = document.getElementById("game-controls");
+        const endMessage = document.getElementById("end-message");
 
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -222,17 +143,15 @@
         }
 
         function loadPuzzle() {
-            // Reset state
             activeWords = [];
             selectedWords = [];
+            solvedCategories = [];
             mistakes = 4;
-            solvedCount = 0;
             solvedArea.innerHTML = "";
-            winScreen.style.display = "none";
+            endScreen.style.display = "none";
             gameControls.style.display = "block";
             updateMistakeUI();
 
-            // Extract all 16 words from the current puzzle
             const currentPuzzle = puzzles[currentPuzzleIndex];
             currentPuzzle.categories.forEach(cat => {
                 cat.words.forEach(word => {
@@ -246,7 +165,7 @@
 
         function renderGrid() {
             gridEl.innerHTML = "";
-            activeWords.forEach((item, index) => {
+            activeWords.forEach((item) => {
                 const btn = document.createElement("button");
                 btn.className = "tile";
                 btn.innerText = item.word;
@@ -269,9 +188,7 @@
             updateSubmitButton();
         }
 
-        function updateSubmitButton() {
-            submitBtn.disabled = selectedWords.length !== 4;
-        }
+        function updateSubmitButton() { submitBtn.disabled = selectedWords.length !== 4; }
 
         function deselectAll() {
             selectedWords = [];
@@ -282,7 +199,6 @@
             const currentPuzzle = puzzles[currentPuzzleIndex];
             let matchedCategory = null;
 
-            // Check if the 4 selected words perfectly match any category
             for (let cat of currentPuzzle.categories) {
                 const isMatch = selectedWords.every(word => cat.words.includes(word));
                 if (isMatch) {
@@ -292,31 +208,29 @@
             }
 
             if (matchedCategory) {
-                // SUCCESS!
-                solvedCount++;
-                
-                // Remove words from active grid
+                // SUCCESS
+                solvedCategories.push(matchedCategory.title);
                 activeWords = activeWords.filter(item => !selectedWords.includes(item.word));
                 selectedWords = [];
                 
-                // Add to solved area
                 const row = document.createElement("div");
                 row.className = "solved-row";
                 row.style.backgroundColor = matchedCategory.color;
                 row.innerHTML = `<div class="solved-title">${matchedCategory.title}</div><div class="solved-words">${matchedCategory.words.join(", ")}</div>`;
                 solvedArea.appendChild(row);
 
-                // Check for win
-                if (solvedCount === 4) {
+                if (solvedCategories.length === 4) {
+                    // WIN STATE
                     gridEl.innerHTML = "";
                     gameControls.style.display = "none";
-                    winScreen.style.display = "block";
+                    endMessage.innerText = "Perfect Board!";
+                    endMessage.style.color = "#2ed573";
+                    endScreen.style.display = "block";
                 } else {
                     renderGrid();
                 }
-
             } else {
-                // FAILURE! (Shake animation and deduct life)
+                // FAILURE
                 const tiles = document.querySelectorAll(".tile.selected");
                 tiles.forEach(tile => {
                     tile.classList.add("shake");
@@ -325,13 +239,36 @@
                 
                 mistakes--;
                 updateMistakeUI();
-                setTimeout(deselectAll, 500);
-
+                
                 if (mistakes <= 0) {
-                    alert("Out of mistakes! Try again.");
-                    loadPuzzle();
+                    setTimeout(revealAnswers, 500); // Wait for shake animation before revealing
+                } else {
+                    setTimeout(deselectAll, 500);
                 }
             }
+        }
+
+        function revealAnswers() {
+            gridEl.innerHTML = "";
+            gameControls.style.display = "none";
+
+            const currentPuzzle = puzzles[currentPuzzleIndex];
+            currentPuzzle.categories.forEach(cat => {
+                // If they didn't solve it, show it to them slightly faded
+                if (!solvedCategories.includes(cat.title)) {
+                    const row = document.createElement("div");
+                    row.className = "solved-row";
+                    row.style.backgroundColor = cat.color;
+                    row.style.opacity = "0.7"; 
+                    row.innerHTML = `<div class="solved-title">${cat.title} (Missed)</div><div class="solved-words">${cat.words.join(", ")}</div>`;
+                    solvedArea.appendChild(row);
+                }
+            });
+
+            // GAME OVER STATE
+            endMessage.innerText = "Game Over!";
+            endMessage.style.color = "#e74c3c";
+            endScreen.style.display = "block";
         }
 
         function updateMistakeUI() {
@@ -350,7 +287,6 @@
             loadPuzzle();
         }
 
-        // Start game on load
         loadPuzzle();
     </script>
 </body>

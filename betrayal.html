@@ -60,8 +60,16 @@
         .btn-hide { background: #f39c12; margin-top: 30px; }
         .btn-hide:hover { background: #d35400; }
 
-        /* ROLE REVEAL UI */
-        .role-icon-wrapper { font-size: 6rem; margin-bottom: 10px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6)); }
+        /* ROLE REVEAL UI (PHOTOS BROUGHT BACK) */
+        .role-image-wrapper { margin-bottom: 20px; width: 100%; display: flex; justify-content: center; }
+        .role-art { 
+            height: 200px; width: auto; 
+            border-radius: 15px; 
+            border: 4px solid; 
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6));
+            background: white; 
+        }
+        
         .role-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
         .role-desc { font-size: 1.2rem; color: #cbd5e1; line-height: 1.6; padding: 0 10px; }
 
@@ -94,7 +102,7 @@
         .active-screen { display: flex !important; flex-direction: column; justify-content: center; }
         .player-turn-text { font-size: 2rem; font-weight: bold; color: #f8f9fa; margin-bottom: 30px; }
 
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .title { font-size: 2.8rem; } .role-title { font-size: 2rem; } .modal-btn { width: 100%; font-size: 1.1rem; padding: 15px; } }
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .title { font-size: 2.8rem; } .role-title { font-size: 2rem; } .modal-btn { width: 100%; font-size: 1.1rem; padding: 15px; } .role-art { height: 150px; } }
     </style>
 </head>
 <body>
@@ -125,7 +133,9 @@
         </div>
 
         <div class="game-card" id="reveal-screen">
-            <div class="role-icon-wrapper" id="role-icon">👤</div>
+            <div class="role-image-wrapper">
+                <img src="" alt="Role Art" class="role-art" id="role-art" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><rect width=\'200\' height=\'200\' fill=\'%231e293b\'/><text x=\'50%\' y=\'50%\' fill=\'white\' font-size=\'24\' font-family=\'sans-serif\' text-anchor=\'middle\' dominant-baseline=\'middle\'>No Image</text></svg>'">
+            </div>
             <div class="role-title" id="role-title">Loading...</div>
             <div class="role-desc" id="role-desc">Role description goes here.</div>
             <button class="btn btn-hide" onclick="nextPlayer()">🔒 Hide & Pass</button>
@@ -154,14 +164,15 @@
 
     <script>
         // MESSIAH REMOVED - Roles strictly focused on deduction and powers
+        // IMAGES ADDED BACK INTO THE OBJECT
         const roleData = {
-            pharisee: { title: "Pharisee", icon: "🐍", color: "#e74c3c", desc: "IMPOSTER: You want to silence the church. Wake up during the night with the other Imposters to eliminate one player. Blend in during the day." },
-            judas: { title: "Judas", icon: "💰", color: "#c0392b", desc: "MASTER IMPOSTER: You wake up with the Pharisees at night. PASSIVE POWER: If John the Seer investigates you, you will falsely appear as an innocent Disciple." },
-            caiaphas: { title: "Caiaphas", icon: "📜", color: "#8e44ad", desc: "MASTER IMPOSTER: Wake up with the Pharisees at night. ACTIVE POWER: After the elimination, point to a second player to 'Silence' them. They cannot speak a single word during the entire next day." },
-            luke: { title: "Luke the Healer", icon: "🌿", color: "#2ed573", desc: "SPECIAL ROLE: The Storyteller will ask you to open your eyes at night. Point to one person. That person cannot be eliminated tonight. You may save yourself, but not twice in a row." },
-            john: { title: "John the Seer", icon: "👁️", color: "#9b59b6", desc: "SPECIAL ROLE: The Storyteller will ask you to open your eyes at night. Point to one person. The Storyteller will nod YES if they are an Imposter, or NO if they are innocent (Note: Judas will appear innocent)." },
-            peter: { title: "Peter the Rock", icon: "🛡️", color: "#94a3b8", desc: "SPECIAL ROLE: You do not wake up at night. PASSIVE POWER: The first time the Pharisees try to eliminate you, your faith protects you, and you survive the attack." },
-            disciple: { title: "Faithful Disciple", icon: "👥", color: "#00a8ff", desc: "CITIZEN: You sleep through the night. Pay close attention during the day, listen to the arguments, and use your vote to find the imposters." }
+            pharisee: { title: "Pharisee", img: "Pharisee.png", icon: "🐍", color: "#e74c3c", desc: "IMPOSTER: You want to silence the church. Wake up during the night with the other Imposters to eliminate one player. Blend in during the day." },
+            judas: { title: "Judas", img: "Judas.png", icon: "💰", color: "#c0392b", desc: "MASTER IMPOSTER: You wake up with the Pharisees at night. PASSIVE POWER: If John the Seer investigates you, you will falsely appear as an innocent Disciple." },
+            caiaphas: { title: "Caiaphas", img: "Caiaphas.png", icon: "📜", color: "#8e44ad", desc: "MASTER IMPOSTER: Wake up with the Pharisees at night. ACTIVE POWER: After the elimination, point to a second player to 'Silence' them. They cannot speak a single word during the entire next day." },
+            luke: { title: "Luke the Healer", img: "Luke.png", icon: "🌿", color: "#2ed573", desc: "SPECIAL ROLE: The Storyteller will ask you to open your eyes at night. Point to one person. That person cannot be eliminated tonight. You may save yourself, but not twice in a row." },
+            john: { title: "John the Seer", img: "John.png", icon: "👁️", color: "#9b59b6", desc: "SPECIAL ROLE: The Storyteller will ask you to open your eyes at night. Point to one person. The Storyteller will nod YES if they are an Imposter, or NO if they are innocent (Note: Judas will appear innocent)." },
+            peter: { title: "Peter the Rock", img: "Peter.png", icon: "🛡️", color: "#94a3b8", desc: "SPECIAL ROLE: You do not wake up at night. PASSIVE POWER: The first time the Pharisees try to eliminate you, your faith protects you, and you survive the attack." },
+            disciple: { title: "Faithful Disciple", img: "Disciple.png", icon: "👥", color: "#00a8ff", desc: "CITIZEN: You sleep through the night. Pay close attention during the day, listen to the arguments, and use your vote to find the imposters." }
         };
 
         let players = []; 
@@ -240,8 +251,10 @@
             const player = players[currentPlayerIndex];
             const roleInfo = roleData[player.role];
 
-            // Setup the visual card for the player
-            document.getElementById("role-icon").innerText = roleInfo.icon;
+            // Re-linked the image source to the javascript object!
+            const artEl = document.getElementById("role-art");
+            artEl.src = roleInfo.img;
+            artEl.style.borderColor = roleInfo.color;
             
             const titleEl = document.getElementById("role-title");
             titleEl.innerText = roleInfo.title;

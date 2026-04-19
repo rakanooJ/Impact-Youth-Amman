@@ -27,15 +27,15 @@
         .nav-links a:hover { color: #00a8ff; }
 
         /* Game Container */
-        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; text-align: center; }
         
         .game-card { 
             background: rgba(30, 41, 59, 0.9); padding: 50px 30px; border-radius: 20px; 
             box-shadow: 0 15px 40px rgba(0,0,0,0.8); border-top: 8px solid #e74c3c;
-            min-height: 500px; display: flex; flex-direction: column; justify-content: center;
+            min-height: 500px; display: flex; flex-direction: column; justify-content: center; position: relative;
         }
 
-        .title { font-size: 3.5rem; color: #e74c3c; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(231, 76, 60, 0.4); }
+        .title { font-size: 3.5rem; color: #e74c3c; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(231, 76, 60, 0.4); font-weight: 900;}
         .subtitle { font-size: 1.2rem; color: #94a3b8; margin-bottom: 30px; }
 
         /* Inputs & Buttons */
@@ -53,46 +53,48 @@
             transition: all 0.2s; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         .btn:active { transform: translateY(2px); }
-        
         .btn-start { background: #e74c3c; margin-top: 10px; }
         .btn-start:hover { background: #c0392b; }
-        
         .btn-reveal { background: #00a8ff; }
         .btn-reveal:hover { background: #008ecc; }
-        
         .btn-hide { background: #f39c12; margin-top: 30px; }
         .btn-hide:hover { background: #d35400; }
 
         /* ROLE REVEAL UI */
-        .role-image-wrapper { margin-bottom: 20px; width: 100%; display: flex; justify-content: center; }
-        .role-art { 
-            height: 200px; width: auto; 
-            border-radius: 15px; 
-            border: 4px solid; 
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6));
-            background: white; 
-        }
-        
+        .role-icon-wrapper { font-size: 6rem; margin-bottom: 10px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6)); }
         .role-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
         .role-desc { font-size: 1.2rem; color: #cbd5e1; line-height: 1.6; padding: 0 10px; }
 
-        /* Specific Role Colors */
-        .role-pharisee { color: #e74c3c; border-color: #e74c3c !important; }
-        .role-judas { color: #c0392b; border-color: #c0392b !important; }
-        .role-caiaphas { color: #8e44ad; border-color: #8e44ad !important; } /* Deep Purple */
-        .role-jesus { color: #f1c40f; border-color: #f1c40f !important; text-shadow: 0 0 15px rgba(241, 196, 15, 0.5); }
-        .role-luke { color: #2ed573; border-color: #2ed573 !important; }
-        .role-john { color: #9b59b6; border-color: #9b59b6 !important; }
-        .role-peter { color: #94a3b8; border-color: #94a3b8 !important; } 
-        .role-disciple { color: #00a8ff; border-color: #00a8ff !important; }
+        /* Storyteller Dashboard UI */
+        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 20px; }
+        .dash-card { 
+            background: #0f172a; border: 2px solid #475569; border-radius: 12px; padding: 15px; 
+            cursor: pointer; transition: 0.2s; position: relative; overflow: hidden; text-align: center;
+        }
+        .dash-card:hover { transform: translateY(-3px); border-color: #f8f9fa; }
+        .dash-card.status-dead { opacity: 0.4; filter: grayscale(100%); border-color: #e74c3c; }
+        .dash-card.status-silenced { border-color: #8e44ad; }
+        .dash-card.status-silenced::after { content: "🤐"; position: absolute; top: 5px; right: 5px; font-size: 1.5rem; }
+        .dash-card.status-dead::after { content: "💀"; position: absolute; top: 5px; right: 5px; font-size: 1.5rem; }
+
+        .dash-num { font-size: 1rem; color: #94a3b8; font-weight: bold; margin-bottom: 5px; }
+        .dash-icon { font-size: 2.5rem; margin-bottom: 5px; }
+        .dash-role { font-size: 1.1rem; font-weight: bold; }
+
+        /* Action Modal */
+        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.98); border-radius: 20px; flex-direction: column; justify-content: center; align-items: center; padding: 20px; z-index: 10; }
+        .modal.show { display: flex; }
+        .modal-btn { margin-bottom: 15px; background: #334155; width: 80%; }
+        .modal-btn.kill { background: #e74c3c; }
+        .modal-btn.silence { background: #8e44ad; }
+        .modal-btn.revive { background: #2ed573; }
 
         /* Screen States */
-        #setup-screen, #lock-screen, #reveal-screen, #end-screen { display: none; }
+        #setup-screen, #lock-screen, #reveal-screen, #dashboard-screen { display: none; }
         .active-screen { display: flex !important; flex-direction: column; justify-content: center; }
-
         .player-turn-text { font-size: 2rem; font-weight: bold; color: #f8f9fa; margin-bottom: 30px; }
 
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .title { font-size: 2.8rem; } .role-title { font-size: 2rem; } .role-art { height: 150px; } }
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .title { font-size: 2.8rem; } .role-title { font-size: 2rem; } .modal-btn { width: 100%; font-size: 1.1rem; padding: 15px; } }
     </style>
 </head>
 <body>
@@ -102,7 +104,6 @@
             <a href="index.html">Home</a>
             <a href="spirit-fun.html">Back to Fun</a>
             <a href="connect.html">Connect</a>
-            <a href="index.html#join" class="login-btn">Join Us</a>
         </div>
     </nav>
     
@@ -111,92 +112,73 @@
         <div class="game-card active-screen" id="setup-screen">
             <div class="title">The Betrayal</div>
             <div class="subtitle">Find the imposters before they silence the early church.</div>
-            
             <div class="input-group">
                 <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: #94a3b8;">Total Players (Min 5)</div>
                 <input type="number" id="player-count" class="player-input" min="5" max="30" value="8">
             </div>
-            
             <button class="btn btn-start" onclick="generateDeck()">Hand Out Roles</button>
         </div>
 
         <div class="game-card" id="lock-screen">
             <div class="player-turn-text" id="lock-text">Pass phone to Player 1</div>
-            <button class="btn btn-reveal" id="reveal-btn" onclick="showRole()">👀 I am Player 1 (Reveal)</button>
+            <button class="btn btn-reveal" id="reveal-btn" onclick="showRole()">👀 I am Player 1</button>
         </div>
 
         <div class="game-card" id="reveal-screen">
-            <div class="role-image-wrapper">
-                <img src="" alt="Role Art" class="role-art" id="role-art" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><rect width=\'200\' height=\'200\' fill=\'%231e293b\'/><text x=\'50%\' y=\'50%\' fill=\'white\' font-size=\'24\' font-family=\'sans-serif\' text-anchor=\'middle\' dominant-baseline=\'middle\'>No Image</text></svg>'">
-            </div>
+            <div class="role-icon-wrapper" id="role-icon">👤</div>
             <div class="role-title" id="role-title">Loading...</div>
             <div class="role-desc" id="role-desc">Role description goes here.</div>
-            
-            <button class="btn btn-hide" onclick="nextPlayer()">🔒 Hide & Pass to Next</button>
+            <button class="btn btn-hide" onclick="nextPlayer()">🔒 Hide & Pass</button>
         </div>
 
-        <div class="game-card" id="end-screen">
-            <div class="role-image-wrapper">
-                <div style="font-size: 6rem;">🌙</div>
+        <div class="game-card" id="dashboard-screen" style="justify-content: flex-start; padding: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: #f1c40f; margin: 0; font-size: 2rem; text-transform: uppercase;">Game Master Panel</h2>
+                <button onclick="location.reload()" style="background: transparent; border: 2px solid #e74c3c; color: #e74c3c; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s;">End Game</button>
             </div>
-            <div class="role-title" style="color: #f1c40f;">Night Falls</div>
-            <div class="role-desc" style="margin-bottom: 30px;">All roles are locked in. Give the phone to the Storyteller to begin the first night.</div>
-            <button class="btn btn-start" onclick="location.reload()">Reset Game</button>
+            <div class="subtitle" style="text-align: left; margin-bottom: 10px; color: white;">Tap a player card below to update their status during the night phase.</div>
+            
+            <div class="dash-grid" id="dash-grid">
+                </div>
+
+            <div class="modal" id="action-modal">
+                <h2 style="color: white; font-size: 2.5rem; margin-bottom: 30px; text-transform: uppercase;" id="modal-player-title">Player X</h2>
+                <button class="btn modal-btn kill" onclick="setStatus('dead')">💀 Assassinated</button>
+                <button class="btn modal-btn silence" onclick="setStatus('silenced')">🤐 Silenced</button>
+                <button class="btn modal-btn revive" onclick="setStatus('alive')">🕊️ Active / Healed</button>
+                <button class="btn modal-btn" onclick="closeModal()" style="margin-top: 20px;">❌ Cancel</button>
+            </div>
         </div>
 
     </div>
 
     <script>
-        // THE MASTER ROLE DATABASE
-   // THE MASTER ROLE DATABASE (Updated for your exact filenames)
+        // MESSIAH REMOVED - Roles strictly focused on deduction and powers
         const roleData = {
-            pharisee: {
-                title: "Pharisee", img: "Pharisee.png", cssClass: "role-pharisee",
-                desc: "IMPOSTER: You want to silence the church. Wake up during the night with the other Imposters to eliminate one player. Blend in during the day."
-            },
-            judas: {
-                title: "Judas", img: "Judas.png", cssClass: "role-judas",
-                desc: "MASTER IMPOSTER: You wake up with the Pharisees at night. PASSIVE POWER: If John the Seer investigates you, you will falsely appear as an innocent Disciple."
-            },
-            caiaphas: {
-                title: "High Priest Caiaphas", img: "Caiaphas.png", cssClass: "role-caiaphas",
-                desc: "MASTER IMPOSTER: Wake up with the Pharisees at night. ACTIVE POWER: After the elimination, point to a second player to 'Silence' them. They cannot speak a single word during the entire next day."
-            },
-            jesus: {
-                title: "The Messiah", img: "jesus.png", cssClass: "role-jesus",
-                desc: "THE LIGHT: If eliminated, stay completely silent. Wait exactly 3 rounds (3 Days). On the 3rd day, announce your resurrection! You are now immune to elimination, 100% confirmed innocent, and you may immediately cast 'Divine Judgment' to eliminate ONE player of your choice."
-            },
-            luke: {
-                title: "Luke the Healer", img: "Luke.png", cssClass: "role-luke",
-                desc: "SPECIAL ROLE: The Storyteller will ask you to open your eyes at night. Point to one person. That person cannot be eliminated tonight. You may save yourself, but not twice in a row."
-            },
-            john: {
-                title: "John the Seer", img: "John.png", cssClass: "role-john",
-                desc: "SPECIAL ROLE: The Storyteller will ask you to open your eyes at night. Point to one person. The Storyteller will nod YES if they are an Imposter, or NO if they are innocent (Note: Judas will appear innocent)."
-            },
-            peter: {
-                title: "Peter the Rock", img: "Peter.png", cssClass: "role-peter",
-                desc: "SPECIAL ROLE: You do not wake up at night. PASSIVE POWER: The first time the Pharisees try to eliminate you, your faith protects you, and you survive the attack."
-            },
-            disciple: {
-                title: "Faithful Disciple", img: "Disciple.png", cssClass: "role-disciple",
-                desc: "CITIZEN: You sleep through the night. Pay close attention during the day, listen to the arguments, and use your vote to find the imposters."
-            }
+            pharisee: { title: "Pharisee", icon: "🐍", color: "#e74c3c", desc: "IMPOSTER: You want to silence the church. Wake up during the night with the other Imposters to eliminate one player. Blend in during the day." },
+            judas: { title: "Judas", icon: "💰", color: "#c0392b", desc: "MASTER IMPOSTER: You wake up with the Pharisees at night. PASSIVE POWER: If John the Seer investigates you, you will falsely appear as an innocent Disciple." },
+            caiaphas: { title: "Caiaphas", icon: "📜", color: "#8e44ad", desc: "MASTER IMPOSTER: Wake up with the Pharisees at night. ACTIVE POWER: After the elimination, point to a second player to 'Silence' them. They cannot speak a single word during the entire next day." },
+            luke: { title: "Luke the Healer", icon: "🌿", color: "#2ed573", desc: "SPECIAL ROLE: The Storyteller will ask you to open your eyes at night. Point to one person. That person cannot be eliminated tonight. You may save yourself, but not twice in a row." },
+            john: { title: "John the Seer", icon: "👁️", color: "#9b59b6", desc: "SPECIAL ROLE: The Storyteller will ask you to open your eyes at night. Point to one person. The Storyteller will nod YES if they are an Imposter, or NO if they are innocent (Note: Judas will appear innocent)." },
+            peter: { title: "Peter the Rock", icon: "🛡️", color: "#94a3b8", desc: "SPECIAL ROLE: You do not wake up at night. PASSIVE POWER: The first time the Pharisees try to eliminate you, your faith protects you, and you survive the attack." },
+            disciple: { title: "Faithful Disciple", icon: "👥", color: "#00a8ff", desc: "CITIZEN: You sleep through the night. Pay close attention during the day, listen to the arguments, and use your vote to find the imposters." }
         };
 
-        let deck = [];
+        let players = []; 
         let currentPlayerIndex = 0;
+        let selectedPlayerId = null;
 
         const setupScreen = document.getElementById("setup-screen");
         const lockScreen = document.getElementById("lock-screen");
         const revealScreen = document.getElementById("reveal-screen");
-        const endScreen = document.getElementById("end-screen");
+        const dashScreen = document.getElementById("dashboard-screen");
+        const modal = document.getElementById("action-modal");
 
         function switchScreen(screenToShow) {
             setupScreen.classList.remove("active-screen");
             lockScreen.classList.remove("active-screen");
             revealScreen.classList.remove("active-screen");
-            endScreen.classList.remove("active-screen");
+            dashScreen.classList.remove("active-screen");
             screenToShow.classList.add("active-screen");
         }
 
@@ -211,79 +193,113 @@
             const count = parseInt(document.getElementById("player-count").value);
             if (count < 5) { alert("You need at least 5 players!"); return; }
 
-            deck = [];
-            
-            // 1. Calculate Bad Guys (Using user's Math.round logic)
-            // Divide by 4 and round to nearest whole number (Max ensures at least 1)
+            let deck = [];
+            // Dynamically scale the number of imposters based on group size
             let totalImposters = Math.max(1, Math.round(count / 4));
             
-            // Distribute Imposter Roles
-            if (totalImposters === 1) {
-                deck.push("pharisee");
-            } else if (totalImposters === 2) {
-                deck.push("judas");
-                deck.push("pharisee");
-            } else {
-                deck.push("judas");
-                deck.push("caiaphas");
-                // Fill the rest of the imposter slots with basic Pharisees
-                for (let i = 0; i < totalImposters - 2; i++) {
-                    deck.push("pharisee");
-                }
-            }
+            if (totalImposters === 1) deck.push("pharisee");
+            else if (totalImposters === 2) { deck.push("judas"); deck.push("pharisee"); }
+            else { deck.push("judas"); deck.push("caiaphas"); for (let i = 0; i < totalImposters - 2; i++) deck.push("pharisee"); }
 
-            // 2. Add Good Special Roles
-            deck.push("jesus"); // Always add Jesus
-            deck.push("luke");  // Always have 1 Healer
-            if (count >= 7) deck.push("john"); // Add the Seer for medium groups
-            if (count >= 10) deck.push("peter"); // Add the Shield for large groups
+            // Add special citizens
+            deck.push("luke");
+            if (count >= 7) deck.push("john");
+            if (count >= 9) deck.push("peter");
+            
+            // Fill the rest of the room with Disciples
+            while (deck.length < count) deck.push("disciple");
 
-            // 3. Fill the rest of the slots with Faithful Disciples
-            while (deck.length < count) {
-                deck.push("disciple");
-            }
-
-            // Shuffle the deck so roles are random
             shuffle(deck);
+
+            // Populate the Master Tracking Array for the Dashboard
+            players = deck.map((roleKey, index) => ({
+                id: index + 1,
+                role: roleKey,
+                status: 'alive' // Default status is 'alive'
+            }));
+
             currentPlayerIndex = 0;
             prepareLockScreen();
         }
 
         function prepareLockScreen() {
-            if (currentPlayerIndex >= deck.length) {
-                switchScreen(endScreen);
+            // If all players have seen their role, open the Dashboard for the leader
+            if (currentPlayerIndex >= players.length) {
+                renderDashboard();
+                switchScreen(dashScreen);
                 return;
             }
 
             const playerNum = currentPlayerIndex + 1;
             document.getElementById("lock-text").innerText = `Pass the phone to Player ${playerNum}`;
-            document.getElementById("reveal-btn").innerText = `👀 I am Player ${playerNum} (Reveal)`;
-            
+            document.getElementById("reveal-btn").innerText = `👀 I am Player ${playerNum}`;
             switchScreen(lockScreen);
         }
 
         function showRole() {
-            const roleKey = deck[currentPlayerIndex];
-            const roleInfo = roleData[roleKey];
+            const player = players[currentPlayerIndex];
+            const roleInfo = roleData[player.role];
 
-            // Update custom image art
-            const artEl = document.getElementById("role-art");
-            artEl.src = roleInfo.img;
-            artEl.alt = roleInfo.title + " Art";
-            artEl.className = "role-art " + roleInfo.cssClass; 
+            // Setup the visual card for the player
+            document.getElementById("role-icon").innerText = roleInfo.icon;
             
             const titleEl = document.getElementById("role-title");
             titleEl.innerText = roleInfo.title;
-            titleEl.className = "role-title " + roleInfo.cssClass; 
+            titleEl.style.color = roleInfo.color;
             
             document.getElementById("role-desc").innerText = roleInfo.desc;
-
+            
             switchScreen(revealScreen);
         }
 
         function nextPlayer() {
             currentPlayerIndex++;
             prepareLockScreen();
+        }
+
+        // --- DASHBOARD SYSTEM LOGIC ---
+        function renderDashboard() {
+            const grid = document.getElementById("dash-grid");
+            grid.innerHTML = "";
+
+            players.forEach(p => {
+                const info = roleData[p.role];
+                const card = document.createElement("div");
+                
+                // Apply CSS classes based on if they are dead, silenced, or alive
+                card.className = `dash-card status-${p.status}`;
+                card.style.borderTop = `5px solid ${info.color}`;
+                
+                card.innerHTML = `
+                    <div class="dash-num">Player ${p.id}</div>
+                    <div class="dash-icon">${info.icon}</div>
+                    <div class="dash-role" style="color: ${info.color}">${info.title}</div>
+                `;
+                
+                // Clicking the card opens the action menu
+                card.onclick = () => openModal(p.id);
+                grid.appendChild(card);
+            });
+        }
+
+        function openModal(playerId) {
+            selectedPlayerId = playerId;
+            document.getElementById("modal-player-title").innerText = `Player ${playerId}`;
+            modal.classList.add("show");
+        }
+
+        function closeModal() {
+            modal.classList.remove("show");
+            selectedPlayerId = null;
+        }
+
+        function setStatus(newStatus) {
+            const playerIndex = players.findIndex(p => p.id === selectedPlayerId);
+            if (playerIndex !== -1) {
+                players[playerIndex].status = newStatus;
+                renderDashboard(); // Re-draw the grid with the new status
+            }
+            closeModal();
         }
     </script>
 </body>

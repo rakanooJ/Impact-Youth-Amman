@@ -14,23 +14,15 @@
             min-height: 100vh; display: flex; flex-direction: column;
         }
         
-        /* Navigation Bar */
-        .navbar { 
-            background-color: #1c1e21; padding: 12px 60px; display: flex; 
-            justify-content: space-between; align-items: center; border-bottom: 1px solid #333;
-        }
+        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
         .logo img { height: 60px; width: auto; border-radius: 50%; }
         .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
         .nav-links a:hover { color: #f1c40f; }
 
         .game-container { max-width: 1000px; margin: 20px auto; padding: 0 20px; width: 100%; }
 
-        /* Scoreboard Header */
-        .scoreboard { 
-            display: flex; justify-content: space-between; align-items: center; 
-            background: #111; padding: 20px 40px; border-radius: 15px; 
-            border: 2px solid #333; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        /* Scoreboard */
+        .scoreboard { display: flex; justify-content: space-between; align-items: center; background: #111; padding: 20px 40px; border-radius: 15px; border: 2px solid #333; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .team-score { text-align: center; width: 25%; transition: 0.3s; padding: 15px; border-radius: 10px; }
         .team-name { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
         .score-val { font-size: 3rem; font-weight: bold; }
@@ -44,32 +36,29 @@
         .pot-title { font-size: 1.2rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;}
         .pot-val { font-size: 4rem; color: #2ed573; font-weight: 900; text-shadow: 0 0 15px rgba(46,213,115,0.5); }
 
-        /* Main Game Area */
+        /* Layout Grid */
         .layout-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
 
         /* Left Side: Challenge Panel */
-        .challenge-panel { 
-            background: rgba(30, 41, 59, 0.9); padding: 30px; border-radius: 15px; 
-            border: 2px solid #475569; display: flex; flex-direction: column; justify-content: center; text-align: center;
-        }
+        .challenge-panel { background: rgba(30, 41, 59, 0.9); padding: 30px; border-radius: 15px; border: 2px solid #475569; display: flex; flex-direction: column; justify-content: center; text-align: center; }
         .phase-title { font-size: 1.5rem; color: #cbd5e1; margin-bottom: 15px; text-transform: uppercase; }
-        .challenge-text { font-size: 2rem; font-weight: bold; color: #fff; margin-bottom: 30px; line-height: 1.4; }
+        .challenge-text { font-size: 1.8rem; font-weight: bold; color: #fff; margin-bottom: 30px; line-height: 1.4; }
         
-        .btn { padding: 15px 20px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.2s; width: 100%; margin-bottom: 15px; }
+        .btn { padding: 15px 20px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.2s; width: 100%; margin-bottom: 10px; }
         .btn:active { transform: scale(0.98); }
-        .btn-action { background: #f1c40f; color: #000; box-shadow: 0 5px 15px rgba(241,196,15,0.3); }
-        .btn-action:hover { background: #d4ac0d; }
-        .btn-action:disabled { background: #555; color: #888; cursor: not-allowed; box-shadow: none; }
         
-        .btn-bank { background: #2ed573; color: #000; }
-        .btn-bank:hover { background: #27ae60; }
-        .btn-bank:disabled { display: none; }
+        .btn-generate { background: #f1c40f; color: #000; box-shadow: 0 5px 15px rgba(241,196,15,0.3); }
+        .btn-generate:hover { background: #d4ac0d; }
+        
+        .pass-fail-group { display: none; gap: 10px; }
+        .btn-pass { background: #2ed573; color: #000; width: 50%; }
+        .btn-fail { background: #e74c3c; color: #fff; width: 50%; }
+        
+        .btn-bank { background: #3498db; color: #fff; display: none; box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);}
+        .btn-bank:hover { background: #2980b9; }
 
         /* Right Side: Minefield Grid */
-        .minefield { 
-            display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; 
-            background: #111; padding: 20px; border-radius: 15px; border: 2px solid #333;
-        }
+        .minefield { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; background: #111; padding: 20px; border-radius: 15px; border: 2px solid #333; }
         .vault-door { 
             background: #334155; border: 2px solid #475569; border-radius: 8px; 
             aspect-ratio: 1; display: flex; justify-content: center; align-items: center;
@@ -82,6 +71,8 @@
         .vault-door.flipped { cursor: default; transform: scale(0.95); }
         .vault-door.flipped.points { background: rgba(46,213,115,0.2); border-color: #2ed573; color: #2ed573; }
         .vault-door.flipped.bomb { background: rgba(231,76,60,0.2); border-color: #e74c3c; color: #e74c3c; animation: shake 0.5s; }
+        .vault-door.flipped.multiplier { background: rgba(241, 196, 15, 0.2); border-color: #f1c40f; color: #f1c40f; }
+        .vault-door.flipped.steal { background: rgba(155, 89, 182, 0.2); border-color: #9b59b6; color: #9b59b6; }
         
         /* Modals & Overlays */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 200; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px;}
@@ -92,18 +83,13 @@
         .btn-continue:hover { transform: translateY(-3px); }
 
         /* Intro Screen Specifics */
-        .intro-list { text-align: left; font-size: 1.4rem; color: #cbd5e1; margin-bottom: 40px; list-style: none; padding: 30px; background: #111; border-radius: 15px; border: 2px solid #333; max-width: 700px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .intro-list { text-align: left; font-size: 1.4rem; color: #cbd5e1; margin-bottom: 40px; list-style: none; padding: 30px; background: #111; border-radius: 15px; border: 2px solid #333; max-width: 700px; }
         .intro-list li { margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px;}
         .intro-icon { font-size: 2rem; line-height: 1; }
 
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 50% { transform: translateX(10px); } 75% { transform: translateX(-10px); } }
 
-        @media (max-width: 768px) { 
-            .layout-grid { grid-template-columns: 1fr; } 
-            .navbar { padding: 10px 20px; } .nav-links { display: none; } 
-            .scoreboard { padding: 15px; } .score-val { font-size: 2rem; } .pot-val { font-size: 2.5rem; }
-            .alert-title { font-size: 3.5rem; } .intro-list { font-size: 1.1rem; padding: 20px; }
-        }
+        @media (max-width: 768px) { .layout-grid { grid-template-columns: 1fr; } .navbar { padding: 10px 20px; } .nav-links { display: none; } .scoreboard { padding: 15px; } .score-val { font-size: 2rem; } .pot-val { font-size: 2.5rem; } .alert-title { font-size: 3.5rem; } .intro-list { font-size: 1.1rem; padding: 20px; } }
     </style>
 </head>
 <body>
@@ -138,8 +124,14 @@
                 <div class="phase-title" id="phase-title">Phase 1: The Gauntlet</div>
                 <div class="challenge-text" id="challenge-text">"Press the button below to generate a physical challenge for the active team."</div>
                 
-                <button class="btn btn-action" id="btn-challenge" onclick="generateChallenge()">Generate Challenge</button>
-                <button class="btn btn-bank" id="btn-bank" onclick="bankPoints()" disabled>💰 Bank Points & End Turn</button>
+                <button class="btn btn-generate" id="btn-generate" onclick="generateChallenge()">Generate Challenge</button>
+                
+                <div class="pass-fail-group" id="pass-fail-group">
+                    <button class="btn btn-pass" onclick="passChallenge()">✅ Passed</button>
+                    <button class="btn btn-fail" onclick="failChallenge()">❌ Failed</button>
+                </div>
+
+                <button class="btn btn-bank" id="btn-bank" onclick="bankPoints()">💰 Bank Points & End Turn</button>
             </div>
 
             <div class="minefield" id="grid">
@@ -150,9 +142,10 @@
     <div class="overlay active" id="intro-screen" style="background: rgba(15, 23, 42, 0.98);">
         <div class="alert-title" style="color: #f1c40f;">💣 THE MINEFIELD 💣</div>
         <ul class="intro-list">
-            <li><span class="intro-icon">🔴🔵</span> <span><b>STEP 1: THE SPLIT.</b> Divide the entire room into TWO massive teams (Red vs. Blue). Sit with your team.</span></li>
-            <li><span class="intro-icon">💦🏃‍♂️</span> <span><b>STEP 2: THE HUSTLE.</b> When it is your turn, you must complete a fast physical challenge to unlock the vault.</span></li>
-            <li><span class="intro-icon">💰💥</span> <span><b>STEP 3: THE GAMBLE.</b> Pick a vault door to earn points. You can bank your points early, or push your luck to open another door... but if you hit a BOMB, you lose the whole pot!</span></li>
+            <li><span class="intro-icon">🔴🔵</span> <span><b>THE SPLIT:</b> Divide the room into TWO massive teams.</span></li>
+            <li><span class="intro-icon">💦🏃‍♂️</span> <span><b>THE HUSTLE:</b> You must complete a fast physical challenge to earn the right to open a vault door. If you fail the challenge, your turn is over!</span></li>
+            <li><span class="intro-icon">⭐🥷</span> <span><b>THE VAULT:</b> Behind the doors are points, 2x Multipliers, or Steal actions.</span></li>
+            <li><span class="intro-icon">💰💥</span> <span><b>THE GAMBLE:</b> Bank your points to save them. If you get greedy and hit a BOMB, you lose the whole pot!</span></li>
         </ul>
         <button class="btn-continue" style="background: #f1c40f; color: #000;" onclick="startGame()">We are split! Let's Go 🚀</button>
     </div>
@@ -163,14 +156,19 @@
         <button class="btn-continue" onclick="nextTurn()">Accept Fate</button>
     </div>
 
+    <div class="overlay" id="special-screen">
+        <div class="alert-title" id="special-title" style="color: #f1c40f;">⭐ MULTIPLIER ⭐</div>
+        <div class="alert-sub" id="special-msg">The pot has been doubled!</div>
+        <button class="btn-continue" onclick="closeSpecial()">Awesome</button>
+    </div>
+
     <div class="overlay" id="bank-screen">
-        <div class="alert-title" style="color: #2ed573;">💰 BANKED 💰</div>
+        <div class="alert-title" style="color: #3498db;">💰 BANKED 💰</div>
         <div class="alert-sub" id="bank-msg">Red Team secured 500 points!</div>
         <button class="btn-continue" onclick="nextTurn()">Next Team</button>
     </div>
 
     <script>
-        // THE GAUNTLET CHALLENGES
         const challenges = [
             "Bring the host exactly 3 left shoes.",
             "As a team, complete 20 jumping jacks in perfect sync.",
@@ -198,24 +196,26 @@
         const gridEl = document.getElementById("grid");
         const potEl = document.getElementById("pot");
         const challengeText = document.getElementById("challenge-text");
-        const btnChallenge = document.getElementById("btn-challenge");
+        const btnGenerate = document.getElementById("btn-generate");
+        const passFailGroup = document.getElementById("pass-fail-group");
         const btnBank = document.getElementById("btn-bank");
+        
         const team1Panel = document.getElementById("team1-panel");
         const team2Panel = document.getElementById("team2-panel");
 
-        // Start Game (Hides Intro)
-        function startGame() {
-            document.getElementById("intro-screen").classList.remove("active");
-        }
+        function startGame() { document.getElementById("intro-screen").classList.remove("active"); }
 
-        // Generate Board (5x5)
         function generateBoard() {
             gridEl.innerHTML = "";
+            
+            // 25 Tiles: 4 Bombs, 2 Multipliers, 1 Steal, 18 Point Tiles
             let vaultItems = [
-                "💥", "💥", "💥", "💥", "💥", // 5 Bombs
+                "💥", "💥", "💥", "💥", // 4 Bombs
+                "⭐", "⭐", // 2 Multipliers
+                "🥷", // 1 Steal
                 "100", "100", "100", "100", "100", "100", "100", "100", // 8x 100pts
-                "200", "200", "200", "200", "200", "200", // 6x 200pts
-                "300", "300", "300", "300", // 4x 300pts
+                "200", "200", "200", "200", "200", // 5x 200pts
+                "300", "300", "300", // 3x 300pts
                 "500", "500" // 2x 500pts
             ];
 
@@ -224,10 +224,10 @@
                 [vaultItems[i], vaultItems[j]] = [vaultItems[j], vaultItems[i]];
             }
 
-            vaultItems.forEach((item, index) => {
+            vaultItems.forEach((item) => {
                 let door = document.createElement("div");
                 door.className = "vault-door";
-                door.innerText = item === "💥" ? "💥" : `+${item}`;
+                door.innerText = item === "💥" ? "💥" : (item === "⭐" || item === "🥷" ? item : `+${item}`);
                 door.dataset.value = item;
                 
                 door.style.backgroundImage = "url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%2394a3b8%22 width=%2240px%22 height=%2240px%22><path d=%22M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zm-3 5c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm3 11a2 2 0 1 1 0-4 2 2 0 0 1 0 4z%22/></svg>')";
@@ -239,61 +239,96 @@
             });
         }
 
+        // --- NEW CHALLENGE LOGIC ---
         function generateChallenge() {
-            if (btnChallenge.innerText === "Generate Challenge") {
-                const randomTask = challenges[Math.floor(Math.random() * challenges.length)];
-                challengeText.innerText = `MISSION: ${randomTask}`;
-                challengeText.style.color = "#f1c40f";
-                
-                btnChallenge.innerText = "Mark as Complete ✅";
-                btnChallenge.style.background = "#2ed573";
-                btnBank.disabled = true; 
-            } else {
-                challengeText.innerText = "ACCESS GRANTED. Pick a vault door.";
-                challengeText.style.color = "#2ed573";
-                
-                canOpenDoor = true;
-                
-                btnChallenge.innerText = "Generate Challenge";
-                btnChallenge.style.background = "#f1c40f";
-                btnChallenge.disabled = true; 
-            }
+            const randomTask = challenges[Math.floor(Math.random() * challenges.length)];
+            challengeText.innerText = `MISSION: ${randomTask}`;
+            challengeText.style.color = "#f1c40f";
+            
+            btnGenerate.style.display = "none"; 
+            btnBank.style.display = "none";
+            passFailGroup.style.display = "flex"; 
         }
 
+        function passChallenge() {
+            challengeText.innerText = "ACCESS GRANTED. Pick a vault door.";
+            challengeText.style.color = "#2ed573";
+            
+            canOpenDoor = true;
+            passFailGroup.style.display = "none";
+        }
+
+        function failChallenge() {
+            alert("Challenge Failed! Your turn is immediately over.");
+            nextTurn(); // Pass the turn without banking
+        }
+
+        // --- DOOR LOGIC ---
         function openDoor(door) {
             if (!canOpenDoor || door.classList.contains("flipped")) return;
 
             door.classList.add("flipped");
             door.style.backgroundImage = "none"; 
-
             const val = door.dataset.value;
 
             if (val === "💥") {
                 door.classList.add("bomb");
                 currentPot = 0;
-                updatePotUI();
+                updateScoresUI();
                 setTimeout(() => document.getElementById("bomb-screen").classList.add("active"), 800);
+            } else if (val === "⭐") {
+                door.classList.add("multiplier");
+                if (currentPot === 0) currentPot = 500; // Give them something if they hit it first
+                else currentPot *= 2;
+                updateScoresUI();
+                triggerSpecialModal("⭐ MULTIPLIER ⭐", "The pot has been doubled!", "#f1c40f");
+            } else if (val === "🥷") {
+                door.classList.add("steal");
+                let stolen = 0;
+                if (activeTeam === 1) { stolen = Math.min(score2, 500); score2 -= stolen; } 
+                else { stolen = Math.min(score1, 500); score1 -= stolen; }
+                
+                currentPot += stolen;
+                updateScoresUI();
+                triggerSpecialModal("🥷 HEIST 🥷", `Stole ${stolen} points from the enemy bank!`, "#9b59b6");
             } else {
                 door.classList.add("points");
                 currentPot += parseInt(val);
-                updatePotUI();
+                updateScoresUI();
                 
                 canOpenDoor = false;
                 challengeText.innerText = "Points added to Pot! Will you BANK it, or risk doing another challenge?";
                 challengeText.style.color = "#fff";
                 
-                btnChallenge.disabled = false; 
-                btnBank.disabled = false; 
+                btnGenerate.style.display = "block"; 
+                btnBank.style.display = "block"; 
             }
         }
 
+        function triggerSpecialModal(title, msg, color) {
+            canOpenDoor = false;
+            document.getElementById("special-title").innerText = title;
+            document.getElementById("special-title").style.color = color;
+            document.getElementById("special-msg").innerText = msg;
+            
+            setTimeout(() => document.getElementById("special-screen").classList.add("active"), 800);
+        }
+
+        function closeSpecial() {
+            document.getElementById("special-screen").classList.remove("active");
+            challengeText.innerText = "Special action complete! Will you BANK it, or risk doing another challenge?";
+            challengeText.style.color = "#fff";
+            btnGenerate.style.display = "block"; 
+            btnBank.style.display = "block"; 
+        }
+
         function bankPoints() {
-            if (activeTeam === 1) { score1 += currentPot; document.getElementById("score1").innerText = score1; } 
-            else { score2 += currentPot; document.getElementById("score2").innerText = score2; }
+            if (activeTeam === 1) { score1 += currentPot; } 
+            else { score2 += currentPot; }
 
             document.getElementById("bank-msg").innerText = `${activeTeam === 1 ? 'Red' : 'Blue'} Team secured ${currentPot} points!`;
             currentPot = 0;
-            updatePotUI();
+            updateScoresUI();
             
             document.getElementById("bank-screen").classList.add("active");
         }
@@ -301,6 +336,7 @@
         function nextTurn() {
             document.getElementById("bomb-screen").classList.remove("active");
             document.getElementById("bank-screen").classList.remove("active");
+            passFailGroup.style.display = "none";
 
             activeTeam = activeTeam === 1 ? 2 : 1;
             
@@ -313,15 +349,17 @@
             }
 
             canOpenDoor = false;
-            btnChallenge.disabled = false;
-            btnChallenge.innerText = "Generate Challenge";
-            btnChallenge.style.background = "#f1c40f";
-            btnBank.disabled = true;
+            btnGenerate.style.display = "block";
+            btnBank.style.display = "none";
             challengeText.innerText = `It is now ${activeTeam === 1 ? 'Red' : 'Blue'} Team's turn. Generate a challenge to begin.`;
             challengeText.style.color = "#fff";
         }
 
-        function updatePotUI() { potEl.innerText = currentPot; }
+        function updateScoresUI() { 
+            potEl.innerText = currentPot; 
+            document.getElementById("score1").innerText = score1;
+            document.getElementById("score2").innerText = score2;
+        }
 
         generateBoard();
     </script>

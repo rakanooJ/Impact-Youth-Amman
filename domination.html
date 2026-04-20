@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domination - Impact Youth</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0f172a; color: #f8f9fa; line-height: 1.6; 
+            background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh; display: flex; flex-direction: column;
+        }
+        
+        /* Navigation */
+        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
+        .nav-links a:hover { color: #e74c3c; }
+
+        .game-container { max-width: 1000px; margin: 20px auto; padding: 0 20px; width: 100%; text-align: center;}
+
+        .title { font-size: 3.5rem; color: #fff; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 10px; font-weight: 900; text-shadow: 0 0 20px rgba(255,255,255,0.2);}
+        .subtitle { font-size: 1.2rem; color: #94a3b8; margin-bottom: 30px; }
+
+        /* Scoreboard */
+        .scoreboard { 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: #111; padding: 15px 40px; border-radius: 15px; 
+            border: 2px solid #333; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .team-score { width: 30%; padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;}
+        .team-name { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; }
+        .score-val { font-size: 3.5rem; font-weight: bold; background: #000; padding: 0 20px; border-radius: 10px; }
+        
+        .team-red { color: #e74c3c; background: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; box-shadow: 0 0 20px rgba(231,76,60,0.2); }
+        .team-blue { color: #00a8ff; background: rgba(0, 168, 255, 0.1); border: 2px solid #00a8ff; box-shadow: 0 0 20px rgba(0,168,255,0.2); }
+
+        .vs-text { font-size: 2rem; color: #475569; font-weight: 900; font-style: italic; }
+
+        /* The Map */
+        .map-grid { 
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; 
+            background: #111; padding: 25px; border-radius: 15px; border: 2px solid #333;
+        }
+        .sector { 
+            background: #334155; border: 2px solid #475569; border-radius: 10px; 
+            aspect-ratio: 4/3; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+        }
+        .sector:hover { border-color: #cbd5e1; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        
+        .sec-id { font-size: 0.9rem; color: #94a3b8; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; z-index: 2;}
+        .sec-name { font-size: 1.4rem; color: #fff; font-weight: 900; text-transform: uppercase; z-index: 2;}
+        
+        /* Sector Ownership States */
+        .sector.owned-red { background: rgba(231, 76, 60, 0.2); border-color: #e74c3c; }
+        .sector.owned-red .sec-id { color: #ffcccc; }
+        .sector.owned-blue { background: rgba(0, 168, 255, 0.2); border-color: #00a8ff; }
+        .sector.owned-blue .sec-id { color: #ccebff; }
+
+        /* Background texture for sectors */
+        .sector::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px);
+            z-index: 1; pointer-events: none;
+        }
+
+        /* Clash Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.98); z-index: 100; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px; }
+        .modal.active { display: flex; }
+        
+        .clash-title { font-size: 2.5rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 900;}
+        .clash-sector { font-size: 1.5rem; color: #cbd5e1; margin-bottom: 40px; }
+        
+        .challenge-box { background: #111; padding: 40px; border-radius: 15px; border: 2px solid #475569; max-width: 800px; width: 100%; margin-bottom: 40px; box-shadow: 0 15px 40px rgba(0,0,0,0.8);}
+        .challenge-text { font-size: 2.2rem; font-weight: bold; color: #fff; line-height: 1.4; }
+
+        .btn-group { display: flex; gap: 20px; width: 100%; max-width: 800px; }
+        .btn { flex: 1; padding: 20px; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 10px; cursor: pointer; transition: 0.2s; color: white;}
+        .btn:active { transform: scale(0.95); }
+        .btn-red { background: #e74c3c; box-shadow: 0 5px 15px rgba(231,76,60,0.4); }
+        .btn-blue { background: #00a8ff; box-shadow: 0 5px 15px rgba(0,168,255,0.4); }
+        
+        .btn-cancel { background: transparent; border: 2px solid #94a3b8; color: #94a3b8; padding: 10px 30px; margin-top: 30px; font-size: 1.2rem; border-radius: 8px; cursor: pointer;}
+
+        @media (max-width: 768px) { .map-grid { grid-template-columns: repeat(2, 1fr); } .scoreboard { flex-direction: column; gap: 15px; } .team-score { width: 100%; } .btn-group { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links"><a href="spirit-fun.html">Back to Arcade</a></div>
+    </nav>
+
+    <div class="game-container">
+        <div class="title">Domination</div>
+        <div class="subtitle">Click a sector to initiate a Head-to-Head Clash. The winning team claims the territory.</div>
+
+        <div class="scoreboard">
+            <div class="team-score team-red">
+                <div class="team-name">Red</div>
+                <div class="score-val" id="score-red">0</div>
+            </div>
+            <div class="vs-text">VS</div>
+            <div class="team-score team-blue">
+                <div class="score-val" id="score-blue">0</div>
+                <div class="team-name">Blue</div>
+            </div>
+        </div>
+
+        <div class="map-grid" id="map">
+            </div>
+    </div>
+
+    <div class="modal" id="clash-modal">
+        <div class="clash-title">⚔️ Territory Clash ⚔️</div>
+        <div class="clash-sector" id="clash-sector-name">Contesting: Sector Alpha</div>
+        
+        <div class="challenge-box">
+            <div class="challenge-text" id="clash-task">Loading challenge...</div>
+        </div>
+
+        <div style="font-size: 1.2rem; color: #94a3b8; margin-bottom: 15px; text-transform: uppercase; font-weight: bold;">Who won the clash?</div>
+        <div class="btn-group">
+            <button class="btn btn-red" onclick="awardSector('red')">Red Team Wins</button>
+            <button class="btn btn-blue" onclick="awardSector('blue')">Blue Team Wins</button>
+        </div>
+
+        <button class="btn-cancel" onclick="closeClash()">Cancel Clash</button>
+    </div>
+
+    <script>
+        // DOMINATION HEAD-TO-HEAD CHALLENGES
+        const clashes = [
+            // SPEED SCAVENGER
+            "First team to bring the host a completely black pen.",
+            "First team to bring the host a receipt from a grocery store.",
+            "First team to bring the host 3 distinct keys on a single keychain.",
+            "First team to bring the host a left shoe with tied laces.",
+            
+            // PHYSICAL RACES
+            "First team to have 5 members touch the back wall and return to their seats.",
+            "First team to form a complete human pyramid (minimum 3 people).",
+            "Send a champion: First to complete 20 flawless pushups.",
+            "First team to have everyone sit on the floor in complete silence.",
+            
+            // HEAD TO HEAD TRIVIA / BRAIN
+            "Math Race: What is 12 x 7? (First team to yell the correct answer).",
+            "Bible Race: First team to find and read John 1:5 out loud from a physical Bible.",
+            "List Race: First team to write down 5 local shawarma spots on a piece of paper and hand it to the host.",
+            "Send a champion: Rock, Paper, Scissors. Best 2 out of 3.",
+            
+            // TEAM COORDINATION
+            "First team to successfully complete 'The Wave' from the front to the back of their section.",
+            "First team to arrange 5 members by height from shortest to tallest in front of the host.",
+            "First team to sing the chorus of 'Way Maker' perfectly in sync."
+        ];
+
+        // MAP DATA
+        const sectors = [
+            { id: 1, name: "The Citadel", owner: null },
+            { id: 2, name: "North Ridge", owner: null },
+            { id: 3, name: "Sector Alpha", owner: null },
+            { id: 4, name: "The Wasteland", owner: null },
+            { id: 5, name: "Echo Valley", owner: null },
+            { id: 6, name: "Iron Vault", owner: null },
+            { id: 7, name: "Sector Bravo", owner: null },
+            { id: 8, name: "The Narrows", owner: null },
+            { id: 9, name: "Highlands", owner: null },
+            { id: 10, name: "Outpost 9", owner: null },
+            { id: 11, name: "Sector Charlie", owner: null },
+            { id: 12, name: "The Core", owner: null }
+        ];
+
+        let currentContestedSector = null;
+
+        const mapEl = document.getElementById("map");
+        const modal = document.getElementById("clash-modal");
+        const clashTaskEl = document.getElementById("clash-task");
+        const clashSectorNameEl = document.getElementById("clash-sector-name");
+        
+        const scoreRedEl = document.getElementById("score-red");
+        const scoreBlueEl = document.getElementById("score-blue");
+
+        function renderMap() {
+            mapEl.innerHTML = "";
+            let redCount = 0;
+            let blueCount = 0;
+
+            sectors.forEach((sec, index) => {
+                const secDiv = document.createElement("div");
+                secDiv.className = `sector ${sec.owner ? 'owned-' + sec.owner : ''}`;
+                
+                secDiv.innerHTML = `
+                    <div class="sec-id">Zone 0${sec.id}</div>
+                    <div class="sec-name">${sec.name}</div>
+                `;
+
+                secDiv.onclick = () => initiateClash(index);
+                mapEl.appendChild(secDiv);
+
+                if (sec.owner === 'red') redCount++;
+                if (sec.owner === 'blue') blueCount++;
+            });
+
+            scoreRedEl.innerText = redCount;
+            scoreBlueEl.innerText = blueCount;
+        }
+
+        function initiateClash(index) {
+            currentContestedSector = index;
+            const sec = sectors[index];
+            
+            clashSectorNameEl.innerText = `Contesting: ${sec.name} (Zone 0${sec.id})`;
+            
+            // Randomize Challenge
+            const randomTask = clashes[Math.floor(Math.random() * clashes.length)];
+            clashTaskEl.innerText = randomTask;
+
+            modal.classList.add("active");
+        }
+
+        function awardSector(teamColor) {
+            if (currentContestedSector !== null) {
+                sectors[currentContestedSector].owner = teamColor;
+                renderMap();
+                closeClash();
+            }
+        }
+
+        function closeClash() {
+            modal.classList.remove("active");
+            currentContestedSector = null;
+        }
+
+        // Initialize
+        renderMap();
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domination - Impact Youth</title>
+    <title>Domination: Amman - Impact Youth</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
@@ -13,79 +13,98 @@
             min-height: 100vh; display: flex; flex-direction: column;
         }
         
-        /* Navigation */
-        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; z-index: 10;}
         .logo img { height: 60px; width: auto; border-radius: 50%; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; text-transform: uppercase;}
         .nav-links a:hover { color: #e74c3c; }
 
-        .game-container { max-width: 1000px; margin: 20px auto; padding: 0 20px; width: 100%; text-align: center;}
+        .game-container { max-width: 1100px; margin: 20px auto; padding: 0 20px; width: 100%; text-align: center; position: relative;}
 
-        .title { font-size: 3.5rem; color: #fff; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 10px; font-weight: 900; text-shadow: 0 0 20px rgba(255,255,255,0.2);}
-        .subtitle { font-size: 1.2rem; color: #94a3b8; margin-bottom: 30px; }
+        /* Admin Controls */
+        .admin-bar { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .btn-admin { background: transparent; border: 1px solid #475569; color: #cbd5e1; padding: 5px 15px; border-radius: 5px; cursor: pointer; text-transform: uppercase; font-size: 0.9rem; font-weight: bold; transition: 0.2s;}
+        .btn-admin:hover { background: #e74c3c; border-color: #e74c3c; color: white; }
+
+        .title { font-size: 3rem; color: #fff; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 5px; font-weight: 900; text-shadow: 0 0 20px rgba(255,255,255,0.2);}
+        .subtitle { font-size: 1.1rem; color: #94a3b8; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;}
 
         /* Scoreboard */
         .scoreboard { 
             display: flex; justify-content: space-between; align-items: center; 
-            background: #111; padding: 15px 40px; border-radius: 15px; 
+            background: #111; padding: 15px 30px; border-radius: 15px; 
             border: 2px solid #333; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .team-score { width: 30%; padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;}
-        .team-name { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; }
-        .score-val { font-size: 3.5rem; font-weight: bold; background: #000; padding: 0 20px; border-radius: 10px; }
+        .team-score { width: 35%; padding: 15px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; position: relative;}
+        .team-name { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px;}
+        .score-val { font-size: 3.5rem; font-weight: bold; line-height: 1; margin-bottom: 5px;}
+        .shields { font-size: 1.2rem; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);}
         
         .team-red { color: #e74c3c; background: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; box-shadow: 0 0 20px rgba(231,76,60,0.2); }
         .team-blue { color: #00a8ff; background: rgba(0, 168, 255, 0.1); border: 2px solid #00a8ff; box-shadow: 0 0 20px rgba(0,168,255,0.2); }
 
         .vs-text { font-size: 2rem; color: #475569; font-weight: 900; font-style: italic; }
 
-        /* The Map */
+        /* The Custom Amman Map */
         .map-grid { 
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; 
-            background: #111; padding: 25px; border-radius: 15px; border: 2px solid #333;
+            display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: minmax(100px, auto); gap: 10px; 
+            background: #0a0a0a; padding: 20px; border-radius: 15px; border: 4px solid #1e293b;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
         }
+        
         .sector { 
-            background: #334155; border: 2px solid #475569; border-radius: 10px; 
-            aspect-ratio: 4/3; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+            background: #334155; border: 2px solid #475569; border-radius: 8px; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; padding: 15px;
         }
-        .sector:hover { border-color: #cbd5e1; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .sector:hover { border-color: #cbd5e1; transform: scale(0.98); filter: brightness(1.2); }
         
-        .sec-id { font-size: 0.9rem; color: #94a3b8; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; z-index: 2;}
-        .sec-name { font-size: 1.4rem; color: #fff; font-weight: 900; text-transform: uppercase; z-index: 2;}
+        .sec-pts { font-size: 1rem; color: #f1c40f; font-weight: bold; margin-bottom: 5px; z-index: 2; background: rgba(0,0,0,0.6); padding: 2px 10px; border-radius: 10px;}
+        .sec-name { font-size: 1.3rem; color: #fff; font-weight: 900; text-transform: uppercase; z-index: 2; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);}
         
-        /* Sector Ownership States */
-        .sector.owned-red { background: rgba(231, 76, 60, 0.2); border-color: #e74c3c; }
-        .sector.owned-red .sec-id { color: #ffcccc; }
-        .sector.owned-blue { background: rgba(0, 168, 255, 0.2); border-color: #00a8ff; }
-        .sector.owned-blue .sec-id { color: #ccebff; }
+        /* Grid Spans for Map Realism */
+        .span-2x2 { grid-column: span 2; grid-row: span 2; }
+        .span-2x1 { grid-column: span 2; grid-row: span 1; }
+        .span-1x2 { grid-column: span 1; grid-row: span 2; }
+        .span-3x1 { grid-column: span 3; grid-row: span 1; }
 
-        /* Background texture for sectors */
+        /* Ownership States */
+        .sector.owned-red { background: rgba(231, 76, 60, 0.4); border-color: #e74c3c; box-shadow: inset 0 0 20px rgba(231,76,60,0.5);}
+        .sector.owned-blue { background: rgba(0, 168, 255, 0.4); border-color: #00a8ff; box-shadow: inset 0 0 20px rgba(0,168,255,0.5);}
+
+        /* Texture */
         .sector::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px);
-            z-index: 1; pointer-events: none;
+            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 10px 10px; z-index: 1; pointer-events: none;
         }
 
-        /* Clash Modal */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.98); z-index: 100; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px; }
-        .modal.active { display: flex; }
+        /* Modals & Overlays */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 15, 25, 0.95); z-index: 100; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px; }
+        .overlay.active { display: flex; }
+        
+        .modal-box { background: #111; padding: 40px; border-radius: 15px; border: 2px solid #475569; max-width: 800px; width: 100%; box-shadow: 0 15px 50px rgba(0,0,0,0.8);}
         
         .clash-title { font-size: 2.5rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 900;}
-        .clash-sector { font-size: 1.5rem; color: #cbd5e1; margin-bottom: 40px; }
-        
-        .challenge-box { background: #111; padding: 40px; border-radius: 15px; border: 2px solid #475569; max-width: 800px; width: 100%; margin-bottom: 40px; box-shadow: 0 15px 40px rgba(0,0,0,0.8);}
-        .challenge-text { font-size: 2.2rem; font-weight: bold; color: #fff; line-height: 1.4; }
+        .clash-sector { font-size: 1.5rem; color: #cbd5e1; margin-bottom: 30px; }
+        .challenge-text { font-size: 2rem; font-weight: bold; color: #fff; line-height: 1.4; margin-bottom: 40px; border-left: 5px solid #f1c40f; padding-left: 20px; text-align: left;}
 
-        .btn-group { display: flex; gap: 20px; width: 100%; max-width: 800px; }
-        .btn { flex: 1; padding: 20px; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 10px; cursor: pointer; transition: 0.2s; color: white;}
+        .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap;}
+        .btn { padding: 15px 30px; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; color: white; display: flex; align-items: center; justify-content: center; gap: 10px;}
         .btn:active { transform: scale(0.95); }
-        .btn-red { background: #e74c3c; box-shadow: 0 5px 15px rgba(231,76,60,0.4); }
-        .btn-blue { background: #00a8ff; box-shadow: 0 5px 15px rgba(0,168,255,0.4); }
-        
-        .btn-cancel { background: transparent; border: 2px solid #94a3b8; color: #94a3b8; padding: 10px 30px; margin-top: 30px; font-size: 1.2rem; border-radius: 8px; cursor: pointer;}
+        .btn-red { background: #e74c3c; flex: 1; min-width: 200px;}
+        .btn-blue { background: #00a8ff; flex: 1; min-width: 200px;}
+        .btn-shield { background: #f39c12; flex: 1; min-width: 200px; color: #000;}
+        .btn-cancel { background: transparent; border: 2px solid #475569; color: #cbd5e1; margin-top: 20px; width: 100%;}
 
-        @media (max-width: 768px) { .map-grid { grid-template-columns: repeat(2, 1fr); } .scoreboard { flex-direction: column; gap: 15px; } .team-score { width: 100%; } .btn-group { flex-direction: column; } }
+        /* Intro Screen */
+        .intro-list { text-align: left; font-size: 1.2rem; color: #cbd5e1; margin-bottom: 40px; list-style: none; padding: 0;}
+        .intro-list li { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 15px;}
+        
+        /* Winner Screen */
+        .winner-title { font-size: 5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 10px; animation: popIn 0.5s ease;}
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        @media (max-width: 768px) { .map-grid { grid-template-columns: repeat(2, 1fr); } .span-2x2, .span-2x1, .span-1x2, .span-3x1 { grid-column: span 1; grid-row: span 1; } .scoreboard { flex-direction: column; gap: 15px; } .team-score { width: 100%; } }
     </style>
 </head>
 <body>
@@ -95,18 +114,25 @@
     </nav>
 
     <div class="game-container">
-        <div class="title">Domination</div>
-        <div class="subtitle">Click a sector to initiate a Head-to-Head Clash. The winning team claims the territory.</div>
+        <div class="admin-bar">
+            <button class="btn-admin" onclick="location.reload()">Reset Map</button>
+            <button class="btn-admin" onclick="endGame()">End Game & Crown Winner</button>
+        </div>
+
+        <div class="title">Domination: Amman</div>
+        <div class="subtitle">Conquer territories. Use tactical shields. Win the city.</div>
 
         <div class="scoreboard">
             <div class="team-score team-red">
-                <div class="team-name">Red</div>
+                <div class="team-name">Red Team</div>
                 <div class="score-val" id="score-red">0</div>
+                <div class="shields" id="shields-red">🛡️ Shields: 2</div>
             </div>
             <div class="vs-text">VS</div>
             <div class="team-score team-blue">
+                <div class="team-name">Blue Team</div>
                 <div class="score-val" id="score-blue">0</div>
-                <div class="team-name">Blue</div>
+                <div class="shields" id="shields-blue">🛡️ Shields: 2</div>
             </div>
         </div>
 
@@ -114,129 +140,230 @@
             </div>
     </div>
 
-    <div class="modal" id="clash-modal">
-        <div class="clash-title">⚔️ Territory Clash ⚔️</div>
-        <div class="clash-sector" id="clash-sector-name">Contesting: Sector Alpha</div>
-        
-        <div class="challenge-box">
+    <div class="overlay active" id="intro-screen">
+        <div class="modal-box">
+            <div class="clash-title">🌍 TACTICAL MAP 🌍</div>
+            <ul class="intro-list">
+                <li><span>🔴🔵</span> <span><b>THE MAP:</b> The map of Amman is broken into high and low-value zones. Click an empty zone to claim it via a Head-to-Head challenge.</span></li>
+                <li><span>⚔️</span> <span><b>THE CLASH:</b> If Blue owns Abdoun, Red can click it to attack. The screen will generate a challenge. The winner takes the zone.</span></li>
+                <li><span>🛡️</span> <span><b>THE SHIELDS:</b> Both teams have exactly TWO shields. If your territory is attacked, you can burn a shield to instantly block the attack and cancel the clash.</span></li>
+            </ul>
+            <button class="btn btn-blue" style="width: 100%; font-size: 1.5rem;" onclick="startGame()">Commence Battle</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="clash-modal">
+        <div class="modal-box">
+            <div class="clash-title">⚔️ TERRITORY CLASH ⚔️</div>
+            <div class="clash-sector" id="clash-sector-name">Contesting: Abdoun (300 PTS)</div>
+            
             <div class="challenge-text" id="clash-task">Loading challenge...</div>
-        </div>
 
-        <div style="font-size: 1.2rem; color: #94a3b8; margin-bottom: 15px; text-transform: uppercase; font-weight: bold;">Who won the clash?</div>
-        <div class="btn-group">
-            <button class="btn btn-red" onclick="awardSector('red')">Red Team Wins</button>
-            <button class="btn btn-blue" onclick="awardSector('blue')">Blue Team Wins</button>
+            <div style="font-size: 1.1rem; color: #94a3b8; margin-bottom: 15px; text-transform: uppercase; font-weight: bold;">Who won the challenge?</div>
+            <div class="btn-group" id="clash-buttons">
+                </div>
+            <button class="btn btn-cancel" onclick="closeClash()">Cancel / Back</button>
         </div>
+    </div>
 
-        <button class="btn-cancel" onclick="closeClash()">Cancel Clash</button>
+    <div class="overlay" id="end-screen">
+        <div class="winner-title" id="winner-text">RED WINS</div>
+        <div class="clash-sector" id="final-score-text" style="font-size: 2rem;">Red: 1200 | Blue: 800</div>
+        <button class="btn btn-cancel" style="max-width: 300px; margin: 40px auto 0;" onclick="location.reload()">Play Again</button>
     </div>
 
     <script>
-        // DOMINATION HEAD-TO-HEAD CHALLENGES
-        const clashes = [
-            // SPEED SCAVENGER
+        // THE 50-CHALLENGE MEGA VAULT
+        const challenges = [
+            // SPRINT & SCAVENGER
             "First team to bring the host a completely black pen.",
             "First team to bring the host a receipt from a grocery store.",
             "First team to bring the host 3 distinct keys on a single keychain.",
             "First team to bring the host a left shoe with tied laces.",
+            "First team to bring the host a digital watch (Apple Watch counts).",
+            "First team to bring the host a tube of lip balm or chapstick.",
+            "First team to bring the host a coin from a specific year (Host calls the year).",
+            "First team to bring the host a student ID card.",
+            "First team to bring the host two mismatched socks currently being worn.",
+            "First team to bring the host wired plug-in headphones.",
+            "First team to show the host a photo of a dog on their phone.",
+            "First team to bring the host 4 completely different colored shirts.",
+            "First team to bring the host a physical paper Bible.",
+            "First team to bring the host a jacket with a zipper.",
+            "First team to bring the host a pair of sunglasses.",
             
-            // PHYSICAL RACES
-            "First team to have 5 members touch the back wall and return to their seats.",
-            "First team to form a complete human pyramid (minimum 3 people).",
-            "Send a champion: First to complete 20 flawless pushups.",
-            "First team to have everyone sit on the floor in complete silence.",
+            // PHYSICAL & STAMINA
+            "Champion Race: First person to complete 20 flawless pushups.",
+            "Team Race: First team to form a complete human pyramid (min 3 people).",
+            "Champion Race: First person to hold a wall-sit for 60 seconds.",
+            "Champion Race: Crab walk to the back wall and back to the front.",
+            "Staring Contest: Champions face off. First to blink loses.",
+            "Bottle Flip: Champions face off. First to land a water bottle flip wins.",
+            "Balance Race: Entire team must balance on one foot. First team to have someone drop their foot loses.",
+            "Sync Race: First team to complete 10 jumping jacks in perfect unison.",
+            "Thumb War: Champions face off. Best 2 out of 3.",
+            "Plank Race: Champions face off. Longest plank wins.",
+            "Statue Race: Entire team must freeze. First team to have someone laugh or move loses.",
+            "Paper Airplane: Champions make an airplane. Furthest throw wins.",
             
-            // HEAD TO HEAD TRIVIA / BRAIN
-            "Math Race: What is 12 x 7? (First team to yell the correct answer).",
-            "Bible Race: First team to find and read John 1:5 out loud from a physical Bible.",
-            "List Race: First team to write down 5 local shawarma spots on a piece of paper and hand it to the host.",
-            "Send a champion: Rock, Paper, Scissors. Best 2 out of 3.",
+            // BIBLE & BRAIN
+            "Bible Race: First team to find and read John 3:16 out loud from a physical Bible.",
+            "List Race: First team to write down 5 books of the Bible that start with 'M'.",
+            "Trivia Race: First team to name all 4 Gospels in order out loud.",
+            "Math Panic: Host yells '12 x 7'. First team to yell the answer wins.",
+            "Math Panic: Host yells '45 + 87'. First team to yell the answer wins.",
+            "Brain Race: Captain must recite the alphabet backwards. First to finish wins.",
+            "List Race: First team to write down 5 local shawarma spots in Amman.",
+            "List Race: First team to write down 3 malls in Amman.",
+            "Trivia Race: Name 5 animals that start with the letter 'C'.",
+            "Bible Race: First team to recite the shortest verse in the Bible ('Jesus wept').",
+            "Bible Race: Name the first 3 kings of Israel. First to yell it wins.",
+            "Trivia Race: First team to write down 5 countries in Africa.",
+            "Trivia Race: First team to write down 5 fast food chains.",
             
-            // TEAM COORDINATION
-            "First team to successfully complete 'The Wave' from the front to the back of their section.",
-            "First team to arrange 5 members by height from shortest to tallest in front of the host.",
-            "First team to sing the chorus of 'Way Maker' perfectly in sync."
+            // PERFORMANCE & CHAOS
+            "Performance: First team to loudly sing the SpongeBob SquarePants theme song.",
+            "Dance Off: Champions must execute a known TikTok dance. Host judges winner.",
+            "Impressions: Champions do an impression of a youth leader. Host judges winner.",
+            "Rap Battle: Champions freestyle for 15 seconds about Impact Youth. Room votes winner.",
+            "Chaos: First team to spell out the word 'IMPACT' using only their bodies on the floor.",
+            "Performance: Entire team must do 'The Wave' flawlessly from front to back.",
+            "Vocal Match: Champions must hold a high note. Longest breath wins.",
+            "Chaos: First team to arrange 5 members by height from shortest to tallest.",
+            "Performance: First team to sing the chorus of 'Way Maker' perfectly in sync.",
+            "Chaos: First team to get 10 people lined up by birth month in complete silence."
         ];
 
-        // MAP DATA
+        // THE AMMAN TACTICAL MAP
         const sectors = [
-            { id: 1, name: "The Citadel", owner: null },
-            { id: 2, name: "North Ridge", owner: null },
-            { id: 3, name: "Sector Alpha", owner: null },
-            { id: 4, name: "The Wasteland", owner: null },
-            { id: 5, name: "Echo Valley", owner: null },
-            { id: 6, name: "Iron Vault", owner: null },
-            { id: 7, name: "Sector Bravo", owner: null },
-            { id: 8, name: "The Narrows", owner: null },
-            { id: 9, name: "Highlands", owner: null },
-            { id: 10, name: "Outpost 9", owner: null },
-            { id: 11, name: "Sector Charlie", owner: null },
-            { id: 12, name: "The Core", owner: null }
+            { id: 1, name: "Dabouq", points: 300, spanClass: "span-2x2", owner: null },
+            { id: 2, name: "Khalda", points: 200, spanClass: "span-2x1", owner: null },
+            { id: 3, name: "Abdali", points: 100, spanClass: "", owner: null },
+            { id: 4, name: "Shmeisani", points: 200, spanClass: "span-1x2", owner: null },
+            { id: 5, name: "Rabyeh", points: 100, spanClass: "", owner: null },
+            { id: 6, name: "Weibdeh", points: 100, spanClass: "", owner: null },
+            { id: 7, name: "Sweifieh", points: 200, spanClass: "span-2x1", owner: null },
+            { id: 8, name: "Jabal Amman", points: 100, spanClass: "", owner: null },
+            { id: 9, name: "7th Circle", points: 200, spanClass: "span-2x1", owner: null },
+            { id: 10, name: "Abdoun", points: 300, spanClass: "span-2x2", owner: null },
+            { id: 11, name: "Rainbow St", points: 100, spanClass: "", owner: null },
+            { id: 12, name: "Taj Mall", points: 200, spanClass: "span-2x1", owner: null }
         ];
 
-        let currentContestedSector = null;
+        let redShields = 2;
+        let blueShields = 2;
+        let currentSectorIndex = null;
 
         const mapEl = document.getElementById("map");
         const modal = document.getElementById("clash-modal");
-        const clashTaskEl = document.getElementById("clash-task");
-        const clashSectorNameEl = document.getElementById("clash-sector-name");
         
-        const scoreRedEl = document.getElementById("score-red");
-        const scoreBlueEl = document.getElementById("score-blue");
+        function startGame() {
+            document.getElementById("intro-screen").classList.remove("active");
+            renderMap();
+        }
 
         function renderMap() {
             mapEl.innerHTML = "";
-            let redCount = 0;
-            let blueCount = 0;
+            let redPoints = 0;
+            let bluePoints = 0;
 
             sectors.forEach((sec, index) => {
                 const secDiv = document.createElement("div");
-                secDiv.className = `sector ${sec.owner ? 'owned-' + sec.owner : ''}`;
+                secDiv.className = `sector ${sec.spanClass} ${sec.owner ? 'owned-' + sec.owner : ''}`;
                 
                 secDiv.innerHTML = `
-                    <div class="sec-id">Zone 0${sec.id}</div>
+                    <div class="sec-pts">${sec.points} PTS</div>
                     <div class="sec-name">${sec.name}</div>
                 `;
 
-                secDiv.onclick = () => initiateClash(index);
+                secDiv.onclick = () => openClashModal(index);
                 mapEl.appendChild(secDiv);
 
-                if (sec.owner === 'red') redCount++;
-                if (sec.owner === 'blue') blueCount++;
+                if (sec.owner === 'red') redPoints += sec.points;
+                if (sec.owner === 'blue') bluePoints += sec.points;
             });
 
-            scoreRedEl.innerText = redCount;
-            scoreBlueEl.innerText = blueCount;
+            // Update UI Scores
+            document.getElementById("score-red").innerText = redPoints;
+            document.getElementById("score-blue").innerText = bluePoints;
+            document.getElementById("shields-red").innerText = `🛡️ Shields: ${redShields}`;
+            document.getElementById("shields-blue").innerText = `🛡️ Shields: ${blueShields}`;
         }
 
-        function initiateClash(index) {
-            currentContestedSector = index;
+        function openClashModal(index) {
+            currentSectorIndex = index;
             const sec = sectors[index];
             
-            clashSectorNameEl.innerText = `Contesting: ${sec.name} (Zone 0${sec.id})`;
+            // Set Titles
+            document.getElementById("clash-sector-name").innerText = `Contesting: ${sec.name} (${sec.points} PTS)`;
             
-            // Randomize Challenge
-            const randomTask = clashes[Math.floor(Math.random() * clashes.length)];
-            clashTaskEl.innerText = randomTask;
+            // Generate Random Challenge
+            const task = challenges[Math.floor(Math.random() * challenges.length)];
+            document.getElementById("clash-task").innerText = task;
+
+            // Setup Buttons based on ownership
+            const btnGroup = document.getElementById("clash-buttons");
+            btnGroup.innerHTML = `
+                <button class="btn btn-red" onclick="resolveClash('red')">Red Wins</button>
+                <button class="btn btn-blue" onclick="resolveClash('blue')">Blue Wins</button>
+            `;
+
+            // If Red owns it, give Red the option to burn a shield
+            if (sec.owner === 'red' && redShields > 0) {
+                btnGroup.innerHTML += `<button class="btn btn-shield" onclick="useShield('red')">🛡️ Red Block Attack (${redShields} left)</button>`;
+            }
+            // If Blue owns it, give Blue the option to burn a shield
+            if (sec.owner === 'blue' && blueShields > 0) {
+                btnGroup.innerHTML += `<button class="btn btn-shield" onclick="useShield('blue')">🛡️ Blue Block Attack (${blueShields} left)</button>`;
+            }
 
             modal.classList.add("active");
         }
 
-        function awardSector(teamColor) {
-            if (currentContestedSector !== null) {
-                sectors[currentContestedSector].owner = teamColor;
+        function resolveClash(winnerColor) {
+            if (currentSectorIndex !== null) {
+                sectors[currentSectorIndex].owner = winnerColor;
                 renderMap();
                 closeClash();
             }
         }
 
-        function closeClash() {
-            modal.classList.remove("active");
-            currentContestedSector = null;
+        function useShield(teamColor) {
+            if (teamColor === 'red') redShields--;
+            if (teamColor === 'blue') blueShields--;
+            
+            alert(`${teamColor.toUpperCase()} used a Tactical Shield! The attack has been blocked.`);
+            renderMap();
+            closeClash();
         }
 
-        // Initialize
-        renderMap();
+        function closeClash() {
+            modal.classList.remove("active");
+            currentSectorIndex = null;
+        }
+
+        function endGame() {
+            let redPoints = parseInt(document.getElementById("score-red").innerText);
+            let bluePoints = parseInt(document.getElementById("score-blue").innerText);
+            
+            const endScreen = document.getElementById("end-screen");
+            const winText = document.getElementById("winner-text");
+            const scoreText = document.getElementById("final-score-text");
+
+            if (redPoints > bluePoints) {
+                winText.innerText = "RED DOMINATES";
+                winText.style.color = "#e74c3c";
+            } else if (bluePoints > redPoints) {
+                winText.innerText = "BLUE DOMINATES";
+                winText.style.color = "#00a8ff";
+            } else {
+                winText.innerText = "STALEMATE";
+                winText.style.color = "#f1c40f";
+            }
+
+            scoreText.innerText = `Final Score | Red: ${redPoints} vs Blue: ${bluePoints}`;
+            endScreen.classList.add("active");
+        }
     </script>
 </body>
 </html>

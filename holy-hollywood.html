@@ -38,7 +38,7 @@
         .quote-text { font-size: 2.8rem; font-weight: 900; color: #fff; line-height: 1.3; font-style: italic; margin-bottom: 30px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);}
         .quote-marks { color: #475569; font-size: 4rem; position: absolute; top: 20px; left: 30px; opacity: 0.5;}
 
-        /* The Reveal Section (Hidden by Default) */
+        /* The Reveal Section */
         .reveal-box { display: none; width: 100%; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 15px;}
         .result-text { font-size: 3.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(0,0,0,0.5);}
         .source-text { font-size: 1.6rem; color: #cbd5e1; font-weight: bold; line-height: 1.4;}
@@ -55,7 +55,11 @@
         .btn-hollywood { background: #e74c3c; }
         .btn-hollywood:hover { background: #c0392b; }
         
-        .btn-next { background: #2ed573; color: #000; display: none; width: 100%; max-width: 400px;}
+        .btn-skip { background: transparent; border: 2px solid #475569; color: #94a3b8; font-size: 1.2rem; margin-top: 20px; max-width: 300px; padding: 15px; box-shadow: none;}
+        .btn-skip:hover { background: #334155; color: #fff; }
+        
+        /* Fixed the invisible next button bug! */
+        .btn-next { background: #2ed573; color: #000; width: 100%; max-width: 400px;}
         .btn-next:hover { background: #27ae60; }
 
         @keyframes popIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
@@ -89,12 +93,15 @@
             </div>
         </div>
 
-        <div class="controls" id="choice-buttons">
-            <button class="btn btn-holy" onclick="makeGuess('Holy')">📖 Holy</button>
-            <button class="btn btn-hollywood" onclick="makeGuess('Hollywood')">🎬 Hollywood</button>
+        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+            <div class="controls" id="choice-buttons">
+                <button class="btn btn-holy" onclick="makeGuess('Holy')">📖 Holy</button>
+                <button class="btn btn-hollywood" onclick="makeGuess('Hollywood')">🎬 Hollywood</button>
+            </div>
+            <button class="btn btn-skip" id="btn-skip" onclick="skipQuestion()">⏭️ Skip Quote</button>
         </div>
 
-        <div class="controls" id="next-button-container" style="display: none;">
+        <div class="controls" id="next-button-container" style="display: none; margin-top: 20px;">
             <button class="btn btn-next" onclick="nextQuestion()">Next Quote ⏭️</button>
         </div>
     </div>
@@ -176,30 +183,25 @@
         const sourceTextEl = document.getElementById("source-text");
         
         const choiceButtonsEl = document.getElementById("choice-buttons");
+        const btnSkip = document.getElementById("btn-skip");
         const nextButtonContainerEl = document.getElementById("next-button-container");
         
         const counterEl = document.getElementById("question-counter");
         const scoreEl = document.getElementById("score-counter");
 
-        // The Smart Shuffle Engine: Prevents massive streaks!
         function shuffleDeck(array) {
-            // 1. Separate into two piles
             let holy = array.filter(item => item.answer === "Holy");
             let hollywood = array.filter(item => item.answer === "Hollywood");
 
-            // 2. Shuffle each pile individually
             holy.sort(() => Math.random() - 0.5);
             hollywood.sort(() => Math.random() - 0.5);
 
             let smartDeck = [];
-            
-            // 3. Zip them together (Holy, Hollywood, Holy, Hollywood...)
             for (let i = 0; i < holy.length; i++) {
                 if (holy[i]) smartDeck.push(holy[i]);
                 if (hollywood[i]) smartDeck.push(hollywood[i]);
             }
 
-            // 4. Slight scramble so the pattern isn't painfully obvious. Max streak is exactly 2.
             for (let i = 0; i < smartDeck.length - 1; i += 2) {
                 if (Math.random() > 0.5) {
                     [smartDeck[i], smartDeck[i+1]] = [smartDeck[i+1], smartDeck[i]];
@@ -219,13 +221,12 @@
         function loadQuestion() {
             const currentItem = gameDeck[currentIndex];
             
-            // Set UI
             counterEl.innerText = `${currentIndex + 1}/${gameDeck.length}`;
             quoteTextEl.innerText = currentItem.text;
             
-            // Hide the reveal box and reset buttons
             revealBoxEl.style.display = "none";
             choiceButtonsEl.style.display = "flex";
+            btnSkip.style.display = "block";
             nextButtonContainerEl.style.display = "none";
         }
 
@@ -233,11 +234,10 @@
             const currentItem = gameDeck[currentIndex];
             const isCorrect = (userGuess === currentItem.answer);
 
-            // Hide choices, show next button
             choiceButtonsEl.style.display = "none";
+            btnSkip.style.display = "none";
             nextButtonContainerEl.style.display = "flex";
 
-            // Populate Reveal Data
             if (isCorrect) {
                 resultTextEl.innerText = "✅ CORRECT!";
                 resultTextEl.style.color = "#2ed573";
@@ -253,8 +253,11 @@
             
             sourceTextEl.innerText = `Source: ${currentItem.source}`;
 
-            // Reveal the box
             revealBoxEl.style.display = "block";
+        }
+
+        function skipQuestion() {
+            nextQuestion();
         }
 
         function nextQuestion() {
@@ -271,7 +274,6 @@
             scoreEl.innerText = score;
         }
 
-        // Boot the game up on load
         startGame();
     </script>
 </body>

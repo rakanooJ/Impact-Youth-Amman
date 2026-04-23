@@ -20,43 +20,47 @@
 
         .game-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; width: 100%; text-align: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: center;}
 
-        .title { font-size: 2.5rem; color: #cbd5e1; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 5px; font-weight: 900;}
-        .counter { font-size: 1.2rem; color: #475569; margin-bottom: 40px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;}
+        .header-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .title { font-size: 2.5rem; color: #cbd5e1; text-transform: uppercase; letter-spacing: 4px; font-weight: 900; margin: 0;}
+        
+        .stats-box { display: flex; gap: 20px; background: #111; padding: 10px 20px; border-radius: 10px; border: 2px solid #333;}
+        .stat { font-size: 1.2rem; font-weight: bold; color: #94a3b8; text-transform: uppercase; }
+        .stat-val { color: #f1c40f; font-size: 1.5rem; }
 
         /* The Presentation Card */
         .quote-card { 
-            background: #111; padding: 60px 40px; border-radius: 20px; 
+            background: #111; padding: 50px 40px; border-radius: 20px; 
             border: 2px solid #334155; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             margin-bottom: 40px; position: relative; min-height: 350px;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
         
-        .quote-text { font-size: 3rem; font-weight: 900; color: #fff; line-height: 1.3; font-style: italic; margin-bottom: 30px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);}
+        .quote-text { font-size: 2.8rem; font-weight: 900; color: #fff; line-height: 1.3; font-style: italic; margin-bottom: 30px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);}
         .quote-marks { color: #475569; font-size: 4rem; position: absolute; top: 20px; left: 30px; opacity: 0.5;}
 
         /* The Reveal Section (Hidden by Default) */
-        .reveal-box { display: none; width: 100%; animation: slideUp 0.4s ease-out forwards; }
-        .answer-text { font-size: 4rem; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(0,0,0,0.5);}
-        .source-text { font-size: 1.5rem; color: #cbd5e1; font-weight: bold; }
-
-        /* Colors for the Answers */
-        .is-holy { color: #f1c40f; text-shadow: 0 0 30px rgba(241, 196, 15, 0.4); }
-        .is-hollywood { color: #e74c3c; text-shadow: 0 0 30px rgba(231, 76, 60, 0.4); }
+        .reveal-box { display: none; width: 100%; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 15px;}
+        .result-text { font-size: 3.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(0,0,0,0.5);}
+        .source-text { font-size: 1.6rem; color: #cbd5e1; font-weight: bold; line-height: 1.4;}
+        .actual-answer { color: #f8f9fa; font-size: 1.8rem; text-transform: uppercase; margin-bottom: 5px; border-bottom: 2px solid #475569; padding-bottom: 10px; display: inline-block;}
 
         /* Controls */
-        .controls { display: flex; justify-content: center; gap: 20px; width: 100%; max-width: 600px; margin: 0 auto;}
-        .btn { padding: 20px 40px; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; color: #000; width: 100%; box-shadow: 0 10px 20px rgba(0,0,0,0.4);}
+        .controls { display: flex; justify-content: center; gap: 20px; width: 100%; max-width: 800px; margin: 0 auto;}
+        .btn { padding: 20px; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; color: #fff; flex: 1; box-shadow: 0 10px 20px rgba(0,0,0,0.4);}
         .btn:active { transform: scale(0.95); }
         
-        .btn-reveal { background: #00a8ff; color: white; }
-        .btn-reveal:hover { background: #008ecc; }
+        .btn-holy { background: #f1c40f; color: #000; }
+        .btn-holy:hover { background: #d4ac0d; }
         
-        .btn-next { background: #2ed573; color: #000; display: none; }
+        .btn-hollywood { background: #e74c3c; }
+        .btn-hollywood:hover { background: #c0392b; }
+        
+        .btn-next { background: #2ed573; color: #000; display: none; width: 100%; max-width: 400px;}
         .btn-next:hover { background: #27ae60; }
 
-        @keyframes slideUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
 
-        @media (max-width: 768px) { .quote-text { font-size: 2rem; } .answer-text { font-size: 3rem; } .navbar { padding: 10px 20px; } .nav-links { display: none; } }
+        @media (max-width: 768px) { .header-info { flex-direction: column; gap: 15px;} .quote-text { font-size: 1.8rem; } .result-text { font-size: 2.5rem; } .controls { flex-direction: column; } .navbar { padding: 10px 20px; } .nav-links { display: none; } }
     </style>
 </head>
 <body>
@@ -66,22 +70,32 @@
     </nav>
 
     <div class="game-container">
-        <div class="title">Holy or Hollywood?</div>
-        <div class="counter" id="question-counter">Question 1 / 60</div>
+        <div class="header-info">
+            <h1 class="title">Holy or Hollywood?</h1>
+            <div class="stats-box">
+                <div class="stat">Q: <span class="stat-val" id="question-counter">1/60</span></div>
+                <div class="stat">Score: <span class="stat-val" id="score-counter">0</span></div>
+            </div>
+        </div>
 
         <div class="quote-card">
             <div class="quote-marks">"</div>
             <div class="quote-text" id="quote-text">Loading quote...</div>
             
             <div class="reveal-box" id="reveal-box">
-                <div class="answer-text" id="answer-text">HOLLYWOOD</div>
+                <div class="result-text" id="result-text">CORRECT</div>
+                <div class="actual-answer" id="actual-answer">It was HOLLYWOOD</div>
                 <div class="source-text" id="source-text">Source: The Lord of the Rings</div>
             </div>
         </div>
 
-        <div class="controls">
-            <button class="btn btn-reveal" id="btn-reveal" onclick="revealAnswer()">👀 Reveal Answer</button>
-            <button class="btn btn-next" id="btn-next" onclick="nextQuestion()">Next Quote ⏭️</button>
+        <div class="controls" id="choice-buttons">
+            <button class="btn btn-holy" onclick="makeGuess('Holy')">📖 Holy</button>
+            <button class="btn btn-hollywood" onclick="makeGuess('Hollywood')">🎬 Hollywood</button>
+        </div>
+
+        <div class="controls" id="next-button-container" style="display: none;">
+            <button class="btn btn-next" onclick="nextQuestion()">Next Quote ⏭️</button>
         </div>
     </div>
 
@@ -103,7 +117,7 @@
             { text: "We are who we choose to be.", answer: "Hollywood", source: "Spider-Man" },
             { text: "Love is the one thing we're capable of perceiving that transcends dimensions of time and space.", answer: "Hollywood", source: "Interstellar" },
             { text: "The night is darkest just before the dawn.", answer: "Hollywood", source: "The Dark Knight" },
-            { text: "It is a far, far better thing that I do, than I have ever done.", answer: "Hollywood", source: "The Dark Knight Rises (A Tale of Two Cities)" },
+            { text: "It is a far, far better thing that I do, than I have ever done.", answer: "Hollywood", source: "The Dark Knight Rises" },
             { text: "A heart is not judged by how much you love, but by how much you are loved by others.", answer: "Hollywood", source: "The Wizard of Oz" },
             { text: "We accept the love we think we deserve.", answer: "Hollywood", source: "The Perks of Being a Wallflower" },
             { text: "Only if you find peace within yourself will you find true connection with others.", answer: "Hollywood", source: "Before Sunrise" },
@@ -153,28 +167,52 @@
 
         let gameDeck = [];
         let currentIndex = 0;
+        let score = 0;
 
         const quoteTextEl = document.getElementById("quote-text");
         const revealBoxEl = document.getElementById("reveal-box");
-        const answerTextEl = document.getElementById("answer-text");
+        const resultTextEl = document.getElementById("result-text");
+        const actualAnswerEl = document.getElementById("actual-answer");
         const sourceTextEl = document.getElementById("source-text");
-        const btnReveal = document.getElementById("btn-reveal");
-        const btnNext = document.getElementById("btn-next");
+        
+        const choiceButtonsEl = document.getElementById("choice-buttons");
+        const nextButtonContainerEl = document.getElementById("next-button-container");
+        
         const counterEl = document.getElementById("question-counter");
+        const scoreEl = document.getElementById("score-counter");
 
-        // The Shuffle Engine: Guarantees zero repeats!
+        // The Smart Shuffle Engine: Prevents massive streaks!
         function shuffleDeck(array) {
-            let shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            // 1. Separate into two piles
+            let holy = array.filter(item => item.answer === "Holy");
+            let hollywood = array.filter(item => item.answer === "Hollywood");
+
+            // 2. Shuffle each pile individually
+            holy.sort(() => Math.random() - 0.5);
+            hollywood.sort(() => Math.random() - 0.5);
+
+            let smartDeck = [];
+            
+            // 3. Zip them together (Holy, Hollywood, Holy, Hollywood...)
+            for (let i = 0; i < holy.length; i++) {
+                if (holy[i]) smartDeck.push(holy[i]);
+                if (hollywood[i]) smartDeck.push(hollywood[i]);
             }
-            return shuffled;
+
+            // 4. Slight scramble so the pattern isn't painfully obvious. Max streak is exactly 2.
+            for (let i = 0; i < smartDeck.length - 1; i += 2) {
+                if (Math.random() > 0.5) {
+                    [smartDeck[i], smartDeck[i+1]] = [smartDeck[i+1], smartDeck[i]];
+                }
+            }
+            return smartDeck;
         }
 
         function startGame() {
             gameDeck = shuffleDeck(originalVault);
             currentIndex = 0;
+            score = 0;
+            updateScoreUI();
             loadQuestion();
         }
 
@@ -182,36 +220,41 @@
             const currentItem = gameDeck[currentIndex];
             
             // Set UI
-            counterEl.innerText = `Question ${currentIndex + 1} / ${gameDeck.length}`;
+            counterEl.innerText = `${currentIndex + 1}/${gameDeck.length}`;
             quoteTextEl.innerText = currentItem.text;
             
             // Hide the reveal box and reset buttons
             revealBoxEl.style.display = "none";
-            btnReveal.style.display = "block";
-            btnNext.style.display = "none";
-
-            // Clean up old classes
-            answerTextEl.classList.remove("is-holy", "is-hollywood");
+            choiceButtonsEl.style.display = "flex";
+            nextButtonContainerEl.style.display = "none";
         }
 
-        function revealAnswer() {
+        function makeGuess(userGuess) {
             const currentItem = gameDeck[currentIndex];
-            
-            // Set Answer Data
-            answerTextEl.innerText = currentItem.answer;
-            sourceTextEl.innerText = `Source: ${currentItem.source}`;
-            
-            // Add color styling based on the answer
-            if (currentItem.answer === "Holy") {
-                answerTextEl.classList.add("is-holy");
+            const isCorrect = (userGuess === currentItem.answer);
+
+            // Hide choices, show next button
+            choiceButtonsEl.style.display = "none";
+            nextButtonContainerEl.style.display = "flex";
+
+            // Populate Reveal Data
+            if (isCorrect) {
+                resultTextEl.innerText = "✅ CORRECT!";
+                resultTextEl.style.color = "#2ed573";
+                score++;
+                updateScoreUI();
             } else {
-                answerTextEl.classList.add("is-hollywood");
+                resultTextEl.innerText = "❌ WRONG!";
+                resultTextEl.style.color = "#e74c3c";
             }
 
-            // Show the reveal box, swap buttons
+            actualAnswerEl.innerText = `It was ${currentItem.answer}`;
+            actualAnswerEl.style.color = currentItem.answer === "Holy" ? "#f1c40f" : "#e74c3c";
+            
+            sourceTextEl.innerText = `Source: ${currentItem.source}`;
+
+            // Reveal the box
             revealBoxEl.style.display = "block";
-            btnReveal.style.display = "none";
-            btnNext.style.display = "block";
         }
 
         function nextQuestion() {
@@ -219,10 +262,13 @@
             if (currentIndex < gameDeck.length) {
                 loadQuestion();
             } else {
-                // Deck is empty, reshuffle automatically
-                alert("You finished the entire deck! Reshuffling for a new game...");
+                alert(`Game Over! You got ${score} out of ${gameDeck.length} correct. Reshuffling...`);
                 startGame();
             }
+        }
+
+        function updateScoreUI() {
+            scoreEl.innerText = score;
         }
 
         // Boot the game up on load

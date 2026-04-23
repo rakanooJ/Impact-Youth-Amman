@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Auction House - Impact Youth</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0f172a; color: #f8f9fa; line-height: 1.6; 
+            background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh; display: flex; flex-direction: column;
+        }
+        
+        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; z-index: 10;}
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; text-transform: uppercase;}
+        .nav-links a:hover { color: #f1c40f; }
+
+        .game-container { max-width: 1000px; margin: 30px auto; padding: 0 20px; width: 100%; text-align: center;}
+
+        .title { font-size: 3rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 5px; font-weight: 900;}
+        .subtitle { font-size: 1.1rem; color: #94a3b8; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;}
+
+        /* Economy Scoreboard */
+        .scoreboard { 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: #111; padding: 20px 40px; border-radius: 15px; 
+            border: 2px solid #333; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .team-bank { width: 40%; padding: 15px; border-radius: 10px; }
+        .team-name { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; }
+        .coin-val { font-size: 3.5rem; font-weight: bold; font-family: monospace; display: flex; align-items: center; justify-content: center; gap: 10px;}
+        
+        .team-red { color: #e74c3c; border-bottom: 5px solid transparent; }
+        .team-blue { color: #00a8ff; border-bottom: 5px solid transparent; }
+        .active-red { background: rgba(231, 76, 60, 0.1); border-color: #e74c3c; box-shadow: 0 0 20px rgba(231,76,60,0.3); }
+        .active-blue { background: rgba(0, 168, 255, 0.1); border-color: #00a8ff; box-shadow: 0 0 20px rgba(0,168,255,0.3); }
+
+        .vs-text { font-size: 3rem; filter: grayscale(100%);}
+
+        /* Briefcase Grid */
+        .case-grid { 
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; 
+            background: #0a0a0a; padding: 30px; border-radius: 15px; border: 2px solid #1e293b;
+        }
+        
+        .briefcase { 
+            background: #334155; border: 2px solid #475569; border-radius: 12px; 
+            aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            cursor: pointer; transition: all 0.3s; position: relative;
+        }
+        .briefcase:hover { background: #475569; border-color: #f1c40f; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .briefcase.sold { background: #111; border-color: #333; opacity: 0.5; pointer-events: none; cursor: not-allowed; }
+        
+        .case-icon { font-size: 4rem; margin-bottom: 10px; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));}
+        .case-num { font-size: 1.5rem; color: #fff; font-weight: 900; }
+
+        /* Overlays & Modals */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 15, 25, 0.98); z-index: 100; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px; }
+        .overlay.active { display: flex; }
+        
+        .modal-box { background: #111; padding: 40px; border-radius: 15px; border: 2px solid #475569; max-width: 600px; width: 100%; box-shadow: 0 15px 50px rgba(0,0,0,0.8);}
+        
+        .modal-title { font-size: 2.5rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; font-weight: 900;}
+        
+        /* Bidding Input */
+        .bid-input-group { margin-bottom: 30px; }
+        .bid-input { width: 100%; padding: 20px; font-size: 2.5rem; text-align: center; background: #000; color: #f1c40f; border: 2px solid #334155; border-radius: 10px; font-weight: bold; font-family: monospace;}
+        .bid-input:focus { outline: none; border-color: #f1c40f; }
+
+        .btn-group { display: flex; gap: 15px; width: 100%; }
+        .btn { flex: 1; padding: 20px; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; color: white;}
+        .btn:active { transform: scale(0.95); }
+        .btn-red { background: #e74c3c; } .btn-red:hover { background: #c0392b; }
+        .btn-blue { background: #00a8ff; } .btn-blue:hover { background: #008ecc; }
+        .btn-cancel { background: transparent; border: 2px solid #475569; color: #cbd5e1; margin-top: 15px; width: 100%; padding: 15px;}
+        
+        /* Reveal Screen */
+        .reveal-title { font-size: 4rem; margin-bottom: 20px; font-weight: 900; text-transform: uppercase;}
+        .reveal-desc { font-size: 1.8rem; color: #fff; margin-bottom: 40px; }
+        .btn-continue { background: #fff; color: #000; width: 100%; padding: 20px; font-size: 1.5rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;}
+
+        @media (max-width: 768px) { .case-grid { grid-template-columns: repeat(3, 1fr); } .scoreboard { flex-direction: column; gap: 15px; } .team-bank { width: 100%; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links"><a href="spirit-fun.html">Back to Arcade</a></div>
+    </nav>
+
+    <div class="game-container">
+        <div class="title">The Auction House</div>
+        <div class="subtitle">Bid blindly. Buy briefcases. Avoid bankruptcy.</div>
+
+        <div class="scoreboard">
+            <div class="team-bank team-red active-red">
+                <div class="team-name">Red Bank</div>
+                <div class="coin-val">🪙 <span id="bank-red">1000</span></div>
+            </div>
+            <div class="vs-text">🔨</div>
+            <div class="team-bank team-blue active-blue">
+                <div class="team-name">Blue Bank</div>
+                <div class="coin-val">🪙 <span id="bank-blue">1000</span></div>
+            </div>
+        </div>
+
+        <div class="case-grid" id="grid">
+            </div>
+    </div>
+
+    <div class="overlay" id="auction-modal">
+        <div class="modal-box">
+            <div class="modal-title" id="auction-title">Briefcase 1</div>
+            <p style="color: #cbd5e1; margin-bottom: 10px; font-size: 1.2rem;">Enter the final winning bid:</p>
+            <div class="bid-input-group">
+                <input type="number" id="bid-amount" class="bid-input" placeholder="0">
+            </div>
+            <p style="color: #cbd5e1; margin-bottom: 10px; font-size: 1.2rem;">Who won the auction?</p>
+            <div class="btn-group">
+                <button class="btn btn-red" onclick="processSale('red')">Sold to Red</button>
+                <button class="btn btn-blue" onclick="processSale('blue')">Sold to Blue</button>
+            </div>
+            <button class="btn-cancel" onclick="closeAuction()">Cancel Auction</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="reveal-modal">
+        <div class="modal-box" style="background: #000;">
+            <div class="reveal-title" id="reveal-title">JACKPOT</div>
+            <div class="reveal-desc" id="reveal-desc">You won 500 Coins!</div>
+            <button class="btn-continue" onclick="closeReveal()">Accept Fate</button>
+        </div>
+    </div>
+
+    <script>
+        // THE VAULT OF PRIZES & PUNISHMENTS
+        const vaultContents = [
+            { title: "JACKPOT", desc: "+ 500 Coins to your bank!", color: "#2ed573", type: "add", val: 500 },
+            { title: "SNAKE BITE", desc: "- 300 Coins from your bank!", color: "#e74c3c", type: "sub", val: 300 },
+            { title: "ROBIN HOOD", desc: "Steal 400 Coins from the enemy team!", color: "#9b59b6", type: "steal", val: 400 },
+            { title: "EMPTY", desc: "Just some old papers. You get nothing.", color: "#94a3b8", type: "none", val: 0 },
+            { title: "BAILOUT", desc: "+ 250 Coins to your bank!", color: "#2ed573", type: "add", val: 250 },
+            { title: "BOMB", desc: "- 500 Coins from your bank!", color: "#e74c3c", type: "sub", val: 500 },
+            { title: "CHALLENGE", desc: "Your team must do 30 Pushups right now, or lose 300 Coins.", color: "#f39c12", type: "none", val: 0 },
+            { title: "MEGA JACKPOT", desc: "+ 1,000 Coins to your bank!", color: "#f1c40f", type: "add", val: 1000 },
+            { title: "CHARITY", desc: "You must give 200 Coins to the enemy team.", color: "#e74c3c", type: "give", val: 200 },
+            { title: "CHALLENGE", desc: "Your captain must win a staring contest against the GM, or lose 400 Coins.", color: "#f39c12", type: "none", val: 0 },
+            { title: "STIMULUS", desc: "+ 300 Coins to your bank!", color: "#2ed573", type: "add", val: 300 },
+            { title: "BANK SWAP", desc: "ABSOLUTE CHAOS! Swap your entire bank balance with the enemy team!", color: "#00a8ff", type: "swap", val: 0 }
+        ];
+
+        let redBank = 1000;
+        let blueBank = 1000;
+        let activeBriefcaseIndex = null;
+
+        const gridEl = document.getElementById("grid");
+        const auctionModal = document.getElementById("auction-modal");
+        const revealModal = document.getElementById("reveal-modal");
+        const bidInput = document.getElementById("bid-amount");
+
+        function initGame() {
+            // Shuffle the vault contents
+            for (let i = vaultContents.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [vaultContents[i], vaultContents[j]] = [vaultContents[j], vaultContents[i]];
+            }
+
+            gridEl.innerHTML = "";
+            vaultContents.forEach((item, index) => {
+                let div = document.createElement("div");
+                div.className = "briefcase";
+                div.id = `case-${index}`;
+                div.innerHTML = `
+                    <div class="case-icon">💼</div>
+                    <div class="case-num">Case ${index + 1}</div>
+                `;
+                div.onclick = () => openAuction(index);
+                gridEl.appendChild(div);
+            });
+            updateBanks();
+        }
+
+        function openAuction(index) {
+            activeBriefcaseIndex = index;
+            document.getElementById("auction-title").innerText = `Briefcase ${index + 1}`;
+            bidInput.value = "";
+            auctionModal.classList.add("active");
+            bidInput.focus();
+        }
+
+        function closeAuction() {
+            auctionModal.classList.remove("active");
+            activeBriefcaseIndex = null;
+        }
+
+        function processSale(winner) {
+            let bid = parseInt(bidInput.value) || 0;
+            
+            // Deduct the bid amount first!
+            if (winner === 'red') {
+                redBank -= bid;
+            } else {
+                blueBank -= bid;
+            }
+            updateBanks();
+            
+            // Close auction, trigger reveal
+            closeAuction();
+            revealPrize(winner);
+        }
+
+        function revealPrize(winner) {
+            const prize = vaultContents[activeBriefcaseIndex];
+            
+            // Apply the prize logic
+            if (prize.type === "add") {
+                if (winner === 'red') redBank += prize.val; else blueBank += prize.val;
+            } else if (prize.type === "sub") {
+                if (winner === 'red') redBank -= prize.val; else blueBank -= prize.val;
+            } else if (prize.type === "steal") {
+                if (winner === 'red') { blueBank -= prize.val; redBank += prize.val; }
+                else { redBank -= prize.val; blueBank += prize.val; }
+            } else if (prize.type === "give") {
+                if (winner === 'red') { redBank -= prize.val; blueBank += prize.val; }
+                else { blueBank -= prize.val; redBank += prize.val; }
+            } else if (prize.type === "swap") {
+                let temp = redBank;
+                redBank = blueBank;
+                blueBank = temp;
+            }
+
+            // Mark case as sold
+            document.getElementById(`case-${activeBriefcaseIndex}`).classList.add("sold");
+
+            // Setup Reveal Modal UI
+            document.getElementById("reveal-title").innerText = prize.title;
+            document.getElementById("reveal-title").style.color = prize.color;
+            document.getElementById("reveal-desc").innerText = prize.desc;
+            
+            revealModal.classList.add("active");
+        }
+
+        function closeReveal() {
+            revealModal.classList.remove("active");
+            updateBanks();
+        }
+
+        function updateBanks() {
+            document.getElementById("bank-red").innerText = redBank;
+            document.getElementById("bank-blue").innerText = blueBank;
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

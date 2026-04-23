@@ -18,7 +18,12 @@
         .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; text-transform: uppercase;}
         .nav-links a:hover { color: #f1c40f; }
 
-        .game-container { max-width: 1000px; margin: 30px auto; padding: 0 20px; width: 100%; text-align: center;}
+        .game-container { max-width: 1000px; margin: 20px auto; padding: 0 20px; width: 100%; text-align: center;}
+
+        /* Admin Controls */
+        .admin-bar { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .btn-admin { background: transparent; border: 1px solid #475569; color: #cbd5e1; padding: 5px 15px; border-radius: 5px; cursor: pointer; text-transform: uppercase; font-size: 0.9rem; font-weight: bold; transition: 0.2s;}
+        .btn-admin:hover { background: #f39c12; border-color: #f39c12; color: white; }
 
         .title { font-size: 3rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 5px; font-weight: 900;}
         .subtitle { font-size: 1.1rem; color: #94a3b8; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;}
@@ -82,6 +87,10 @@
         .reveal-desc { font-size: 1.8rem; color: #fff; margin-bottom: 40px; }
         .btn-continue { background: #fff; color: #000; width: 100%; padding: 20px; font-size: 1.5rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;}
 
+        /* Winner Screen */
+        .winner-title { font-size: 5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 10px; animation: popIn 0.5s ease;}
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
         @media (max-width: 768px) { .case-grid { grid-template-columns: repeat(3, 1fr); } .scoreboard { flex-direction: column; gap: 15px; } .team-bank { width: 100%; } }
     </style>
 </head>
@@ -92,6 +101,11 @@
     </nav>
 
     <div class="game-container">
+        <div class="admin-bar">
+            <button class="btn-admin" onclick="location.reload()">Reset Game</button>
+            <button class="btn-admin" onclick="endGame()">End Game & Crown Winner</button>
+        </div>
+
         <div class="title">The Auction House</div>
         <div class="subtitle">Bid blindly. Buy briefcases. Avoid bankruptcy.</div>
 
@@ -135,6 +149,12 @@
         </div>
     </div>
 
+    <div class="overlay" id="end-screen">
+        <div class="winner-title" id="winner-text">RED WINS</div>
+        <div class="reveal-desc" id="final-score-text" style="font-size: 2rem;">Red: 1000 | Blue: 800</div>
+        <button class="btn-continue" style="max-width: 300px; margin: 40px auto 0;" onclick="location.reload()">Play Again</button>
+    </div>
+
     <script>
         // THE VAULT OF PRIZES & PUNISHMENTS
         const vaultContents = [
@@ -155,6 +175,7 @@
         let redBank = 1000;
         let blueBank = 1000;
         let activeBriefcaseIndex = null;
+        let casesOpened = 0;
 
         const gridEl = document.getElementById("grid");
         const auctionModal = document.getElementById("auction-modal");
@@ -199,7 +220,17 @@
         function processSale(winner) {
             let bid = parseInt(bidInput.value) || 0;
             
-            // Deduct the bid amount first!
+            // Check if they have enough money to bid!
+            if (winner === 'red' && bid > redBank) {
+                alert("Red Team doesn't have enough coins in their bank for that bid!");
+                return;
+            }
+            if (winner === 'blue' && bid > blueBank) {
+                alert("Blue Team doesn't have enough coins in their bank for that bid!");
+                return;
+            }
+
+            // Deduct the bid amount first
             if (winner === 'red') {
                 redBank -= bid;
             } else {
@@ -232,8 +263,9 @@
                 blueBank = temp;
             }
 
-            // Mark case as sold
+            // Mark case as sold and track it
             document.getElementById(`case-${activeBriefcaseIndex}`).classList.add("sold");
+            casesOpened++;
 
             // Setup Reveal Modal UI
             document.getElementById("reveal-title").innerText = prize.title;
@@ -246,11 +278,38 @@
         function closeReveal() {
             revealModal.classList.remove("active");
             updateBanks();
+
+            // Auto-trigger endgame if all cases are sold
+            if (casesOpened === vaultContents.length) {
+                setTimeout(() => {
+                    endGame();
+                }, 1000);
+            }
         }
 
         function updateBanks() {
             document.getElementById("bank-red").innerText = redBank;
             document.getElementById("bank-blue").innerText = blueBank;
+        }
+
+        function endGame() {
+            const endScreen = document.getElementById("end-screen");
+            const winText = document.getElementById("winner-text");
+            const scoreText = document.getElementById("final-score-text");
+
+            if (redBank > blueBank) {
+                winText.innerText = "RED TEAM WINS";
+                winText.style.color = "#e74c3c";
+            } else if (blueBank > redBank) {
+                winText.innerText = "BLUE TEAM WINS";
+                winText.style.color = "#00a8ff";
+            } else {
+                winText.innerText = "BANKRUPT (TIE)";
+                winText.style.color = "#f1c40f";
+            }
+
+            scoreText.innerText = `Final Balances | Red: ${redBank} Coins vs Blue: ${blueBank} Coins`;
+            endScreen.classList.add("active");
         }
 
         initGame();

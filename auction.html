@@ -83,15 +83,21 @@
         .btn-cancel { background: transparent; border: 2px solid #475569; color: #cbd5e1; margin-top: 15px; width: 100%; padding: 15px;}
         
         /* Reveal Screen */
-        .reveal-title { font-size: 4rem; margin-bottom: 20px; font-weight: 900; text-transform: uppercase;}
-        .reveal-desc { font-size: 1.8rem; color: #fff; margin-bottom: 40px; }
+        .reveal-title { font-size: 3.5rem; margin-bottom: 10px; font-weight: 900; text-transform: uppercase;}
+        .reveal-desc { font-size: 1.5rem; color: #fff; margin-bottom: 20px; }
+        
+        /* The Math Receipt */
+        .receipt-box { background: #000; border: 1px dashed #475569; padding: 15px; margin-bottom: 30px; border-radius: 8px; text-align: left; font-family: monospace; font-size: 1.2rem; color: #cbd5e1;}
+        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .receipt-total { border-top: 1px dashed #475569; padding-top: 5px; margin-top: 5px; font-weight: bold; color: #fff; }
+
         .btn-continue { background: #fff; color: #000; width: 100%; padding: 20px; font-size: 1.5rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;}
 
         /* Winner Screen */
         .winner-title { font-size: 5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 10px; animation: popIn 0.5s ease;}
         @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-        @media (max-width: 768px) { .case-grid { grid-template-columns: repeat(3, 1fr); } .scoreboard { flex-direction: column; gap: 15px; } .team-bank { width: 100%; } }
+        @media (max-width: 768px) { .case-grid { grid-template-columns: repeat(3, 1fr); } .scoreboard { flex-direction: column; gap: 15px; } .team-bank { width: 100%; } .reveal-title{font-size: 2.5rem;}}
     </style>
 </head>
 <body>
@@ -103,7 +109,7 @@
     <div class="game-container">
         <div class="admin-bar">
             <button class="btn-admin" onclick="location.reload()">Reset Game</button>
-            <button class="btn-admin" onclick="endGame()">End Game & Crown Winner</button>
+            <button class="btn-admin" onclick="triggerEndGame()">End Game & Crown Winner</button>
         </div>
 
         <div class="title">The Auction House</div>
@@ -142,9 +148,16 @@
     </div>
 
     <div class="overlay" id="reveal-modal">
-        <div class="modal-box" style="background: #000;">
+        <div class="modal-box" style="background: #1e293b;">
             <div class="reveal-title" id="reveal-title">JACKPOT</div>
             <div class="reveal-desc" id="reveal-desc">You won 500 Coins!</div>
+            
+            <div class="receipt-box">
+                <div class="receipt-row"><span>Winning Bid:</span> <span id="receipt-bid">-400</span></div>
+                <div class="receipt-row"><span>Prize Value:</span> <span id="receipt-prize">+500</span></div>
+                <div class="receipt-row receipt-total"><span>Net Change:</span> <span id="receipt-net">+100</span></div>
+            </div>
+
             <button class="btn-continue" onclick="closeReveal()">Accept Fate</button>
         </div>
     </div>
@@ -159,14 +172,14 @@
         // THE VAULT OF PRIZES & PUNISHMENTS
         const vaultContents = [
             { title: "JACKPOT", desc: "+ 500 Coins to your bank!", color: "#2ed573", type: "add", val: 500 },
-            { title: "SNAKE BITE", desc: "- 300 Coins from your bank!", color: "#e74c3c", type: "sub", val: 300 },
+            { title: "SNAKE BITE", desc: "- 300 Coins from your bank!", color: "#e74c3c", type: "sub", val: -300 },
             { title: "ROBIN HOOD", desc: "Steal 400 Coins from the enemy team!", color: "#9b59b6", type: "steal", val: 400 },
             { title: "EMPTY", desc: "Just some old papers. You get nothing.", color: "#94a3b8", type: "none", val: 0 },
             { title: "BAILOUT", desc: "+ 250 Coins to your bank!", color: "#2ed573", type: "add", val: 250 },
-            { title: "BOMB", desc: "- 500 Coins from your bank!", color: "#e74c3c", type: "sub", val: 500 },
+            { title: "BOMB", desc: "- 500 Coins from your bank!", color: "#e74c3c", type: "sub", val: -500 },
             { title: "CHALLENGE", desc: "Your team must do 30 Pushups right now, or lose 300 Coins.", color: "#f39c12", type: "none", val: 0 },
             { title: "MEGA JACKPOT", desc: "+ 1,000 Coins to your bank!", color: "#f1c40f", type: "add", val: 1000 },
-            { title: "CHARITY", desc: "You must give 200 Coins to the enemy team.", color: "#e74c3c", type: "give", val: 200 },
+            { title: "CHARITY", desc: "You must give 200 Coins to the enemy team.", color: "#e74c3c", type: "give", val: -200 },
             { title: "CHALLENGE", desc: "Your captain must win a staring contest against the GM, or lose 400 Coins.", color: "#f39c12", type: "none", val: 0 },
             { title: "STIMULUS", desc: "+ 300 Coins to your bank!", color: "#2ed573", type: "add", val: 300 },
             { title: "BANK SWAP", desc: "ABSOLUTE CHAOS! Swap your entire bank balance with the enemy team!", color: "#00a8ff", type: "swap", val: 0 }
@@ -205,6 +218,9 @@
         }
 
         function openAuction(index) {
+            // Block clicking already sold cases
+            if(document.getElementById(`case-${index}`).classList.contains("sold")) return;
+            
             activeBriefcaseIndex = index;
             document.getElementById("auction-title").innerText = `Briefcase ${index + 1}`;
             bidInput.value = "";
@@ -220,70 +236,64 @@
         function processSale(winner) {
             let bid = parseInt(bidInput.value) || 0;
             
-            // Check if they have enough money to bid!
+            // Overdraft Protection
             if (winner === 'red' && bid > redBank) {
-                alert("Red Team doesn't have enough coins in their bank for that bid!");
+                alert(`Red Team only has ${redBank} coins. They cannot bid ${bid}!`);
                 return;
             }
             if (winner === 'blue' && bid > blueBank) {
-                alert("Blue Team doesn't have enough coins in their bank for that bid!");
+                alert(`Blue Team only has ${blueBank} coins. They cannot bid ${bid}!`);
                 return;
             }
 
-            // Deduct the bid amount first
-            if (winner === 'red') {
-                redBank -= bid;
-            } else {
-                blueBank -= bid;
-            }
-            updateBanks();
+            // 1. Deduct Bid
+            if (winner === 'red') { redBank -= bid; } else { blueBank -= bid; }
             
-            // Close auction, trigger reveal
-            closeAuction();
-            revealPrize(winner);
-        }
-
-        function revealPrize(winner) {
+            // 2. Apply Prize Logic
             const prize = vaultContents[activeBriefcaseIndex];
-            
-            // Apply the prize logic
             if (prize.type === "add") {
                 if (winner === 'red') redBank += prize.val; else blueBank += prize.val;
             } else if (prize.type === "sub") {
-                if (winner === 'red') redBank -= prize.val; else blueBank -= prize.val;
+                if (winner === 'red') redBank += prize.val; else blueBank += prize.val; // val is already negative in the object
             } else if (prize.type === "steal") {
                 if (winner === 'red') { blueBank -= prize.val; redBank += prize.val; }
                 else { redBank -= prize.val; blueBank += prize.val; }
             } else if (prize.type === "give") {
-                if (winner === 'red') { redBank -= prize.val; blueBank += prize.val; }
-                else { blueBank -= prize.val; redBank += prize.val; }
+                if (winner === 'red') { redBank += prize.val; blueBank -= prize.val; } // val is negative
+                else { blueBank += prize.val; redBank -= prize.val; }
             } else if (prize.type === "swap") {
-                let temp = redBank;
-                redBank = blueBank;
-                blueBank = temp;
+                let temp = redBank; redBank = blueBank; blueBank = temp;
             }
 
-            // Mark case as sold and track it
+            // 3. Mark case as sold
             document.getElementById(`case-${activeBriefcaseIndex}`).classList.add("sold");
             casesOpened++;
 
-            // Setup Reveal Modal UI
+            // 4. Update the live UI before showing the modal
+            updateBanks();
+
+            // 5. Setup and trigger the Reveal Modal & Receipt
             document.getElementById("reveal-title").innerText = prize.title;
             document.getElementById("reveal-title").style.color = prize.color;
             document.getElementById("reveal-desc").innerText = prize.desc;
             
+            document.getElementById("receipt-bid").innerText = `-${bid}`;
+            document.getElementById("receipt-prize").innerText = prize.val > 0 ? `+${prize.val}` : prize.val;
+            
+            let net = prize.val - bid;
+            document.getElementById("receipt-net").innerText = net > 0 ? `+${net}` : net;
+            document.getElementById("receipt-net").style.color = net > 0 ? "#2ed573" : "#e74c3c";
+
+            closeAuction();
             revealModal.classList.add("active");
         }
 
         function closeReveal() {
             revealModal.classList.remove("active");
-            updateBanks();
 
-            // Auto-trigger endgame if all cases are sold
+            // Auto-trigger endgame if all 12 cases are sold
             if (casesOpened === vaultContents.length) {
-                setTimeout(() => {
-                    endGame();
-                }, 1000);
+                setTimeout(() => { triggerEndGame(); }, 500);
             }
         }
 
@@ -292,7 +302,7 @@
             document.getElementById("bank-blue").innerText = blueBank;
         }
 
-        function endGame() {
+        function triggerEndGame() {
             const endScreen = document.getElementById("end-screen");
             const winText = document.getElementById("winner-text");
             const scoreText = document.getElementById("final-score-text");
@@ -304,7 +314,7 @@
                 winText.innerText = "BLUE TEAM WINS";
                 winText.style.color = "#00a8ff";
             } else {
-                winText.innerText = "BANKRUPT (TIE)";
+                winText.innerText = "IT'S A TIE";
                 winText.style.color = "#f1c40f";
             }
 

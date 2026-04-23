@@ -3,203 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Holy or Hollywood: Expert Edition</title>
+    <title>Holy or Hollywood - Impact Youth</title>
     <style>
-        /* 1. Global Reset & Professional HTU/Impact Styling */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
         body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background-image: url('background.png'); 
-            background-size: cover; background-attachment: fixed; background-position: center;
-            background-color: #1c1e21; color: #f8f9fa; line-height: 1.6; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0f172a; color: #f8f9fa; line-height: 1.6; 
+            background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh; display: flex; flex-direction: column;
         }
         
-        /* 2. Pro Navigation */
-        .navbar { 
-            background-color: #1c1e21; padding: 12px 60px; display: flex; 
-            justify-content: space-between; align-items: center; border-bottom: 1px solid #333; 
-            position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
+        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; z-index: 10;}
         .logo img { height: 60px; width: auto; border-radius: 50%; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; font-size: 1rem; }
-        .login-btn { background-color: #00a8ff; padding: 10px 22px; border-radius: 6px; color: white !important; margin-left: 20px; font-weight: bold; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; text-transform: uppercase;}
+        .nav-links a:hover { color: #f1c40f; }
 
-        /* 3. Header */
-        .header-title { text-align: center; padding: 60px 20px; background: rgba(28, 30, 33, 0.85); border-bottom: 1px solid #333; }
-        .header-title h1 { font-size: 3.5rem; color: #f39c12; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-        
-        /* 4. Game Interface */
-        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; text-align: center; }
-        .game-card { 
-            background: rgba(255, 255, 255, 0.96); padding: 55px 45px; border-radius: 20px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7); color: #1e293b; border-top: 12px solid #f39c12;
-            min-height: 520px; display: flex; flex-direction: column; justify-content: center;
+        .game-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; width: 100%; text-align: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: center;}
+
+        .title { font-size: 2.5rem; color: #cbd5e1; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 5px; font-weight: 900;}
+        .counter { font-size: 1.2rem; color: #475569; margin-bottom: 40px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;}
+
+        /* The Presentation Card */
+        .quote-card { 
+            background: #111; padding: 60px 40px; border-radius: 20px; 
+            border: 2px solid #334155; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            margin-bottom: 40px; position: relative; min-height: 350px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
         
-        #progress-counter { font-weight: 800; color: #64748b; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1.5px; }
+        .quote-text { font-size: 3rem; font-weight: 900; color: #fff; line-height: 1.3; font-style: italic; margin-bottom: 30px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);}
+        .quote-marks { color: #475569; font-size: 4rem; position: absolute; top: 20px; left: 30px; opacity: 0.5;}
 
-        .quote-box { 
-            font-size: 2.3rem; font-family: 'Georgia', serif; font-style: italic; font-weight: 700; 
-            margin-bottom: 40px; color: #0f172a; line-height: 1.35; min-height: 160px;
-            display: flex; align-items: center; justify-content: center;
-        }
+        /* The Reveal Section (Hidden by Default) */
+        .reveal-box { display: none; width: 100%; animation: slideUp 0.4s ease-out forwards; }
+        .answer-text { font-size: 4rem; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(0,0,0,0.5);}
+        .source-text { font-size: 1.5rem; color: #cbd5e1; font-weight: bold; }
+
+        /* Colors for the Answers */
+        .is-holy { color: #f1c40f; text-shadow: 0 0 30px rgba(241, 196, 15, 0.4); }
+        .is-hollywood { color: #e74c3c; text-shadow: 0 0 30px rgba(231, 76, 60, 0.4); }
+
+        /* Controls */
+        .controls { display: flex; justify-content: center; gap: 20px; width: 100%; max-width: 600px; margin: 0 auto;}
+        .btn { padding: 20px 40px; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; color: #000; width: 100%; box-shadow: 0 10px 20px rgba(0,0,0,0.4);}
+        .btn:active { transform: scale(0.95); }
         
-        /* 5. Choice Buttons */
-        .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
-        .btn-choice { 
-            padding: 24px; border: none; border-radius: 12px; font-size: 1.5rem; font-weight: bold; 
-            cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: white; text-transform: uppercase;
-        }
-        .btn-bible { background: #2ed573; box-shadow: 0 5px 15px rgba(46, 213, 115, 0.3); }
-        .btn-movie { background: #9b59b6; box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3); }
-        .btn-choice:hover { transform: translateY(-6px); filter: brightness(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .btn-reveal { background: #00a8ff; color: white; }
+        .btn-reveal:hover { background: #008ecc; }
+        
+        .btn-next { background: #2ed573; color: #000; display: none; }
+        .btn-next:hover { background: #27ae60; }
 
-        .btn-skip { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; background: #cbd5e1; color: #475569; }
+        @keyframes slideUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
 
-        /* 6. Feedback & Reveal */
-        .feedback { font-size: 1.6rem; font-weight: bold; margin-top: 25px; transition: 0.3s; }
-        .reference-box { display: block; font-size: 1.2rem; color: #475569; margin-top: 8px; font-weight: 600; font-family: 'Segoe UI', sans-serif; font-style: normal; }
-        .correct { color: #27ae60; }
-        .wrong { color: #e74c3c; }
-
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .header-title h1 { font-size: 2rem; } .quote-box { font-size: 1.5rem; } .choice-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .quote-text { font-size: 2rem; } .answer-text { font-size: 3rem; } .navbar { padding: 10px 20px; } .nav-links { display: none; } }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="spirit-fun.html">Back to Fun</a>
-            <a href="connect.html">Connect</a>
-        </div>
+        <div class="nav-links"><a href="spirit-fun.html">Back to Arcade</a></div>
     </nav>
-    
-    <div class="header-title"><h1>Holy or Hollywood?</h1><p style="color:#cbd5e1">Expert Difficulty</p></div>
-    
-    <div class="container">
-        <div class="game-card">
-            <div id="progress-counter">Loading...</div>
-            <div class="quote-box" id="quote-display">"Loading the challenge..."</div>
+
+    <div class="game-container">
+        <div class="title">Holy or Hollywood?</div>
+        <div class="counter" id="question-counter">Question 1 / 60</div>
+
+        <div class="quote-card">
+            <div class="quote-marks">"</div>
+            <div class="quote-text" id="quote-text">Loading quote...</div>
             
-            <div class="choice-grid">
-                <button class="btn-choice btn-bible" onclick="checkAnswer('bible')">📖 Bible</button>
-                <button class="btn-choice btn-movie" onclick="checkAnswer('movie')">🎬 Movie</button>
+            <div class="reveal-box" id="reveal-box">
+                <div class="answer-text" id="answer-text">HOLLYWOOD</div>
+                <div class="source-text" id="source-text">Source: The Lord of the Rings</div>
             </div>
-            
-            <button class="btn-skip" onclick="nextQuote()">Skip to next</button>
-            <div class="feedback" id="feedback-msg"></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-reveal" id="btn-reveal" onclick="revealAnswer()">👀 Reveal Answer</button>
+            <button class="btn btn-next" id="btn-next" onclick="nextQuestion()">Next Quote ⏭️</button>
         </div>
     </div>
 
     <script>
-        // EXPERT LIBRARY: 40 BRUTAL CROSSOVER QUOTES
-       const holyOrHollywoodVault = [
-    // --- HOLLYWOOD THAT SOUNDS HOLY ---
-    { text: "To love another person is to see the face of God.", answer: "Hollywood", source: "Les Misérables" },
-    { text: "The things you own end up owning you.", answer: "Hollywood", source: "Fight Club" },
-    { text: "Hope is a good thing, maybe the best of things, and no good thing ever dies.", answer: "Hollywood", source: "The Shawshank Redemption" },
-    { text: "All we have to decide is what to do with the time that is given to us.", answer: "Hollywood", source: "The Lord of the Rings" },
-    { text: "Death is just another path, one that we all must take.", answer: "Hollywood", source: "The Lord of the Rings" },
-    { text: "A man who doesn't spend time with his family can never be a real man.", answer: "Hollywood", source: "The Godfather" },
-    { text: "Great men are not born great, they grow great.", answer: "Hollywood", source: "The Godfather" },
-    { text: "Your focus determines your reality.", answer: "Hollywood", source: "Star Wars" },
-    { text: "Do not pity the dead. Pity the living, and, above all, those who live without love.", answer: "Hollywood", source: "Harry Potter" },
-    { text: "It is not our abilities that show what we truly are… it is our choices.", answer: "Hollywood", source: "Harry Potter" },
-    { text: "What is grief, if not love persevering?", answer: "Hollywood", source: "WandaVision" },
-    { text: "The greatest thing you'll ever learn is just to love and be loved in return.", answer: "Hollywood", source: "Moulin Rouge!" },
-    { text: "We are who we choose to be.", answer: "Hollywood", source: "Spider-Man" },
-    { text: "Love is the one thing we're capable of perceiving that transcends dimensions of time and space.", answer: "Hollywood", source: "Interstellar" },
-    { text: "The night is darkest just before the dawn.", answer: "Hollywood", source: "The Dark Knight" },
-    { text: "It is a far, far better thing that I do, than I have ever done.", answer: "Hollywood", source: "The Dark Knight Rises (from A Tale of Two Cities)" },
-    { text: "A heart is not judged by how much you love, but by how much you are loved by others.", answer: "Hollywood", source: "The Wizard of Oz" },
-    { text: "We accept the love we think we deserve.", answer: "Hollywood", source: "The Perks of Being a Wallflower" },
-    { text: "Only if you find peace within yourself will you find true connection with others.", answer: "Hollywood", source: "Before Sunrise" },
-    { text: "I will not say do not weep, for not all tears are an evil.", answer: "Hollywood", source: "The Lord of the Rings" },
-    { text: "There's some good in this world, and it's worth fighting for.", answer: "Hollywood", source: "The Lord of the Rings" },
-    { text: "Love is like the wind, you can't see it but you can feel it.", answer: "Hollywood", source: "A Walk to Remember" },
-    { text: "Every man dies, not every man really lives.", answer: "Hollywood", source: "Braveheart" },
-    { text: "Your heart is free. Have the courage to follow it.", answer: "Hollywood", source: "Braveheart" },
-    { text: "It is what you do right now that makes a difference.", answer: "Hollywood", source: "Black Hawk Down" },
-    { text: "There is no certainty, only opportunity.", answer: "Hollywood", source: "V for Vendetta" },
-    { text: "Why do we fall? So we can learn to pick ourselves up.", answer: "Hollywood", source: "Batman Begins" },
-    { text: "Our lives are defined by opportunities, even the ones we miss.", answer: "Hollywood", source: "The Curious Case of Benjamin Button" },
-    { text: "I am the master of my fate, I am the captain of my soul.", answer: "Hollywood", source: "Invictus" },
-    { text: "Some birds aren't meant to be caged. Their feathers are just too bright.", answer: "Hollywood", source: "The Shawshank Redemption" },
+        const originalVault = [
+            // HOLLYWOOD
+            { text: "To love another person is to see the face of God.", answer: "Hollywood", source: "Les Misérables" },
+            { text: "The things you own end up owning you.", answer: "Hollywood", source: "Fight Club" },
+            { text: "Hope is a good thing, maybe the best of things, and no good thing ever dies.", answer: "Hollywood", source: "The Shawshank Redemption" },
+            { text: "All we have to decide is what to do with the time that is given to us.", answer: "Hollywood", source: "The Lord of the Rings" },
+            { text: "Death is just another path, one that we all must take.", answer: "Hollywood", source: "The Lord of the Rings" },
+            { text: "A man who doesn't spend time with his family can never be a real man.", answer: "Hollywood", source: "The Godfather" },
+            { text: "Great men are not born great, they grow great.", answer: "Hollywood", source: "The Godfather" },
+            { text: "Your focus determines your reality.", answer: "Hollywood", source: "Star Wars" },
+            { text: "Do not pity the dead. Pity the living, and, above all, those who live without love.", answer: "Hollywood", source: "Harry Potter" },
+            { text: "It is not our abilities that show what we truly are… it is our choices.", answer: "Hollywood", source: "Harry Potter" },
+            { text: "What is grief, if not love persevering?", answer: "Hollywood", source: "WandaVision" },
+            { text: "The greatest thing you'll ever learn is just to love and be loved in return.", answer: "Hollywood", source: "Moulin Rouge!" },
+            { text: "We are who we choose to be.", answer: "Hollywood", source: "Spider-Man" },
+            { text: "Love is the one thing we're capable of perceiving that transcends dimensions of time and space.", answer: "Hollywood", source: "Interstellar" },
+            { text: "The night is darkest just before the dawn.", answer: "Hollywood", source: "The Dark Knight" },
+            { text: "It is a far, far better thing that I do, than I have ever done.", answer: "Hollywood", source: "The Dark Knight Rises (A Tale of Two Cities)" },
+            { text: "A heart is not judged by how much you love, but by how much you are loved by others.", answer: "Hollywood", source: "The Wizard of Oz" },
+            { text: "We accept the love we think we deserve.", answer: "Hollywood", source: "The Perks of Being a Wallflower" },
+            { text: "Only if you find peace within yourself will you find true connection with others.", answer: "Hollywood", source: "Before Sunrise" },
+            { text: "I will not say do not weep, for not all tears are an evil.", answer: "Hollywood", source: "The Lord of the Rings" },
+            { text: "There's some good in this world, and it's worth fighting for.", answer: "Hollywood", source: "The Lord of the Rings" },
+            { text: "Love is like the wind, you can't see it but you can feel it.", answer: "Hollywood", source: "A Walk to Remember" },
+            { text: "Every man dies, not every man really lives.", answer: "Hollywood", source: "Braveheart" },
+            { text: "Your heart is free. Have the courage to follow it.", answer: "Hollywood", source: "Braveheart" },
+            { text: "It is what you do right now that makes a difference.", answer: "Hollywood", source: "Black Hawk Down" },
+            { text: "There is no certainty, only opportunity.", answer: "Hollywood", source: "V for Vendetta" },
+            { text: "Why do we fall? So we can learn to pick ourselves up.", answer: "Hollywood", source: "Batman Begins" },
+            { text: "Our lives are defined by opportunities, even the ones we miss.", answer: "Hollywood", source: "The Curious Case of Benjamin Button" },
+            { text: "I am the master of my fate, I am the captain of my soul.", answer: "Hollywood", source: "Invictus" },
+            { text: "Some birds aren't meant to be caged. Their feathers are just too bright.", answer: "Hollywood", source: "The Shawshank Redemption" },
+            // HOLY SCRIPTURE
+            { text: "Love is strong as death, jealousy is fierce as the grave.", answer: "Holy", source: "Song of Solomon 8:6" },
+            { text: "Many waters cannot quench love, neither can floods drown it.", answer: "Holy", source: "Song of Solomon 8:7" },
+            { text: "A chord of three strands is not quickly broken.", answer: "Holy", source: "Ecclesiastes 4:12" },
+            { text: "Deep calls to deep in the roar of your waterfalls.", answer: "Holy", source: "Psalm 42:7" },
+            { text: "He trains my hands for war, so that my arms can bend a bow of bronze.", answer: "Holy", source: "Psalm 18:34" },
+            { text: "I have seen everything that is done under the sun, and behold, all is vanity and a chasing after the wind.", answer: "Holy", source: "Ecclesiastes 1:14" },
+            { text: "The light shines in the darkness, and the darkness has not overcome it.", answer: "Holy", source: "John 1:5" },
+            { text: "Out of the eater came something to eat, and out of the strong came something sweet.", answer: "Holy", source: "Judges 14:14" },
+            { text: "Iron sharpens iron, and one man sharpens another.", answer: "Holy", source: "Proverbs 27:17" },
+            { text: "Let us eat and drink, for tomorrow we die.", answer: "Holy", source: "1 Corinthians 15:32" },
+            { text: "Can a man take fire to his bosom, and his clothes not be burned?", answer: "Holy", source: "Proverbs 6:27" },
+            { text: "For they sow the wind, and they shall reap the whirlwind.", answer: "Holy", source: "Hosea 8:7" },
+            { text: "The heart knows its own bitterness, and no stranger shares its joy.", answer: "Holy", source: "Proverbs 14:10" },
+            { text: "A joyful heart is good medicine, but a crushed spirit dries up the bones.", answer: "Holy", source: "Proverbs 17:22" },
+            { text: "There is nothing new under the sun.", answer: "Holy", source: "Ecclesiastes 1:9" },
+            { text: "The race is not to the swift, nor the battle to the strong.", answer: "Holy", source: "Ecclesiastes 9:11" },
+            { text: "A living dog is better than a dead lion.", answer: "Holy", source: "Ecclesiastes 9:4" },
+            { text: "He who digs a pit will fall into it.", answer: "Holy", source: "Proverbs 26:27" },
+            { text: "As water reflects the face, so one's life reflects the heart.", answer: "Holy", source: "Proverbs 27:19" },
+            { text: "Do not boast about tomorrow, for you do not know what a day may bring.", answer: "Holy", source: "Proverbs 27:1" },
+            { text: "Can two walk together, unless they are agreed?", answer: "Holy", source: "Amos 3:3" },
+            { text: "A soft answer turns away wrath, but a harsh word stirs up anger.", answer: "Holy", source: "Proverbs 15:1" },
+            { text: "The wicked flee when no one pursues, but the righteous are bold as a lion.", answer: "Holy", source: "Proverbs 28:1" },
+            { text: "Do not be overcome by evil, but overcome evil with good.", answer: "Holy", source: "Romans 12:21" },
+            { text: "Greater love has no one than this, that someone lay down his life for his friends.", answer: "Holy", source: "John 15:13" },
+            { text: "Let not your hearts be troubled.", answer: "Holy", source: "John 14:1" },
+            { text: "It is not good that man should be alone.", answer: "Holy", source: "Genesis 2:18" },
+            { text: "Pride goes before destruction.", answer: "Holy", source: "Proverbs 16:18" },
+            { text: "He who covers over an offense promotes love.", answer: "Holy", source: "Proverbs 17:9" },
+            { text: "For everything there is a season, and a time for every matter under heaven.", answer: "Holy", source: "Ecclesiastes 3:1" }
+        ];
 
-    // --- HOLY SCRIPTURE THAT SOUNDS LIKE HOLLYWOOD ---
-    { text: "Love is strong as death, jealousy is fierce as the grave.", answer: "Holy", source: "Song of Solomon 8:6" },
-    { text: "Many waters cannot quench love, neither can floods drown it.", answer: "Holy", source: "Song of Solomon 8:7" },
-    { text: "A chord of three strands is not quickly broken.", answer: "Holy", source: "Ecclesiastes 4:12" },
-    { text: "Deep calls to deep in the roar of your waterfalls.", answer: "Holy", source: "Psalm 42:7" },
-    { text: "He trains my hands for war, so that my arms can bend a bow of bronze.", answer: "Holy", source: "Psalm 18:34" },
-    { text: "I have seen everything that is done under the sun, and behold, all is vanity and a chasing after the wind.", answer: "Holy", source: "Ecclesiastes 1:14" },
-    { text: "The light shines in the darkness, and the darkness has not overcome it.", answer: "Holy", source: "John 1:5" },
-    { text: "Out of the eater came something to eat, and out of the strong came something sweet.", answer: "Holy", source: "Judges 14:14" },
-    { text: "Iron sharpens iron, and one man sharpens another.", answer: "Holy", source: "Proverbs 27:17" },
-    { text: "Let us eat and drink, for tomorrow we die.", answer: "Holy", source: "1 Corinthians 15:32" },
-    { text: "Can a man take fire to his bosom, and his clothes not be burned?", answer: "Holy", source: "Proverbs 6:27" },
-    { text: "For they sow the wind, and they shall reap the whirlwind.", answer: "Holy", source: "Hosea 8:7" },
-    { text: "The heart knows its own bitterness, and no stranger shares its joy.", answer: "Holy", source: "Proverbs 14:10" },
-    { text: "A joyful heart is good medicine, but a crushed spirit dries up the bones.", answer: "Holy", source: "Proverbs 17:22" },
-    { text: "There is nothing new under the sun.", answer: "Holy", source: "Ecclesiastes 1:9" },
-    { text: "The race is not to the swift, nor the battle to the strong.", answer: "Holy", source: "Ecclesiastes 9:11" },
-    { text: "A living dog is better than a dead lion.", answer: "Holy", source: "Ecclesiastes 9:4" },
-    { text: "He who digs a pit will fall into it.", answer: "Holy", source: "Proverbs 26:27" },
-    { text: "As water reflects the face, so one's life reflects the heart.", answer: "Holy", source: "Proverbs 27:19" },
-    { text: "Do not boast about tomorrow, for you do not know what a day may bring.", answer: "Holy", source: "Proverbs 27:1" },
-    { text: "Can two walk together, unless they are agreed?", answer: "Holy", source: "Amos 3:3" },
-    { text: "A soft answer turns away wrath, but a harsh word stirs up anger.", answer: "Holy", source: "Proverbs 15:1" },
-    { text: "The wicked flee when no one pursues, but the righteous are bold as a lion.", answer: "Holy", source: "Proverbs 28:1" },
-    { text: "Do not be overcome by evil, but overcome evil with good.", answer: "Holy", source: "Romans 12:21" },
-    { text: "Greater love has no one than this, that someone lay down his life for his friends.", answer: "Holy", source: "John 15:13" },
-    { text: "Let not your hearts be troubled.", answer: "Holy", source: "John 14:1" },
-    { text: "It is not good that man should be alone.", answer: "Holy", source: "Genesis 2:18" },
-    { text: "Pride goes before destruction.", answer: "Holy", source: "Proverbs 16:18" },
-    { text: "He who covers over an offense promotes love.", answer: "Holy", source: "Proverbs 17:9" },
-    { text: "For everything there is a season, and a time for every matter under heaven.", answer: "Holy", source: "Ecclesiastes 3:1" }
-];
+        let gameDeck = [];
+        let currentIndex = 0;
 
-        let currentIdx = 0;
+        const quoteTextEl = document.getElementById("quote-text");
+        const revealBoxEl = document.getElementById("reveal-box");
+        const answerTextEl = document.getElementById("answer-text");
+        const sourceTextEl = document.getElementById("source-text");
+        const btnReveal = document.getElementById("btn-reveal");
+        const btnNext = document.getElementById("btn-next");
+        const counterEl = document.getElementById("question-counter");
 
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
+        // The Shuffle Engine: Guarantees zero repeats!
+        function shuffleDeck(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
+            return shuffled;
         }
 
-        function loadQuote() {
-            if (currentIdx >= library.length) {
-                alert("🏆 Epic Achievement! You cleared the Expert set. Reshuffling...");
-                currentIdx = 0; shuffle(library);
-            }
-            // DYNAMIC COUNTER FIX HERE
-            document.getElementById("progress-counter").innerText = `Quote ${currentIdx + 1} / ${library.length}`;
-            document.getElementById("quote-display").innerText = `"${library[currentIdx].q}"`;
-            document.getElementById("feedback-msg").innerHTML = "";
+        function startGame() {
+            gameDeck = shuffleDeck(originalVault);
+            currentIndex = 0;
+            loadQuestion();
         }
 
-        function checkAnswer(choice) {
-            const item = library[currentIdx];
-            const isCorrect = (choice === item.a);
+        function loadQuestion() {
+            const currentItem = gameDeck[currentIndex];
             
-            if (isCorrect) {
-                document.getElementById("feedback-msg").innerHTML = 
-                    `<span class="correct">✅ Correct Decision!</span><br><span class="reference-box">Ref: ${item.ref}</span>`;
-            } else {
-                document.getElementById("feedback-msg").innerHTML = 
-                    `<span class="wrong">❌ Misjudged! It's ${item.a.toUpperCase()}.</span><br><span class="reference-box">Ref: ${item.ref}</span>`;
-            }
-            currentIdx++;
-            setTimeout(loadQuote, 2800); // Gives them a little more time to read the funny references before jumping
+            // Set UI
+            counterEl.innerText = `Question ${currentIndex + 1} / ${gameDeck.length}`;
+            quoteTextEl.innerText = currentItem.text;
+            
+            // Hide the reveal box and reset buttons
+            revealBoxEl.style.display = "none";
+            btnReveal.style.display = "block";
+            btnNext.style.display = "none";
+
+            // Clean up old classes
+            answerTextEl.classList.remove("is-holy", "is-hollywood");
         }
 
-        function nextQuote() { currentIdx++; loadQuote(); }
+        function revealAnswer() {
+            const currentItem = gameDeck[currentIndex];
+            
+            // Set Answer Data
+            answerTextEl.innerText = currentItem.answer;
+            sourceTextEl.innerText = `Source: ${currentItem.source}`;
+            
+            // Add color styling based on the answer
+            if (currentItem.answer === "Holy") {
+                answerTextEl.classList.add("is-holy");
+            } else {
+                answerTextEl.classList.add("is-hollywood");
+            }
 
-        shuffle(library);
-        loadQuote();
+            // Show the reveal box, swap buttons
+            revealBoxEl.style.display = "block";
+            btnReveal.style.display = "none";
+            btnNext.style.display = "block";
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < gameDeck.length) {
+                loadQuestion();
+            } else {
+                // Deck is empty, reshuffle automatically
+                alert("You finished the entire deck! Reshuffling for a new game...");
+                startGame();
+            }
+        }
+
+        // Boot the game up on load
+        startGame();
     </script>
 </body>
 </html>

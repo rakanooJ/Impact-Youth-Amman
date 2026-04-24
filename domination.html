@@ -173,121 +173,89 @@
     </div>
 
     <script>
-        // THE 50-CHALLENGE MEGA VAULT
-        const challenges = [
-            // SPRINT & SCAVENGER
-            "First team to bring the host a completely black pen.",
-            "First team to bring the host a receipt from a grocery store.",
-            "First team to bring the host 3 distinct keys on a single keychain.",
-            "First team to bring the host a left shoe with tied laces.",
-            "First team to bring the host a digital watch (Apple Watch counts).",
-            "First team to bring the host a tube of lip balm or chapstick.",
-            "First team to bring the host a coin from a specific year (Host calls the year).",
-            "First team to bring the host a student ID card.",
-            "First team to bring the host two mismatched socks currently being worn.",
-            "First team to bring the host wired plug-in headphones.",
-            "First team to show the host a photo of a dog on their phone.",
-            "First team to bring the host 4 completely different colored shirts.",
-            "First team to bring the host a physical paper Bible.",
-            "First team to bring the host a jacket with a zipper.",
-            "First team to bring the host a pair of sunglasses.",
-            
-            // PHYSICAL & STAMINA
-            "Champion Race: First person to complete 20 flawless pushups.",
-            "Team Race: First team to form a complete human pyramid (min 3 people).",
-            "Champion Race: First person to hold a wall-sit for 60 seconds.",
-            "Champion Race: Crab walk to the back wall and back to the front.",
-            "Staring Contest: Champions face off. First to blink loses.",
-            "Bottle Flip: Champions face off. First to land a water bottle flip wins.",
-            "Balance Race: Entire team must balance on one foot. First team to have someone drop their foot loses.",
-            "Sync Race: First team to complete 10 jumping jacks in perfect unison.",
-            "Thumb War: Champions face off. Best 2 out of 3.",
-            "Plank Race: Champions face off. Longest plank wins.",
-            "Statue Race: Entire team must freeze. First team to have someone laugh or move loses.",
-            "Paper Airplane: Champions make an airplane. Furthest throw wins.",
-            
-            // BIBLE & BRAIN
-            "Bible Race: First team to find and read John 3:16 out loud from a physical Bible.",
-            "List Race: First team to write down 5 books of the Bible that start with 'M'.",
-            "Trivia Race: First team to name all 4 Gospels in order out loud.",
-            "Math Panic: Host yells '12 x 7'. First team to yell the answer wins.",
-            "Math Panic: Host yells '45 + 87'. First team to yell the answer wins.",
-            "Brain Race: Captain must recite the alphabet backwards. First to finish wins.",
-            "List Race: First team to write down 5 local shawarma spots in Amman.",
-            "List Race: First team to write down 3 malls in Amman.",
-            "Trivia Race: Name 5 animals that start with the letter 'C'.",
-            "Bible Race: First team to recite the shortest verse in the Bible ('Jesus wept').",
-            "Bible Race: Name the first 3 kings of Israel. First to yell it wins.",
-            "Trivia Race: First team to write down 5 countries in Africa.",
-            "Trivia Race: First team to write down 5 fast food chains.",
-            
-            // PERFORMANCE & CHAOS
-            "Performance: First team to loudly sing the SpongeBob SquarePants theme song.",
-            "Dance Off: Champions must execute a known TikTok dance. Host judges winner.",
-            "Impressions: Champions do an impression of a youth leader. Host judges winner.",
-            "Rap Battle: Champions freestyle for 15 seconds about Impact Youth. Room votes winner.",
-            "Chaos: First team to spell out the word 'IMPACT' using only their bodies on the floor.",
-            "Performance: Entire team must do 'The Wave' flawlessly from front to back.",
-            "Vocal Match: Champions must hold a high note. Longest breath wins.",
-            "Chaos: First team to arrange 5 members by height from shortest to tallest.",
-            "Performance: First team to sing the chorus of 'Way Maker' perfectly in sync.",
-            "Chaos: First team to get 10 people lined up by birth month in complete silence."
-        ];
-
-        // THE AMMAN TACTICAL MAP
-        const sectors = [
-            { id: 1, name: "Dabouq", points: 300, spanClass: "span-2x2", owner: null },
-            { id: 2, name: "Khalda", points: 200, spanClass: "span-2x1", owner: null },
-            { id: 3, name: "Abdali", points: 100, spanClass: "", owner: null },
-            { id: 4, name: "Shmeisani", points: 200, spanClass: "span-1x2", owner: null },
-            { id: 5, name: "Rabyeh", points: 100, spanClass: "", owner: null },
-            { id: 6, name: "Weibdeh", points: 100, spanClass: "", owner: null },
-            { id: 7, name: "Sweifieh", points: 200, spanClass: "span-2x1", owner: null },
-            { id: 8, name: "Jabal Amman", points: 100, spanClass: "", owner: null },
-            { id: 9, name: "7th Circle", points: 200, spanClass: "span-2x1", owner: null },
-            { id: 10, name: "Abdoun", points: 300, spanClass: "span-2x2", owner: null },
-            { id: 11, name: "Rainbow St", points: 100, spanClass: "", owner: null },
-            { id: 12, name: "Taj Mall", points: 200, spanClass: "span-2x1", owner: null }
-        ];
-
-        let redShields = 2;
-        let blueShields = 2;
-        let currentSectorIndex = null;
-
-        const mapEl = document.getElementById("map");
-        const modal = document.getElementById("clash-modal");
+     // THE TIERED VAULTS (Zero Repeats)
         
-        function startGame() {
-            document.getElementById("intro-screen").classList.remove("active");
-            renderMap();
+        // Easy Vault (For 100-200 Point Territories)
+        let easyVault = [
+            { text: "Name the first book of the New Testament.", answer: "Matthew" },
+            { text: "Physical Challenge: The team captain must do 10 jumping jacks.", answer: "Complete to win the territory." },
+            { text: "Who was swallowed by a giant fish?", answer: "Jonah" },
+            { text: "Trivia: How many days did it take God to create the world?", answer: "6 days (He rested on the 7th)" },
+            { text: "Name 3 fruits of the Spirit in 10 seconds.", answer: "Love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control." },
+            { text: "Physical Challenge: Two players must high-five 15 times in 5 seconds.", answer: "Complete to win the territory." },
+            { text: "Who built the ark?", answer: "Noah" },
+            { text: "Name the giant that David defeated.", answer: "Goliath" }
+        ];
+
+        // Medium Vault (For 300-400 Point Territories)
+        let mediumVault = [
+            { text: "Name 5 of the 10 Plagues of Egypt in 15 seconds.", answer: "Blood, frogs, gnats, flies, livestock, boils, hail, locusts, darkness, firstborn." },
+            { text: "Physical Challenge: The whole team must balance on one foot for 30 seconds without falling.", answer: "If anyone drops, you lose the territory." },
+            { text: "What was Paul's profession before he became a full-time missionary?", answer: "Tentmaker" },
+            { text: "Who was the first king of Israel?", answer: "Saul" },
+            { text: "Brain Teaser: What is the shortest verse in the Bible?", answer: "John 11:35 ('Jesus wept.')" },
+            { text: "Physical Challenge: The captain must hold a wall sit for 45 seconds.", answer: "Complete to win the territory." },
+            { text: "Which two rivers were mentioned as flowing out of Eden?", answer: "Tigris and Euphrates (Pishon and Gihon also accepted)" },
+            { text: "Who recognized Jesus as the Messiah when He was presented at the temple as a baby?", answer: "Simeon (and Anna)" }
+        ];
+
+        // Hard Vault (For 500+ Point Territories)
+        let hardVault = [
+            { text: "Name all 12 Disciples in 30 seconds.", answer: "Peter, Andrew, James, John, Philip, Bartholomew, Thomas, Matthew, James, Thaddaeus, Simon, Judas." },
+            { text: "Physical Challenge: 3 team members must complete 15 synchronized burpees.", answer: "If they fall out of sync, you lose the territory." },
+            { text: "Theological Challenge: Recite the exact wording of John 3:16 from memory.", answer: "For God so loved the world..." },
+            { text: "Which Old Testament prophet was taken up to heaven in a whirlwind?", answer: "Elijah" },
+            { text: "Name the three friends of Daniel who were thrown into the fiery furnace.", answer: "Shadrach, Meshach, and Abednego" },
+            { text: "Physical Challenge: The team captain must win a rock-paper-scissors best-of-3 against the Game Master.", answer: "Win to claim the territory." },
+            { text: "In Revelation, what are the colors of the four horses of the apocalypse?", answer: "White, Red, Black, Pale." },
+            { text: "Who was the only female judge of Israel mentioned in the Bible?", answer: "Deborah" }
+        ];
+
+        // The Smart Shuffle Engine
+        function shuffleDeck(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
         }
 
-        function renderMap() {
-            mapEl.innerHTML = "";
-            let redPoints = 0;
-            let bluePoints = 0;
+        // Shuffle all decks when the game loads
+        shuffleDeck(easyVault);
+        shuffleDeck(mediumVault);
+        shuffleDeck(hardVault);
 
-            sectors.forEach((sec, index) => {
-                const secDiv = document.createElement("div");
-                secDiv.className = `sector ${sec.spanClass} ${sec.owner ? 'owned-' + sec.owner : ''}`;
-                
-                secDiv.innerHTML = `
-                    <div class="sec-pts">${sec.points} PTS</div>
-                    <div class="sec-name">${sec.name}</div>
-                `;
+        // The Logic that pulls the right card based on value
+        function pullQuestionForTerritory(value) {
+            let questionCard;
 
-                secDiv.onclick = () => openClashModal(index);
-                mapEl.appendChild(secDiv);
+            if (value >= 500) {
+                // Try to pull a hard question, fallback if empty
+                questionCard = hardVault.length > 0 ? hardVault.pop() : { text: "OUT OF HARD QUESTIONS. Team must do 20 pushups to claim.", answer: "Complete to win." };
+            } else if (value >= 300) {
+                // Try to pull a medium question
+                questionCard = mediumVault.length > 0 ? mediumVault.pop() : { text: "OUT OF MEDIUM QUESTIONS. Free Space!", answer: "Claim it for free." };
+            } else {
+                // Try to pull an easy question
+                questionCard = easyVault.length > 0 ? easyVault.pop() : { text: "OUT OF EASY QUESTIONS. Free Space!", answer: "Claim it for free." };
+            }
 
-                if (sec.owner === 'red') redPoints += sec.points;
-                if (sec.owner === 'blue') bluePoints += sec.points;
-            });
+            return questionCard;
+        }
 
-            // Update UI Scores
-            document.getElementById("score-red").innerText = redPoints;
-            document.getElementById("score-blue").innerText = bluePoints;
-            document.getElementById("shields-red").innerText = `🛡️ Shields: ${redShields}`;
-            document.getElementById("shields-blue").innerText = `🛡️ Shields: ${blueShields}`;
+        // --- UPDATE YOUR CLICK FUNCTION ---
+        // Find wherever your code opens the modal for a territory and replace it with this concept:
+        
+        function openTerritoryModal(territoryName, territoryValue) {
+            // Pull the exact right question for this territory's value
+            let card = pullQuestionForTerritory(territoryValue);
+            
+            // Set your modal text
+            document.getElementById("modal-title").innerText = territoryName + " (" + territoryValue + " Points)";
+            document.getElementById("modal-question").innerText = card.text;
+            document.getElementById("modal-answer").innerText = card.answer;
+            
+            // Show the modal
+            document.getElementById("question-modal").classList.add("active");
         }
 
         function openClashModal(index) {

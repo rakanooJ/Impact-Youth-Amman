@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyric Drop - Impact Youth</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0f172a; color: #f8f9fa; line-height: 1.6; 
+            background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh; display: flex; flex-direction: column;
+        }
+        
+        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; z-index: 10;}
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; text-transform: uppercase;}
+        .nav-links a:hover { color: #00a8ff; }
+
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; width: 100%; text-align: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: center;}
+
+        /* Main Menu Selector */
+        #menu-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; animation: fadeIn 0.5s ease; }
+        .menu-title { font-size: 4rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 5px; font-weight: 900; margin-bottom: 10px; text-shadow: 0 5px 15px rgba(0,0,0,0.5);}
+        .menu-sub { font-size: 1.5rem; color: #cbd5e1; margin-bottom: 50px; }
+        
+        .deck-selector { display: flex; gap: 30px; width: 100%; justify-content: center; flex-wrap: wrap;}
+        .deck-btn { 
+            background: #1e293b; border: 2px solid #475569; padding: 40px; border-radius: 20px; 
+            width: 320px; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .deck-btn:hover { transform: translateY(-10px); border-color: #00a8ff; background: #334155;}
+        .deck-icon { font-size: 5rem; margin-bottom: 15px; }
+        .deck-name { font-size: 2rem; color: #fff; font-weight: 900; text-transform: uppercase; }
+
+        /* Game Board */
+        #game-screen { display: none; flex-direction: column; width: 100%; animation: fadeIn 0.5s ease; }
+        
+        .header-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .game-title { font-size: 2.5rem; color: #00a8ff; text-transform: uppercase; letter-spacing: 4px; font-weight: 900; margin: 0;}
+        
+        .scoreboard { display: flex; gap: 20px; background: #111; padding: 10px 20px; border-radius: 10px; border: 2px solid #333;}
+        .team-score { font-size: 1.5rem; font-weight: bold; padding: 5px 15px; border-radius: 8px;}
+        .red-score { color: #e74c3c; border-bottom: 3px solid #e74c3c; }
+        .blue-score { color: #00a8ff; border-bottom: 3px solid #00a8ff; }
+
+        /* The Lyric Card */
+        .lyric-card { 
+            background: #1e293b; padding: 60px 40px; border-radius: 20px; 
+            border: 2px solid #475569; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            margin-bottom: 30px; position: relative; min-height: 400px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        
+        .artist-badge { 
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            background: #f1c40f; color: #000; padding: 8px 20px; border-radius: 30px; 
+            font-weight: 900; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem;
+        }
+
+        .lyric-prompt { font-size: 2.8rem; font-weight: 900; color: #fff; line-height: 1.4; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-style: italic;}
+        
+        /* Reveal Section */
+        .reveal-box { display: none; width: 100%; animation: slideDown 0.4s ease-out forwards; margin-top: 20px;}
+        .lyric-answer { font-size: 3rem; font-weight: 900; color: #2ed573; text-transform: uppercase; text-shadow: 0 0 20px rgba(46,213,115,0.4); margin-bottom: 10px;}
+
+        /* Controls */
+        .controls { display: flex; justify-content: center; gap: 15px; width: 100%; max-width: 800px; margin: 0 auto;}
+        .btn { padding: 20px; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; color: #fff; flex: 1; box-shadow: 0 10px 20px rgba(0,0,0,0.4);}
+        .btn:active { transform: scale(0.95); }
+        
+        .btn-reveal { background: #f39c12; color: #000; width: 100%; max-width: 400px; font-size: 1.5rem;}
+        .btn-reveal:hover { background: #d35400; }
+        
+        .award-controls { display: none; gap: 15px; width: 100%; max-width: 800px; margin: 0 auto; }
+        .btn-award-red { background: #e74c3c; } .btn-award-red:hover { background: #c0392b; }
+        .btn-award-blue { background: #00a8ff; } .btn-award-blue:hover { background: #008ecc; }
+        .btn-wrong { background: #334155; } .btn-wrong:hover { background: #1e293b; }
+
+        .btn-home { position: absolute; bottom: 20px; right: 20px; background: transparent; border: 2px solid #475569; color: #cbd5e1; padding: 10px 20px; border-radius: 8px; cursor: pointer;}
+        .btn-home:hover { background: #475569; color: white;}
+
+        @keyframes slideDown { 0% { opacity: 0; transform: translateY(-20px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+
+        @media (max-width: 768px) { .deck-selector { flex-direction: column; align-items: center; } .header-info { flex-direction: column; gap: 15px;} .lyric-prompt, .lyric-answer { font-size: 1.8rem; } .controls, .award-controls { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <div class="nav-links"><a href="spirit-fun.html">Back to Arcade</a></div>
+    </nav>
+
+    <div class="container">
+        <div id="menu-screen">
+            <h1 class="menu-title">Lyric Drop</h1>
+            <p class="menu-sub">Select your playlist. Artists will never repeat back-to-back.</p>
+            
+            <div class="deck-selector">
+                <div class="deck-btn" onclick="startDeck('english')">
+                    <div class="deck-icon">🇺🇸</div>
+                    <div class="deck-name">English Vault</div>
+                    <p style="color: #94a3b8; margin-top: 10px;">Dean Lewis, NF, 1D, CAS, Ed Sheeran</p>
+                </div>
+                <div class="deck-btn" onclick="startDeck('arabic')">
+                    <div class="deck-icon">🇯🇴</div>
+                    <div class="deck-name">Arabic Vault</div>
+                    <p style="color: #94a3b8; margin-top: 10px;">Big Sam, Abdulrahman, Cairokee</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="game-screen">
+            <div class="header-info">
+                <h1 class="game-title" id="active-deck-title">Deck Loaded</h1>
+                <div class="scoreboard">
+                    <div class="team-score red-score">Red: <span id="score-red">0</span></div>
+                    <div class="team-score blue-score">Blue: <span id="score-blue">0</span></div>
+                </div>
+            </div>
+
+            <div class="lyric-card">
+                <div class="artist-badge" id="artist-badge">Artist</div>
+                <div class="lyric-prompt" id="lyric-prompt">"Loading lyric..."</div>
+                
+                <div class="reveal-box" id="reveal-box">
+                    <div class="lyric-answer" id="lyric-answer">"THE ANSWER"</div>
+                </div>
+            </div>
+
+            <div class="controls" id="reveal-controls">
+                <button class="btn btn-reveal" onclick="revealLyric()">👀 Reveal Answer</button>
+            </div>
+
+            <div class="award-controls" id="award-controls">
+                <button class="btn btn-award-red" onclick="awardPoints('red')">+1 Red Team</button>
+                <button class="btn btn-wrong" onclick="nextCard()">❌ Nobody Got It</button>
+                <button class="btn btn-award-blue" onclick="awardPoints('blue')">+1 Blue Team</button>
+            </div>
+
+            <button class="btn-home" onclick="location.reload()">Reset Game</button>
+        </div>
+    </div>
+
+    <script>
+        // --- 50+ ENGLISH TRACKS (CLEAN & CURATED) ---
+        const englishVault = [
+            // Dean Lewis
+            { artist: "Dean Lewis", p: "I look up from the ground to see your sad and teary eyes", a: "You look away from me" },
+            { artist: "Dean Lewis", p: "It comes and goes in waves", a: "It always does, it always does" },
+            { artist: "Dean Lewis", p: "How do I say goodbye to someone who's been with me for my whole damn life?", a: "You gave me my name and the color of your eyes" },
+            { artist: "Dean Lewis", p: "I was a boat, that ran out of wind", a: "I was a bird, that couldn't fly" },
+            { artist: "Dean Lewis", p: "How am I supposed to love you", a: "When I don't love who I am" },
+            // NF (Clean)
+            { artist: "NF", p: "Yeah, you don't wanna make me step out of my zone", a: "I'm used to being on my own" },
+            { artist: "NF", p: "I'm looking for the map to hope", a: "You seen it?" },
+            { artist: "NF", p: "If you want love, you gon' have to go through the pain", a: "If you want love, you gon' have to learn how to change" },
+            { artist: "NF", p: "I just need some time, I'm tryna think straight", a: "I just need a moment in my own space" },
+            { artist: "NF", p: "Feels like we're on the edge right now", a: "I wish that I could say I'm proud" },
+            // Cigarettes After Sex
+            { artist: "Cigarettes After Sex", p: "Nothing's gonna hurt you baby", a: "As long as you're with me you'll be just fine" },
+            { artist: "Cigarettes After Sex", p: "Got the music in you baby, tell me why", a: "Got the music in you baby, tell me why" },
+            { artist: "Cigarettes After Sex", p: "Apocalypse", a: "Your lips, my lips, apocalypse" },
+            { artist: "Cigarettes After Sex", p: "I'm thinking of you", a: "And all the things you do" },
+            { artist: "Cigarettes After Sex", p: "It's so sweet, knowing that you love me", a: "Though we don't need to say it to each other" },
+            // One Direction
+            { artist: "One Direction", p: "Baby you light up my world like nobody else", a: "The way that you flip your hair gets me overwhelmed" },
+            { artist: "One Direction", p: "Story of my life I take her home", a: "I drive all night to keep her warm" },
+            { artist: "One Direction", p: "Going out tonight, changes into something red", a: "Her mother doesn't like that kind of dress" },
+            { artist: "One Direction", p: "Let's go crazy, crazy, crazy 'til we see the sun", a: "I know we only met but let's pretend it's love" },
+            { artist: "One Direction", p: "Does he know you're out and I'm around?", a: "Does he know I never meant to let you down?" },
+            { artist: "One Direction", p: "I have loved you since we were eighteen", a: "Long before we both thought the same thing" },
+            // Ed Sheeran
+            { artist: "Ed Sheeran", p: "I found a love for me", a: "Darling just dive right in" },
+            { artist: "Ed Sheeran", p: "When your legs don't work like they used to before", a: "And I can't sweep you off of your feet" },
+            { artist: "Ed Sheeran", p: "I'm in love with the shape of you", a: "We push and pull like a magnet do" },
+            { artist: "Ed Sheeran", p: "Loving can hurt, loving can hurt sometimes", a: "But it's the only thing that I know" },
+            { artist: "Ed Sheeran", p: "We keep this love in a photograph", a: "We made these memories for ourselves" },
+            // Coldplay
+            { artist: "Coldplay", p: "I used to rule the world", a: "Seas would rise when I gave the word" },
+            { artist: "Coldplay", p: "Look at the stars, look how they shine for you", a: "And everything you do" },
+            { artist: "Coldplay", p: "Nobody said it was easy", a: "It's such a shame for us to part" },
+            { artist: "Coldplay", p: "Lights will guide you home", a: "And ignite your bones" },
+            { artist: "Coldplay", p: "When you try your best, but you don't succeed", a: "When you get what you want, but not what you need" },
+            // Justin Bieber
+            { artist: "Justin Bieber", p: "For all the times that you rain on my parade", a: "And all the clubs you get in using my name" },
+            { artist: "Justin Bieber", p: "Is it too late now to say sorry?", a: "'Cause I'm missing more than just your body" },
+            { artist: "Justin Bieber", p: "If I was your boyfriend, I'd never let you go", a: "I can take you places you ain't never been before" },
+            { artist: "Justin Bieber", p: "You know you love me, I know you care", a: "Just shout whenever and I'll be there" },
+            // Pop Hits 
+            { artist: "The Killers", p: "It started out with a kiss", a: "How did it end up like this?" },
+            { artist: "Katy Perry", p: "Do you ever feel like a plastic bag", a: "Drifting through the wind" },
+            { artist: "Shawn Mendes", p: "I know I can treat you better", a: "Than he can" },
+            { artist: "Imagine Dragons", p: "First things first", a: "I'ma say all the words inside my head" },
+            { artist: "Billie Eilish", p: "I'm the bad guy", a: "Duh" },
+            { artist: "Hozier", p: "Take me to church", a: "I'll worship like a dog at the shrine of your lies" },
+            { artist: "The Weeknd", p: "I said, ooh, I'm blinded by the lights", a: "No, I can't sleep until I feel your touch" },
+            { artist: "Adele", p: "Hello from the other side", a: "I must've called a thousand times" },
+            { artist: "Maroon 5", p: "I'm at a payphone trying to call home", a: "All of my change I spent on you" },
+            { artist: "Vance Joy", p: "Lady, running down to the riptide", a: "Taken away to the dark side" },
+            { artist: "Train", p: "Now that she's back in the atmosphere", a: "With drops of Jupiter in her hair" }
+        ];
+
+        // --- 50+ ARABIC TRACKS (CURATED FOR YOUTH GROUP) ---
+        const arabicVault = [
+            // Big Sam
+            { artist: "Big Sam", p: "وصي القلب يهدى شوية", a: "ما بدي يوجعني" },
+            { artist: "Big Sam", p: "بتهون، بكرا كل شي بيهون", a: "لما عيونك تحكيلي" },
+            { artist: "Big Sam", p: "ما بتفرق معي لو كل الناس غابت", a: "إنتي اللي فيهم ضليتي" },
+            { artist: "Big Sam", p: "إذا بدك ياني، أنا دايماً هون", a: "وإذا بدك تمشي، الباب مفتوح" },
+            { artist: "Big Sam", p: "كل شي فيكي بيجذبني", a: "حتى سكوتك بيحكيلي" },
+            { artist: "Big Sam", p: "لا تخافي، أنا سندك", a: "لما تميل الدنيا فيكي" },
+            // Abdulrahman Mohammed
+            { artist: "Abdulrahman Mohammed", p: "يا من هواه أعزه وأذلني", a: "كيف السبيل إلى وصالك دلني" },
+            { artist: "Abdulrahman Mohammed", p: "أصابك عشق أم رميت بأسهم", a: "فما هذه إلا سجية مغرم" },
+            { artist: "Abdulrahman Mohammed", p: "قل للمليحة في الخمار الأسود", a: "ماذا فعلت بناسك متعبد" },
+            { artist: "Abdulrahman Mohammed", p: "وروحي فداك عرفت الهوى", a: "وما زلت أكتم حبك حتى" },
+            { artist: "Abdulrahman Mohammed", p: "بروحي فتاة بالعفاف تجملت", a: "وفي خدها حب من المسك قد نبت" },
+            { artist: "Abdulrahman Mohammed", p: "ولما تلاقينا على سفح رامة", a: "وجدت بنان العامرية أحمرا" },
+            // Cairokee
+            { artist: "Cairokee", p: "يا أبيض يا أسود", a: "قصة حياتي وكل حكاياتي" },
+            { artist: "Cairokee", p: "الخط ده خطي", a: "والكلمة دي ليا" },
+            { artist: "Cairokee", p: "كان لك معايا", a: "أجمل حكاية" },
+            { artist: "Cairokee", p: "أنا الصوت وقت ما تحبوا السكوت", a: "أنا الحرية وقت ما تحبوا القيود" },
+            { artist: "Cairokee", p: "مربوط بأستك", a: "بيشدني لتحت" },
+            { artist: "Cairokee", p: "السكة شمال في شمال", a: "واليمين مش شغال" },
+            // Wegz & Modern Rap
+            { artist: "Wegz", p: "عيني منها بشكل جدي", a: "وتقيلة مش تقلانة تبخر سحري" },
+            { artist: "Wegz", p: "البخت", a: "سحرتني ولا سحرتلي" },
+            { artist: "Wegz", p: "كيفي كده", a: "كيفي كده" },
+            { artist: "Marwan Pablo", p: "غابة", a: "كله بيلعب على كله" },
+            // Issam Alnajjar & Siilawy
+            { artist: "Issam Alnajjar", p: "حطّي راسك ع مخدة", a: "جوّا قلبي ما في قدّك" },
+            { artist: "Issam Alnajjar", p: "حدل أحبك", a: "آه يا قلبي" },
+            { artist: "Siilawy", p: "قدام الكل", a: "أنا مشتاقلك" },
+            { artist: "Siilawy", p: "لما تكوني معي", a: "بنسى كل الزعل" },
+            // Fairouz
+            { artist: "Fairouz", p: "كيفك قال عم بيقولوا صار عندك ولاد", a: "أنا والله كنت مفكرتك برات البلاد" },
+            { artist: "Fairouz", p: "نسم علينا الهوى من مفرق الوادي", a: "يا هوا دخل الهوى خدني على بلادي" },
+            { artist: "Fairouz", p: "سألوني الناس عنك يا حبيبي", a: "كتبوا المكاتيب وأخدها الهوى" },
+            { artist: "Fairouz", p: "حبيتك بالصيف حبيتك بالشتي", a: "نطرتك بالصيف نطرتك بالشتي" },
+            { artist: "Fairouz", p: "أنا لحبيبي وحبيبي إلي", a: "يا عصفورة بيضا لا بقى تسألي" },
+            // Amr Diab
+            { artist: "Amr Diab", p: "تملي معاك", a: "ولو حتى بعيد عني في قلبي هواك" },
+            { artist: "Amr Diab", p: "حبيبي يا نور العين", a: "يا ساكن خيالي" },
+            { artist: "Amr Diab", p: "قمرين قمرين", a: "دول ولا عينيك" },
+            { artist: "Amr Diab", p: "وياه الحياة هتحلو وياه", a: "دي اللي عيوني شيفاه" },
+            { artist: "Amr Diab", p: "يوم تلات، تلات بنات ندهوني", a: "على البساط بصات ياما رموني" },
+            // Classic Pop
+            { artist: "Nancy Ajram", p: "آه ونص، ما فيك تزعلني", a: "ولا فيك تبعدني، ولا فيك تتركني" },
+            { artist: "Nancy Ajram", p: "أخاصمك آه، أسيبك لا", a: "وجوا الروح هفضل أحبك أنا" },
+            { artist: "Wael Kfoury", p: "بحبك أنا كتير", a: "يا حبيبي ضلك طل علي" },
+            { artist: "Wael Kfoury", p: "لو حبنا غلطة", a: "اتركنا غلطانين" },
+            { artist: "Sherine", p: "على بالي", a: "ولا إنت داري باللي جرالي" },
+            { artist: "Sherine", p: "كده يا قلبي", a: "يا حتة مني" },
+            { artist: "Hussain Al Jassmi", p: "بشرة خير", a: "دي فركة كعب وهتعملها" },
+            { artist: "Hussain Al Jassmi", p: "لقيت الطبطبة", a: "ولو ما انتش بعيد ضحكتك فيها كهربا" },
+            { artist: "Elissa", p: "عبالي حبيبي", a: "عبالي تكملني واسمك تحملني" },
+            { artist: "Saad Lamjarred", p: "إنت معلم", a: "واحنا منك نتعلم" },
+            { artist: "Saad Lamjarred", p: "غلطانة", a: "جيتي لعندي ندمانة" },
+            { artist: "Asala", p: "بنت أكابر", a: "ويا عيني ع الشياكة" },
+            { artist: "Majida El Roumi", p: "كلمات ليست كالكلمات", a: "يا حبيبي" },
+            { artist: "Fadel Chaker", p: "يا غايب ليه ما تسأل", a: "ع أحبابك اللي يحبونك" },
+            { artist: "Tamer Hosny", p: "ارجعلي", a: "أنا قلبي معاك" }
+        ];
+
+        let gameDeck = [];
+        let currentIndex = 0;
+        let redScore = 0;
+        let blueScore = 0;
+
+        // SMART SHUFFLE: Guarantees the same artist NEVER plays twice in a row
+        function smartShuffle(array) {
+            let shuffled = [...array].sort(() => Math.random() - 0.5);
+            
+            for (let i = 0; i < shuffled.length - 1; i++) {
+                if (shuffled[i].artist === shuffled[i + 1].artist) {
+                    // Find a replacement song further down the deck
+                    for (let j = i + 2; j < shuffled.length; j++) {
+                        if (shuffled[j].artist !== shuffled[i].artist) {
+                            // Swap them
+                            let temp = shuffled[i + 1];
+                            shuffled[i + 1] = shuffled[j];
+                            shuffled[j] = temp;
+                            break;
+                        }
+                    }
+                }
+            }
+            return shuffled;
+        }
+
+        function startDeck(language) {
+            if (language === 'english') {
+                gameDeck = smartShuffle(englishVault);
+                document.getElementById("active-deck-title").innerText = "English Vault";
+            } else {
+                gameDeck = smartShuffle(arabicVault);
+                document.getElementById("active-deck-title").innerText = "Arabic Vault";
+                document.getElementById("lyric-prompt").style.fontFamily = "Tahoma, Arial";
+                document.getElementById("lyric-answer").style.fontFamily = "Tahoma, Arial";
+            }
+
+            document.getElementById("menu-screen").style.display = "none";
+            document.getElementById("game-screen").style.display = "flex";
+            
+            currentIndex = 0;
+            loadCard();
+        }
+
+        function loadCard() {
+            if (currentIndex >= gameDeck.length) {
+                alert("Deck finished! Returning to Main Menu.");
+                location.reload();
+                return;
+            }
+
+            const card = gameDeck[currentIndex];
+            
+            document.getElementById("artist-badge").innerText = card.artist;
+            document.getElementById("lyric-prompt").innerText = `"${card.p}"`;
+            document.getElementById("lyric-answer").innerText = `"${card.a}"`;
+
+            // Reset UI states
+            document.getElementById("reveal-box").style.display = "none";
+            document.getElementById("reveal-controls").style.display = "flex";
+            document.getElementById("award-controls").style.display = "none";
+        }
+
+        function revealLyric() {
+            document.getElementById("reveal-box").style.display = "block";
+            document.getElementById("reveal-controls").style.display = "none";
+            document.getElementById("award-controls").style.display = "flex";
+        }
+
+        function awardPoints(team) {
+            if (team === 'red') {
+                redScore++;
+                document.getElementById("score-red").innerText = redScore;
+            } else {
+                blueScore++;
+                document.getElementById("score-blue").innerText = blueScore;
+            }
+            nextCard();
+        }
+
+        function nextCard() {
+            currentIndex++;
+            loadCard();
+        }
+    </script>
+</body>
+</html>

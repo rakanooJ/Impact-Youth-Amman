@@ -79,13 +79,17 @@
         .btn-award-blue { background: #00a8ff; } .btn-award-blue:hover { background: #008ecc; }
         .btn-wrong { background: #334155; } .btn-wrong:hover { background: #1e293b; }
 
-        .btn-home { position: absolute; bottom: 20px; right: 20px; background: transparent; border: 2px solid #475569; color: #cbd5e1; padding: 10px 20px; border-radius: 8px; cursor: pointer;}
-        .btn-home:hover { background: #475569; color: white;}
+        /* Bottom Action Buttons */
+        .action-bar { display: flex; justify-content: space-between; position: absolute; bottom: 20px; left: 20px; right: 20px;}
+        .btn-action { background: transparent; border: 2px solid #475569; color: #cbd5e1; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        .btn-action:hover { background: #475569; color: white;}
+        .btn-switch { border-color: #00a8ff; color: #00a8ff; }
+        .btn-switch:hover { background: #00a8ff; color: white; }
 
         @keyframes slideDown { 0% { opacity: 0; transform: translateY(-20px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
 
-        @media (max-width: 768px) { .deck-selector { flex-direction: column; align-items: center; } .header-info { flex-direction: column; gap: 15px;} .lyric-prompt, .lyric-answer { font-size: 1.8rem; } .controls, .award-controls { flex-direction: column; } }
+        @media (max-width: 768px) { .deck-selector { flex-direction: column; align-items: center; } .header-info { flex-direction: column; gap: 15px;} .lyric-prompt, .lyric-answer { font-size: 1.8rem; } .controls, .award-controls { flex-direction: column; } .action-bar { position: relative; bottom: 0; left: 0; right: 0; margin-top: 30px; flex-direction: column; gap: 10px; } }
     </style>
 </head>
 <body>
@@ -141,56 +145,50 @@
                 <button class="btn btn-award-blue" onclick="awardPoints('blue')">+1 Blue Team</button>
             </div>
 
-            <button class="btn-home" onclick="location.reload()">Reset Game</button>
+            <div class="action-bar">
+                <button class="btn-action" onclick="location.reload()">Reset Entire Game</button>
+                <button class="btn-action btn-switch" id="btn-switch-deck" onclick="toggleLanguage()">🔄 Switch to Arabic</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- 50+ ENGLISH TRACKS (CLEAN & CURATED) ---
         const englishVault = [
-            // Dean Lewis
             { artist: "Dean Lewis", p: "I look up from the ground to see your sad and teary eyes", a: "You look away from me" },
             { artist: "Dean Lewis", p: "It comes and goes in waves", a: "It always does, it always does" },
             { artist: "Dean Lewis", p: "How do I say goodbye to someone who's been with me for my whole damn life?", a: "You gave me my name and the color of your eyes" },
             { artist: "Dean Lewis", p: "I was a boat, that ran out of wind", a: "I was a bird, that couldn't fly" },
             { artist: "Dean Lewis", p: "How am I supposed to love you", a: "When I don't love who I am" },
-            // NF (Clean)
             { artist: "NF", p: "Yeah, you don't wanna make me step out of my zone", a: "I'm used to being on my own" },
             { artist: "NF", p: "I'm looking for the map to hope", a: "You seen it?" },
             { artist: "NF", p: "If you want love, you gon' have to go through the pain", a: "If you want love, you gon' have to learn how to change" },
             { artist: "NF", p: "I just need some time, I'm tryna think straight", a: "I just need a moment in my own space" },
             { artist: "NF", p: "Feels like we're on the edge right now", a: "I wish that I could say I'm proud" },
-            // Cigarettes After Sex
             { artist: "Cigarettes After Sex", p: "Nothing's gonna hurt you baby", a: "As long as you're with me you'll be just fine" },
             { artist: "Cigarettes After Sex", p: "Got the music in you baby, tell me why", a: "Got the music in you baby, tell me why" },
             { artist: "Cigarettes After Sex", p: "Apocalypse", a: "Your lips, my lips, apocalypse" },
             { artist: "Cigarettes After Sex", p: "I'm thinking of you", a: "And all the things you do" },
             { artist: "Cigarettes After Sex", p: "It's so sweet, knowing that you love me", a: "Though we don't need to say it to each other" },
-            // One Direction
             { artist: "One Direction", p: "Baby you light up my world like nobody else", a: "The way that you flip your hair gets me overwhelmed" },
             { artist: "One Direction", p: "Story of my life I take her home", a: "I drive all night to keep her warm" },
             { artist: "One Direction", p: "Going out tonight, changes into something red", a: "Her mother doesn't like that kind of dress" },
             { artist: "One Direction", p: "Let's go crazy, crazy, crazy 'til we see the sun", a: "I know we only met but let's pretend it's love" },
             { artist: "One Direction", p: "Does he know you're out and I'm around?", a: "Does he know I never meant to let you down?" },
             { artist: "One Direction", p: "I have loved you since we were eighteen", a: "Long before we both thought the same thing" },
-            // Ed Sheeran
             { artist: "Ed Sheeran", p: "I found a love for me", a: "Darling just dive right in" },
             { artist: "Ed Sheeran", p: "When your legs don't work like they used to before", a: "And I can't sweep you off of your feet" },
             { artist: "Ed Sheeran", p: "I'm in love with the shape of you", a: "We push and pull like a magnet do" },
             { artist: "Ed Sheeran", p: "Loving can hurt, loving can hurt sometimes", a: "But it's the only thing that I know" },
             { artist: "Ed Sheeran", p: "We keep this love in a photograph", a: "We made these memories for ourselves" },
-            // Coldplay
             { artist: "Coldplay", p: "I used to rule the world", a: "Seas would rise when I gave the word" },
             { artist: "Coldplay", p: "Look at the stars, look how they shine for you", a: "And everything you do" },
             { artist: "Coldplay", p: "Nobody said it was easy", a: "It's such a shame for us to part" },
             { artist: "Coldplay", p: "Lights will guide you home", a: "And ignite your bones" },
             { artist: "Coldplay", p: "When you try your best, but you don't succeed", a: "When you get what you want, but not what you need" },
-            // Justin Bieber
             { artist: "Justin Bieber", p: "For all the times that you rain on my parade", a: "And all the clubs you get in using my name" },
             { artist: "Justin Bieber", p: "Is it too late now to say sorry?", a: "'Cause I'm missing more than just your body" },
             { artist: "Justin Bieber", p: "If I was your boyfriend, I'd never let you go", a: "I can take you places you ain't never been before" },
             { artist: "Justin Bieber", p: "You know you love me, I know you care", a: "Just shout whenever and I'll be there" },
-            // Pop Hits 
             { artist: "The Killers", p: "It started out with a kiss", a: "How did it end up like this?" },
             { artist: "Katy Perry", p: "Do you ever feel like a plastic bag", a: "Drifting through the wind" },
             { artist: "Shawn Mendes", p: "I know I can treat you better", a: "Than he can" },
@@ -204,18 +202,17 @@
             { artist: "Train", p: "Now that she's back in the atmosphere", a: "With drops of Jupiter in her hair" }
         ];
 
-        // --- 50+ ARABIC TRACKS (CURATED FOR YOUTH GROUP) ---
         const arabicVault = [
+            // The Secret Mystery Tracks
+            { artist: "", p: "انا قوي بس", a: "بس عندك رح الين" }, 
+            { artist: "", p: "حكيت بحبك حسيت حالي دخلت فورطة", a: "شفت هضحكة بلش قلب يدق بسرعة" }, 
+            { artist: "", p: "حكيت فعقلي خلص فترة صغيرة وبتمر", a: "مكنتش عارف انها فترة طويلة وبتجر" }, 
             // Big Sam
-             { artist: "", p: "انا قوي بس", a: "بس عندك رح الين" }, 
-             { artist: "", p: "حكيت بحبك حسيت حالي دخلت فورطة", a: "شفت هضحكة بلش قلب يدق بسرعة" }, 
-             { artist: "", p: "حكيت فعقلي خلص فترة صغيرة وبتمر", a: "مكنتش عارف انها فترة طويلة وبتجر" }, 
-        // Big Sam 
             { artist: "Big Sam", p: "تسألوش اذا شايل هموم", a: "بس اتركوني لحالي بروق" }, 
             { artist: "Big Sam", p: "مش حاب الوحدة كاره كل الكون", a: "والنفس ما بتهون" }, 
             { artist: "Big Sam", p: "بعرف إنك فاهم كل لغات العيون", a: "بس كذابة العيون بالنهاية بتهون" }, 
             { artist: "Big Sam", p: "قلبي قال لي بعتهم", a: "قلت له هما اللي باعوك" }, 
-            { artist: "Big Sam", p: "لا مش انا، انا اللي بطلت هداك الانا", a: "انا اللي نسيت كم شهر وسنه" }
+            { artist: "Big Sam", p: "لا مش انا، انا اللي بطلت هداك الانا", a: "انا اللي نسيت كم شهر وسنه" },
             // Abdulrahman Mohammed
             { artist: "Abdulrahman Mohammed", p: "يا من هواه أعزه وأذلني", a: "كيف السبيل إلى وصالك دلني" },
             { artist: "Abdulrahman Mohammed", p: "أصابك عشق أم رميت بأسهم", a: "فما هذه إلا سجية مغرم" },
@@ -274,17 +271,17 @@
         let currentIndex = 0;
         let redScore = 0;
         let blueScore = 0;
+        let currentLanguage = '';
 
-        // SMART SHUFFLE: Guarantees the same artist NEVER plays twice in a row
+        // SMART SHUFFLE: Prevents back-to-back artists
         function smartShuffle(array) {
             let shuffled = [...array].sort(() => Math.random() - 0.5);
             
             for (let i = 0; i < shuffled.length - 1; i++) {
-                if (shuffled[i].artist === shuffled[i + 1].artist) {
-                    // Find a replacement song further down the deck
+                // If it's a mystery artist (blank), don't worry about repeating blanks
+                if (shuffled[i].artist !== "" && shuffled[i].artist === shuffled[i + 1].artist) {
                     for (let j = i + 2; j < shuffled.length; j++) {
                         if (shuffled[j].artist !== shuffled[i].artist) {
-                            // Swap them
                             let temp = shuffled[i + 1];
                             shuffled[i + 1] = shuffled[j];
                             shuffled[j] = temp;
@@ -297,33 +294,52 @@
         }
 
         function startDeck(language) {
-            if (language === 'english') {
+            currentLanguage = language;
+            document.getElementById("menu-screen").style.display = "none";
+            document.getElementById("game-screen").style.display = "flex";
+            loadActiveDeck();
+        }
+
+        function toggleLanguage() {
+            // Flips the language and reloads the deck without erasing the score
+            if (currentLanguage === 'english') {
+                currentLanguage = 'arabic';
+            } else {
+                currentLanguage = 'english';
+            }
+            loadActiveDeck();
+        }
+
+        function loadActiveDeck() {
+            if (currentLanguage === 'english') {
                 gameDeck = smartShuffle(englishVault);
                 document.getElementById("active-deck-title").innerText = "English Vault";
+                document.getElementById("btn-switch-deck").innerText = "🔄 Switch to Arabic";
+                document.getElementById("lyric-prompt").style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+                document.getElementById("lyric-answer").style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
             } else {
                 gameDeck = smartShuffle(arabicVault);
                 document.getElementById("active-deck-title").innerText = "Arabic Vault";
+                document.getElementById("btn-switch-deck").innerText = "🔄 Switch to English";
                 document.getElementById("lyric-prompt").style.fontFamily = "Tahoma, Arial";
                 document.getElementById("lyric-answer").style.fontFamily = "Tahoma, Arial";
             }
-
-            document.getElementById("menu-screen").style.display = "none";
-            document.getElementById("game-screen").style.display = "flex";
-            
             currentIndex = 0;
             loadCard();
         }
 
         function loadCard() {
             if (currentIndex >= gameDeck.length) {
-                alert("Deck finished! Returning to Main Menu.");
-                location.reload();
+                alert("Deck finished! Let's shuffle and restart this vault.");
+                loadActiveDeck();
                 return;
             }
 
             const card = gameDeck[currentIndex];
             
-            document.getElementById("artist-badge").innerText = card.artist;
+            // If the artist is blank (easter egg), call it MYSTERY
+            document.getElementById("artist-badge").innerText = card.artist ? card.artist : "MYSTERY";
+            
             document.getElementById("lyric-prompt").innerText = `"${card.p}"`;
             document.getElementById("lyric-answer").innerText = `"${card.a}"`;
 

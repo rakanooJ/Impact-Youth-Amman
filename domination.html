@@ -59,7 +59,7 @@
         .sector:hover { border-color: #cbd5e1; transform: scale(0.98); filter: brightness(1.2); }
         
         .sec-pts { font-size: 1rem; color: #f1c40f; font-weight: bold; margin-bottom: 5px; z-index: 2; background: rgba(0,0,0,0.6); padding: 2px 10px; border-radius: 10px;}
-        .sec-name { font-size: 1.3rem; color: #fff; font-weight: 900; text-transform: uppercase; z-index: 2; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);}
+        .sec-name { font-size: 1.3rem; color: #fff; font-weight: 900; text-transform: uppercase; text-align: center; z-index: 2; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);}
         
         /* Grid Spans for Map Realism */
         .span-2x2 { grid-column: span 2; grid-row: span 2; }
@@ -86,7 +86,7 @@
         
         .clash-title { font-size: 2.5rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 900;}
         .clash-sector { font-size: 1.5rem; color: #cbd5e1; margin-bottom: 30px; }
-        .challenge-text { font-size: 2rem; font-weight: bold; color: #fff; line-height: 1.4; margin-bottom: 40px; border-left: 5px solid #f1c40f; padding-left: 20px; text-align: left;}
+        .challenge-text { font-size: 2rem; font-weight: bold; color: #fff; line-height: 1.4; margin-bottom: 20px; border-left: 5px solid #f1c40f; padding-left: 20px; text-align: left;}
 
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap;}
         .btn { padding: 15px 30px; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; color: white; display: flex; align-items: center; justify-content: center; gap: 10px;}
@@ -145,7 +145,7 @@
             <div class="clash-title">🌍 TACTICAL MAP 🌍</div>
             <ul class="intro-list">
                 <li><span>🔴🔵</span> <span><b>THE MAP:</b> The map of Amman is broken into high and low-value zones. Click an empty zone to claim it via a Head-to-Head challenge.</span></li>
-                <li><span>⚔️</span> <span><b>THE CLASH:</b> If Blue owns Abdoun, Red can click it to attack. The screen will generate a challenge. The winner takes the zone.</span></li>
+                <li><span>⚔️</span> <span><b>THE CLASH:</b> If Blue owns Abdoun, Red can click it to attack. The screen will pull a challenge based on the territory's point value. The winner takes the zone.</span></li>
                 <li><span>🛡️</span> <span><b>THE SHIELDS:</b> Both teams have exactly TWO shields. If your territory is attacked, you can burn a shield to instantly block the attack and cancel the clash.</span></li>
             </ul>
             <button class="btn btn-blue" style="width: 100%; font-size: 1.5rem;" onclick="startGame()">Commence Battle</button>
@@ -155,13 +155,18 @@
     <div class="overlay" id="clash-modal">
         <div class="modal-box">
             <div class="clash-title">⚔️ TERRITORY CLASH ⚔️</div>
-            <div class="clash-sector" id="clash-sector-name">Contesting: Abdoun (300 PTS)</div>
+            <div class="clash-sector" id="clash-sector-name">Contesting...</div>
             
             <div class="challenge-text" id="clash-task">Loading challenge...</div>
+            
+            <div id="answer-section" style="display: none; margin-bottom: 30px;">
+                <div style="font-size: 1.1rem; color: #94a3b8; text-transform: uppercase; font-weight: bold;">The Answer / Goal:</div>
+                <div style="font-size: 1.8rem; font-weight: bold; color: #2ed573;" id="clash-answer">Answer goes here</div>
+            </div>
 
-            <div style="font-size: 1.1rem; color: #94a3b8; margin-bottom: 15px; text-transform: uppercase; font-weight: bold;">Who won the challenge?</div>
             <div class="btn-group" id="clash-buttons">
                 </div>
+            
             <button class="btn btn-cancel" onclick="closeClash()">Cancel / Back</button>
         </div>
     </div>
@@ -173,9 +178,28 @@
     </div>
 
     <script>
-     // THE TIERED VAULTS (Zero Repeats)
-        
-        // Easy Vault (For 100-200 Point Territories)
+        // --- GAME STATE VARIABLES ---
+        let redShields = 2;
+        let blueShields = 2;
+        let currentSectorIndex = null;
+        let currentCard = null;
+
+        // --- MAP SECTORS FOR AMMAN ---
+        const sectors = [
+            { name: "Dabouq", points: 500, class: "span-2x2", owner: null },
+            { name: "Abdoun", points: 400, class: "span-2x2", owner: null },
+            { name: "Al Balad", points: 300, class: "span-3x1", owner: null },
+            { name: "Jabal Amman", points: 200, class: "span-2x1", owner: null },
+            { name: "Shmeisani", points: 300, class: "span-2x1", owner: null },
+            { name: "Sweifieh", points: 200, class: "span-1x2", owner: null },
+            { name: "Webdeh", points: 100, class: "", owner: null },
+            { name: "Khalda", points: 300, class: "span-2x1", owner: null },
+            { name: "7th Circle", points: 150, class: "", owner: null },
+            { name: "Marka", points: 100, class: "span-2x1", owner: null },
+            { name: "Jabal Al-Hussein", points: 150, class: "", owner: null }
+        ];
+
+        // --- THE TIERED VAULTS ---
         let easyVault = [
             { text: "Name the first book of the New Testament.", answer: "Matthew" },
             { text: "Physical Challenge: The team captain must do 10 jumping jacks.", answer: "Complete to win the territory." },
@@ -187,7 +211,6 @@
             { text: "Name the giant that David defeated.", answer: "Goliath" }
         ];
 
-        // Medium Vault (For 300-400 Point Territories)
         let mediumVault = [
             { text: "Name 5 of the 10 Plagues of Egypt in 15 seconds.", answer: "Blood, frogs, gnats, flies, livestock, boils, hail, locusts, darkness, firstborn." },
             { text: "Physical Challenge: The whole team must balance on one foot for 30 seconds without falling.", answer: "If anyone drops, you lose the territory." },
@@ -199,7 +222,6 @@
             { text: "Who recognized Jesus as the Messiah when He was presented at the temple as a baby?", answer: "Simeon (and Anna)" }
         ];
 
-        // Hard Vault (For 500+ Point Territories)
         let hardVault = [
             { text: "Name all 12 Disciples in 30 seconds.", answer: "Peter, Andrew, James, John, Philip, Bartholomew, Thomas, Matthew, James, Thaddaeus, Simon, Judas." },
             { text: "Physical Challenge: 3 team members must complete 15 synchronized burpees.", answer: "If they fall out of sync, you lose the territory." },
@@ -211,7 +233,6 @@
             { text: "Who was the only female judge of Israel mentioned in the Bible?", answer: "Deborah" }
         ];
 
-        // The Smart Shuffle Engine
         function shuffleDeck(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -219,73 +240,100 @@
             }
         }
 
-        // Shuffle all decks when the game loads
-        shuffleDeck(easyVault);
-        shuffleDeck(mediumVault);
-        shuffleDeck(hardVault);
-
-        // The Logic that pulls the right card based on value
-        function pullQuestionForTerritory(value) {
-            let questionCard;
-
-            if (value >= 500) {
-                // Try to pull a hard question, fallback if empty
-                questionCard = hardVault.length > 0 ? hardVault.pop() : { text: "OUT OF HARD QUESTIONS. Team must do 20 pushups to claim.", answer: "Complete to win." };
-            } else if (value >= 300) {
-                // Try to pull a medium question
-                questionCard = mediumVault.length > 0 ? mediumVault.pop() : { text: "OUT OF MEDIUM QUESTIONS. Free Space!", answer: "Claim it for free." };
-            } else {
-                // Try to pull an easy question
-                questionCard = easyVault.length > 0 ? easyVault.pop() : { text: "OUT OF EASY QUESTIONS. Free Space!", answer: "Claim it for free." };
-            }
-
-            return questionCard;
+        // --- CORE FUNCTIONS ---
+        function startGame() {
+            shuffleDeck(easyVault);
+            shuffleDeck(mediumVault);
+            shuffleDeck(hardVault);
+            document.getElementById("intro-screen").classList.remove("active");
+            renderMap();
         }
 
-        // --- UPDATE YOUR CLICK FUNCTION ---
-        // Find wherever your code opens the modal for a territory and replace it with this concept:
-        
-        function openTerritoryModal(territoryName, territoryValue) {
-            // Pull the exact right question for this territory's value
-            let card = pullQuestionForTerritory(territoryValue);
-            
-            // Set your modal text
-            document.getElementById("modal-title").innerText = territoryName + " (" + territoryValue + " Points)";
-            document.getElementById("modal-question").innerText = card.text;
-            document.getElementById("modal-answer").innerText = card.answer;
-            
-            // Show the modal
-            document.getElementById("question-modal").classList.add("active");
+        function pullQuestionForTerritory(value) {
+            if (value >= 400) {
+                return hardVault.length > 0 ? hardVault.pop() : { text: "OUT OF HARD QUESTIONS. Team must do 20 pushups to claim.", answer: "Complete to win." };
+            } else if (value >= 200) {
+                return mediumVault.length > 0 ? mediumVault.pop() : { text: "OUT OF MEDIUM QUESTIONS. Free Space!", answer: "Claim it for free." };
+            } else {
+                return easyVault.length > 0 ? easyVault.pop() : { text: "OUT OF EASY QUESTIONS. Free Space!", answer: "Claim it for free." };
+            }
+        }
+
+        function renderMap() {
+            const mapDiv = document.getElementById("map");
+            mapDiv.innerHTML = "";
+            let redScore = 0;
+            let blueScore = 0;
+
+            sectors.forEach((sec, index) => {
+                const secDiv = document.createElement("div");
+                secDiv.className = `sector ${sec.class}`;
+                
+                if (sec.owner === 'red') { 
+                    secDiv.classList.add("owned-red"); 
+                    redScore += sec.points; 
+                }
+                if (sec.owner === 'blue') { 
+                    secDiv.classList.add("owned-blue"); 
+                    blueScore += sec.points; 
+                }
+
+                secDiv.innerHTML = `
+                    <div class="sec-pts">${sec.points} PTS</div>
+                    <div class="sec-name">${sec.name}</div>
+                `;
+                secDiv.onclick = () => openClashModal(index);
+                mapDiv.appendChild(secDiv);
+            });
+
+            document.getElementById("score-red").innerText = redScore;
+            document.getElementById("score-blue").innerText = blueScore;
+            document.getElementById("shields-red").innerText = `🛡️ Shields: ${redShields}`;
+            document.getElementById("shields-blue").innerText = `🛡️ Shields: ${blueShields}`;
         }
 
         function openClashModal(index) {
             currentSectorIndex = index;
             const sec = sectors[index];
-            
-            // Set Titles
-            document.getElementById("clash-sector-name").innerText = `Contesting: ${sec.name} (${sec.points} PTS)`;
-            
-            // Generate Random Challenge
-            const task = challenges[Math.floor(Math.random() * challenges.length)];
-            document.getElementById("clash-task").innerText = task;
+            currentCard = pullQuestionForTerritory(sec.points);
 
-            // Setup Buttons based on ownership
+            document.getElementById("clash-sector-name").innerText = `Contesting: ${sec.name} (${sec.points} PTS)`;
+            document.getElementById("clash-task").innerHTML = `<b>Challenge:</b> ${currentCard.text}`;
+            document.getElementById("clash-answer").innerText = currentCard.answer;
+            
+            // Hide the answer section initially
+            document.getElementById("answer-section").style.display = "none";
+
             const btnGroup = document.getElementById("clash-buttons");
-            btnGroup.innerHTML = `
-                <button class="btn btn-red" onclick="resolveClash('red')">Red Wins</button>
-                <button class="btn btn-blue" onclick="resolveClash('blue')">Blue Wins</button>
+            
+            // Build the buttons
+            let buttonsHTML = `
+                <div style="width: 100%; margin-bottom: 20px;">
+                    <button class="btn btn-shield" style="width: 100%;" onclick="revealAnswer(this)">👀 Reveal Answer</button>
+                </div>
+                <div id="award-buttons" style="display: none; width: 100%; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                    <button class="btn btn-red" onclick="resolveClash('red')">Red Wins</button>
+                    <button class="btn btn-blue" onclick="resolveClash('blue')">Blue Wins</button>
+                </div>
             `;
 
-            // If Red owns it, give Red the option to burn a shield
+            btnGroup.innerHTML = buttonsHTML;
+
+            // Add shield logic if it's an attack
             if (sec.owner === 'red' && redShields > 0) {
-                btnGroup.innerHTML += `<button class="btn btn-shield" onclick="useShield('red')">🛡️ Red Block Attack (${redShields} left)</button>`;
+                document.getElementById("award-buttons").innerHTML += `<button class="btn btn-shield" onclick="useShield('red')">🛡️ Red Block (${redShields} left)</button>`;
             }
-            // If Blue owns it, give Blue the option to burn a shield
             if (sec.owner === 'blue' && blueShields > 0) {
-                btnGroup.innerHTML += `<button class="btn btn-shield" onclick="useShield('blue')">🛡️ Blue Block Attack (${blueShields} left)</button>`;
+                document.getElementById("award-buttons").innerHTML += `<button class="btn btn-shield" onclick="useShield('blue')">🛡️ Blue Block (${blueShields} left)</button>`;
             }
 
-            modal.classList.add("active");
+            document.getElementById("clash-modal").classList.add("active");
+        }
+
+        function revealAnswer(btn) {
+            btn.style.display = 'none'; // Hide the reveal button
+            document.getElementById("answer-section").style.display = "block"; // Show answer text
+            document.getElementById("award-buttons").style.display = "flex"; // Show award buttons
         }
 
         function resolveClash(winnerColor) {
@@ -306,7 +354,7 @@
         }
 
         function closeClash() {
-            modal.classList.remove("active");
+            document.getElementById("clash-modal").classList.remove("active");
             currentSectorIndex = null;
         }
 

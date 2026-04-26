@@ -20,6 +20,7 @@
 
         .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; width: 100%; text-align: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: center;}
 
+        /* Main Menu Selector */
         #menu-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; animation: fadeIn 0.5s ease; }
         .menu-title { font-size: 4rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 5px; font-weight: 900; margin-bottom: 10px; text-shadow: 0 5px 15px rgba(0,0,0,0.5);}
         .menu-sub { font-size: 1.5rem; color: #cbd5e1; margin-bottom: 50px; }
@@ -34,6 +35,7 @@
         .deck-icon { font-size: 5rem; margin-bottom: 15px; }
         .deck-name { font-size: 2rem; color: #fff; font-weight: 900; text-transform: uppercase; }
 
+        /* Game Board */
         #game-screen { display: none; flex-direction: column; width: 100%; animation: fadeIn 0.5s ease; }
         
         .header-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -108,7 +110,7 @@
                 <div class="deck-btn" onclick="startDeck('english')">
                     <div class="deck-icon">🇺🇸</div>
                     <div class="deck-name">English Vault</div>
-                    <p style="color: #94a3b8; margin-top: 10px;">Dean Lewis, NF, 1D, CAS, Ed Sheeran</p>
+                    <p style="color: #94a3b8; margin-top: 10px;">Dean Lewis, 1D, CAS, Ed Sheeran</p>
                 </div>
                 <div class="deck-btn" onclick="startDeck('arabic')">
                     <div class="deck-icon">🇯🇴</div>
@@ -158,95 +160,96 @@
 
     <script>
         const englishVault = [
-            // I wired your 5 exact files here!
-            { artist: "Dean Lewis", p: "I look up from the ground to see your sad and teary eyes", a: "You look away from me", file: "audio/I look up from the ground.mp3" },
-            { artist: "Dean Lewis", p: "It comes and goes in waves", a: "It always does, it always does", file: "audio/It comes and goes in waves.mp3" },
-            { artist: "Dean Lewis", p: "How do I say goodbye to someone who's been with me for my whole damn life?", a: "You gave me my name and the color of your eyes", file: "audio/How do I say goodbye.mp3" },
-            { artist: "Dean Lewis", p: "How am I supposed to love you", a: "When I don't love who I am", file: "audio/How am I supposed to love you .mp3" },
-            { artist: "Dean Lewis", p: "I know you love her, but it's over, mate", a: "It doesn't matter, put the phone away", file: "audio/I know you love her.mp3" },
+            // Dean Lewis
+            { artist: "Dean Lewis", p: "I look up from the ground to see your sad and teary eyes", a: "You look away from me", file: "audio/dean1.ogg" },
+            { artist: "Dean Lewis", p: "It comes and goes in waves", a: "It always does, it always does", file: "audio/dean2.ogg" },
+            { artist: "Dean Lewis", p: "How do I say goodbye to someone who's been with me for my whole damn life?", a: "You gave me my name and the color of your eyes", file: "audio/dean3.ogg" },
+            { artist: "Dean Lewis", p: "How am I supposed to love you", a: "When I don't love who I am", file: "audio/dean4.ogg" },
+            { artist: "Dean Lewis", p: "I know you love her, but it's over, mate", a: "It doesn't matter, put the phone away", file: "audio/dean5.ogg" },
             
-            { artist: "NF", p: "Yeah, you don't wanna make me step out of my zone", a: "I'm used to being on my own" },
-            { artist: "NF", p: "I'm looking for the map to hope", a: "You seen it?" },
-            { artist: "NF", p: "If you want love, you gon' have to go through the pain", a: "If you want love, you gon' have to learn how to change" },
-            { artist: "NF", p: "I just need some time, I'm tryna think straight", a: "I just need a moment in my own space" },
-            { artist: "NF", p: "Feels like we're on the edge right now", a: "I wish that I could say I'm proud" },
-            { artist: "Cigarettes After Sex", p: "Nothing's gonna hurt you baby", a: "As long as you're with me you'll be just fine" },
-            { artist: "Cigarettes After Sex", p: "Got the music in you baby, tell me why", a: "Got the music in you baby, tell me why" },
-            { artist: "Cigarettes After Sex", p: "Apocalypse", a: "Your lips, my lips, apocalypse" },
-            { artist: "Cigarettes After Sex", p: "It's so sweet, knowing that you love me", a: "Though we don't need to say it to each other" },
-            { artist: "Cigarettes After Sex", p: "And when you go away, I still see you", a: "With sunlight on your face in my rearview" },
-            { artist: "One Direction", p: "Baby you light up my world like nobody else", a: "The way that you flip your hair gets me overwhelmed" },
-            { artist: "One Direction", p: "Story of my life I take her home", a: "I drive all night to keep her warm" },
-            { artist: "One Direction", p: "Going out tonight, changes into something red", a: "Her mother doesn't like that kind of dress" },
-            { artist: "One Direction", p: "Let's go crazy, crazy, crazy 'til we see the sun", a: "I know we only met but let's pretend it's love" },
-            { artist: "One Direction", p: "I have loved you since we were eighteen", a: "Long before we both thought the same thing" },
-            { artist: "Ed Sheeran", p: "I found a love for me", a: "Darling just dive right in" },
-            { artist: "Ed Sheeran", p: "When your legs don't work like they used to before", a: "And I can't sweep you off of your feet" },
-            { artist: "Ed Sheeran", p: "I'm in love with the shape of you", a: "We push and pull like a magnet do" },
-            { artist: "Ed Sheeran", p: "Loving can hurt, loving can hurt sometimes", a: "But it's the only thing that I know" },
-            { artist: "Ed Sheeran", p: "We keep this love in a photograph", a: "We made these memories for ourselves" },
-            { artist: "Coldplay", p: "I used to rule the world", a: "Seas would rise when I gave the word" },
-            { artist: "Coldplay", p: "Look at the stars, look how they shine for you", a: "And everything you do" },
-            { artist: "Coldplay", p: "Nobody said it was easy", a: "It's such a shame for us to part" },
-            { artist: "Coldplay", p: "Lights will guide you home", a: "And ignite your bones" },
-            { artist: "Coldplay", p: "When you try your best, but you don't succeed", a: "When you get what you want, but not what you need" },
-            { artist: "Justin Bieber", p: "For all the times that you rain on my parade", a: "And all the clubs you get in using my name" },
+            // Cigarettes After Sex
+            { artist: "Cigarettes After Sex", p: "Nothing's gonna hurt you baby", a: "As long as you're with me you'll be just fine", file: "audio/Cigarettes1.ogg" },
+            { artist: "Cigarettes After Sex", p: "Got the music in you baby, tell me why", a: "Got the music in you baby, tell me why", file: "audio/Cigarettes2.ogg" },
+            { artist: "Cigarettes After Sex", p: "Apocalypse", a: "Your lips, my lips, apocalypse", file: "audio/Cigarettes3.ogg" },
+            { artist: "Cigarettes After Sex", p: "It's so sweet, knowing that you love me", a: "Though we don't need to say it to each other", file: "audio/Cigarettes4.ogg" },
+            { artist: "Cigarettes After Sex", p: "And when you go away, I still see you", a: "With sunlight on your face in my rearview", file: "audio/Cigarettes5.ogg" },
+            
+            // One Direction
+            { artist: "One Direction", p: "Baby you light up my world like nobody else", a: "The way that you flip your hair gets me overwhelmed", file: "audio/oned1.ogg" },
+            { artist: "One Direction", p: "Story of my life I take her home", a: "I drive all night to keep her warm", file: "audio/oned2.ogg" },
+            { artist: "One Direction", p: "Going out tonight, changes into something red", a: "Her mother doesn't like that kind of dress", file: "audio/oned3.ogg" },
+            { artist: "One Direction", p: "Let's go crazy, crazy, crazy 'til we see the sun", a: "I know we only met but let's pretend it's love", file: "audio/oned4.ogg" },
+            { artist: "One Direction", p: "I have loved you since we were eighteen", a: "Long before we both thought the same thing", file: "audio/oned5.ogg" },
+            
+            // Ed Sheeran
+            { artist: "Ed Sheeran", p: "I found a love for me", a: "Darling just dive right in", file: "audio/Ed1.ogg" },
+            { artist: "Ed Sheeran", p: "When your legs don't work like they used to before", a: "And I can't sweep you off of your feet", file: "audio/Ed2.ogg" },
+            { artist: "Ed Sheeran", p: "I'm in love with the shape of you", a: "We push and pull like a magnet do", file: "audio/Ed3.ogg" },
+            { artist: "Ed Sheeran", p: "Loving can hurt, loving can hurt sometimes", a: "But it's the only thing that I know", file: "audio/Ed4.ogg" },
+            { artist: "Ed Sheeran", p: "We keep this love in a photograph", a: "We made these memories for ourselves", file: "audio/Ed5.ogg" },
+            
+            // Coldplay
+            { artist: "Coldplay", p: "I used to rule the world", a: "Seas would rise when I gave the word", file: "audio/Coldplay1.ogg" },
+            { artist: "Coldplay", p: "Look at the stars, look how they shine for you", a: "And everything you do", file: "audio/Coldplay2.ogg" },
+            { artist: "Coldplay", p: "Lights will guide you home", a: "And ignite your bones", file: "audio/Coldplay3.ogg" },
+            { artist: "Coldplay", p: "When you try your best, but you don't succeed", a: "When you get what you want, but not what you need", file: "audio/Coldplay4.ogg" },
+            { artist: "Coldplay", p: "Nobody said it was easy", a: "It's such a shame for us to part", file: "audio/Coldplay5.ogg" },
+            
+            // Pop Hits 
             { artist: "Justin Bieber", p: "Is it too late now to say sorry?", a: "'Cause I'm missing more than just your body" },
-            { artist: "The Killers", p: "It started out with a kiss", a: "How did it end up like this?" },
-            { artist: "Katy Perry", p: "Do you ever feel like a plastic bag", a: "Drifting through the wind" },
-            { artist: "Shawn Mendes", p: "I know I can treat you better", a: "Than he can" },
-            { artist: "Imagine Dragons", p: "First things first", a: "I'ma say all the words inside my head" },
-            { artist: "Hozier", p: "Take me to church", a: "I'll worship like a dog at the shrine of your lies" },
-            { artist: "Adele", p: "Hello from the other side", a: "I must've called a thousand times" },
-            { artist: "Vance Joy", p: "Lady, running down to the riptide", a: "Taken away to the dark side" },
-            { artist: "Train", p: "Now that she's back in the atmosphere", a: "With drops of Jupiter in her hair" }
+            { artist: "Justin Bieber", p: "If I was your boyfriend, I'd never let you go", a: "I can take you places you ain't never been before" },
+            { artist: "Justin Bieber", p: "You know you love me, I know you care", a: "Just shout whenever and I'll be there" }
         ];
 
         const arabicVault = [
+            // The Secret Mystery Tracks
             { artist: "", p: "انا قوي بس", a: "بس عندك رح الين" }, 
             { artist: "", p: "حكيت بحبك حسيت حالي دخلت فورطة", a: "شفت هضحكة بلش قلب يدق بسرعة" }, 
             { artist: "", p: "حكيت فعقلي خلص فترة صغيرة وبتمر", a: "مكنتش عارف انها فترة طويلة وبتجر" }, 
+            
             { artist: "Big Sam", p: "تسألوش اذا شايل هموم", a: "بس اتركوني لحالي بروق" }, 
             { artist: "Big Sam", p: "مش حاب الوحدة كاره كل الكون", a: "والنفس ما بتهون" }, 
             { artist: "Big Sam", p: "بعرف إنك فاهم كل لغات العيون", a: "بس كذابة العيون بالنهاية بتهون" }, 
             { artist: "Big Sam", p: "قلبي قال لي بعتهم", a: "قلت له هما اللي باعوك" }, 
             { artist: "Big Sam", p: "لا مش انا، انا اللي بطلت هداك الانا", a: "انا اللي نسيت كم شهر وسنه" },
+            
             { artist: "Abdulrahman Mohammed", p: "يا من هواه أعزه وأذلني", a: "كيف السبيل إلى وصالك دلني" },
             { artist: "Abdulrahman Mohammed", p: "أصابك عشق أم رميت بأسهم", a: "فما هذه إلا سجية مغرم" },
             { artist: "Abdulrahman Mohammed", p: "قل للمليحة في الخمار الأسود", a: "ماذا فعلت بناسك متعبد" },
             { artist: "Abdulrahman Mohammed", p: "بروحي فتاة بالعفاف تجملت", a: "وفي خدها حب من المسك قد نبت" },
             { artist: "Abdulrahman Mohammed", p: "ولما تلاقينا على سفح رامة", a: "وجدت بنان العامرية أحمرا" },
+            
             { artist: "Cairokee", p: "يا أبيض يا أسود", a: "قصة حياتي وكل حكاياتي" },
             { artist: "Cairokee", p: "في كل شارع في بلادي", a: "صوت الحرية بيتنادي" },
             { artist: "Cairokee", p: "مربوط بأستك بيشدني لتحت", a: "كل ما اطلع لفوق ألاقي نفسي وقعت" },
             { artist: "Cairokee", p: "السكة شمال في شمال", a: "واليمين مش شغال" },
             { artist: "Cairokee", p: "لو ظروفك خليتك كاره الحياه", a: "افتح بيبان الامل وقول يا رب" },
+            
             { artist: "Issam Alnajjar", p: "حطّي راسك ع مخدة", a: "جوّا قلبي ما في قدّك" },
             { artist: "Issam Alnajjar", p: "حدل أحبك", a: "آه يا قلبي" },
+            
             { artist: "Siilawy", p: "قدام الكل رح احكيلك", a: "اني بحبك" },
             { artist: "Siilawy", p: "عشانك انا قادر اكمل", a: "عشانك انا قادر اتحمل" },
+            
             { artist: "Wegz", p: "عيني منها بشكل جدي", a: "وتقيلة مش تقلانة تبخر سحري" },
             { artist: "Wegz", p: "البخت", a: "سحرتني ولا سحرتلي" },
             { artist: "Wegz", p: "كيفي كده", a: "كيفي كده" },
-            { artist: "Marwan Pablo", p: "الوقت ازف", a: "كله بيلعب على كله" },
+            
             { artist: "Fairouz", p: "كيفك قال عم بيقولوا صار عندك ولاد", a: "أنا والله كنت مفكرتك برات البلاد" },
             { artist: "Fairouz", p: "نسم علينا الهوى من مفرق الوادي", a: "يا هوا دخل الهوى خدني على بلادي" },
             { artist: "Fairouz", p: "سألوني الناس عنك يا حبيبي", a: "كتبوا المكاتيب وأخدها الهوى" },
             { artist: "Fairouz", p: "حبيتك بالصيف حبيتك بالشتي", a: "نطرتك بالصيف نطرتك بالشتي" },
-            { artist: "Fairouz", p: "أنا لحبيبي وحبيبي إلي", a: "يا عصفورة بيضا لا بقى تسألي" },
+            
             { artist: "Amr Diab", p: "تملي معاك", a: "ولو حتى بعيد عني في قلبي هواك" },
             { artist: "Amr Diab", p: "حبيبي يا نور العين", a: "يا ساكن خيالي" },
-            { artist: "Amr Diab", p: "قمرين قمرين", a: "دول ولا عينيك" },
             { artist: "Amr Diab", p: "وياه الحياة هتحلو وياه", a: "دي اللي عيوني شيفاه" },
+            
             { artist: "Nancy Ajram", p: "أخاصمك آه، أسيبك لا", a: "وجوا الروح هفضل أحبك أنا" },
             { artist: "Nancy Ajram", p: "يا طبطب ودلع", a: "يا يقولي أنا اتغيرت عليه" },
+            
             { artist: "Wael Kfoury", p: "بحبك أنا كتير", a: "يا حبيبي ضلك طل علي" },
             { artist: "Sherine", p: "كده يا قلبي", a: "يا حتة مني" },
-            { artist: "Hussain Al Jassmi", p: "بشرة خير", a: "دي فركة كعب وهتعملها" },
-            { artist: "Hussain Al Jassmi", p: "لقيت الطبطبة", a: "ولو ما انتش بعيد ضحكتك فيها كهربا" },
             { artist: "Elissa", p: "عبالي حبيبي", a: "عبالي تكملني واسمي تحملني" },
-            { artist: "Saad Lamjarred", p: "إنت معلم", a: "واحنا منك نتعلم" },
-            { artist: "Asala", p: "بنت أكابر", a: "ويا عيني ع الشياكة" },
             { artist: "Fadel Chaker", p: "يا غايب ليه ما تسأل", a: "ع أحبابك اللي يحبونك" }
         ];
 
@@ -322,7 +325,6 @@
             document.getElementById("lyric-prompt").innerText = `"${card.p}"`;
             document.getElementById("lyric-answer").innerText = `"${card.a}"`;
 
-            // AUDIO LOGIC
             const audioBtn = document.getElementById("btn-play-audio");
             const player = document.getElementById("song-player");
             

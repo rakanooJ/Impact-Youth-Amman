@@ -3,269 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Impact Youth Amman - Escape The Vault">
-    <title>Escape Room - Impact Youth Amman</title>
+    <title>Digital Vault - Impact Youth</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
         body { 
-            font-family: 'Courier New', Courier, monospace; 
-            background-color: #000; color: #2ed573; line-height: 1.6; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #050505; color: #f8f9fa; line-height: 1.6; 
             background-image: radial-gradient(circle at center, #111 0%, #000 100%);
-            min-height: 100vh;
+            min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
         }
-        .navbar { background-color: #111; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; font-family: 'Segoe UI', sans-serif; }
-        .logo img { height: 60px; width: auto; border-radius: 50%; filter: grayscale(100%); }
-        .nav-links a { color: #888; text-decoration: none; margin-left: 20px; font-weight: 500; }
-        .nav-links a:hover { color: #2ed573; }
-        .container { max-width: 650px; margin: 40px auto; padding: 0 20px; text-align: center; }
         
-        .vault-card { 
-            background: #0a0a0a; padding: 40px 30px; border-radius: 10px; 
-            box-shadow: 0 0 30px rgba(46, 213, 115, 0.2); border: 2px solid #2ed573;
-            display: flex; flex-direction: column; align-items: center; transition: all 0.3s;
-        }
-        .vault-card.error { border-color: #e74c3c; box-shadow: 0 0 50px rgba(231, 76, 60, 0.5); }
-        .vault-card.success { border-color: #f1c40f; box-shadow: 0 0 50px rgba(241, 196, 15, 0.5); }
+        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; z-index: 10;}
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; text-transform: uppercase;}
+        .nav-links a:hover { color: #f1c40f; }
 
-        #intro-screen { border-color: #00a8ff; box-shadow: 0 0 30px rgba(0, 168, 255, 0.2); font-family: 'Segoe UI', sans-serif; }
-        .intro-title { font-size: 2.5rem; color: #00a8ff; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px; font-weight: 900;}
-        .instruction-list { text-align: left; color: #cbd5e1; font-size: 1.2rem; margin-bottom: 30px; width: 100%; background: #111; padding: 25px; border-radius: 8px; border: 1px solid #333;}
-        .instruction-list li { margin-bottom: 15px; margin-left: 20px; }
-        .highlight-red { color: #e74c3c; font-weight: bold; }
-        .highlight-yellow { color: #f1c40f; font-weight: bold; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; width: 100%; text-align: center; display: flex; flex-direction: column; flex-grow: 1;}
+
+        /* The Timer */
+        .timer-display { 
+            font-size: 6rem; font-weight: 900; color: #e74c3c; font-family: 'Courier New', Courier, monospace;
+            text-shadow: 0 0 30px rgba(231, 76, 60, 0.8); margin-bottom: 20px; line-height: 1; transition: color 0.3s;
+        }
+        .timer-warning { color: #f1c40f; text-shadow: 0 0 30px rgba(241, 196, 15, 0.8); }
+
+        /* The Vault Door */
+        .vault-door {
+            background: #1e293b; border: 8px solid #475569; border-radius: 20px; 
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 20px 50px rgba(0,0,0,0.8);
+            padding: 40px; position: relative; display: flex; flex-direction: column; align-items: center;
+            transition: transform 0.5s ease-out, border-color 0.5s ease;
+        }
+
+        /* The Clues Screen */
+        .clues-panel {
+            background: #0a0a0a; border: 3px solid #334155; border-radius: 10px; width: 100%;
+            padding: 30px; margin-bottom: 30px; text-align: left; box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        }
+        .clue-item { font-size: 1.5rem; color: #cbd5e1; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; display: flex; align-items: center;}
+        .clue-num { font-weight: 900; color: #00a8ff; margin-right: 15px; font-size: 2rem;}
+        .clue-hint { color: #2ed573; font-weight: bold; margin-left: 10px; font-size: 1.5rem;}
+
+        /* The Code Input */
+        .code-display { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;}
+        .code-box { 
+            width: 80px; height: 100px; background: #000; border: 4px solid #475569; border-radius: 10px;
+            font-size: 4rem; font-weight: 900; color: #f1c40f; display: flex; justify-content: center; align-items: center;
+            box-shadow: inset 0 0 15px rgba(241, 196, 15, 0.2); font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Tech Guy Controls */
+        .controls { display: flex; justify-content: center; gap: 15px; width: 100%; flex-wrap: wrap; background: #111; padding: 20px; border-radius: 15px;}
+        .admin-input { padding: 15px; font-size: 2rem; text-align: center; border-radius: 8px; border: 2px solid #333; background: #000; color: white; width: 200px; letter-spacing: 5px; font-weight: bold;}
+        .admin-input:focus { outline: none; border-color: #00a8ff; }
         
-        .timer-box { font-size: 4rem; font-weight: bold; color: #e74c3c; text-shadow: 0 0 15px rgba(231, 76, 60, 0.8); margin-bottom: 20px; letter-spacing: 5px; }
-        .timer-box.warning { animation: pulse 1s infinite; }
-
-        .level-text { font-size: 1.2rem; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .clue-box { background: #111; padding: 25px; border: 1px solid #333; border-radius: 8px; font-size: 1.2rem; margin-bottom: 15px; width: 100%; color: #fff; font-family: 'Segoe UI', sans-serif;}
+        .btn { padding: 15px 30px; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; color: white; display: flex; align-items: center; justify-content: center;}
+        .btn:active { transform: scale(0.95); }
+        .btn-submit { background: #00a8ff; } .btn-submit:hover { background: #008ecc; }
+        .btn-hint { background: #e74c3c; width: 100%; max-width: 400px; font-size: 1.5rem; border: 3px solid #c0392b;} .btn-hint:hover { background: #c0392b; }
         
-        .hint-section { width: 100%; margin-bottom: 30px; display: flex; flex-direction: column; align-items: center; }
-        .btn-hint { background: transparent; border: 1px solid #f39c12; color: #f39c12; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-family: 'Segoe UI', sans-serif; font-weight: bold; transition: 0.2s; }
-        .btn-hint:hover { background: rgba(243, 156, 18, 0.2); }
-        .hint-text { display: none; margin-top: 15px; padding: 15px; background: rgba(243, 156, 18, 0.1); border-left: 4px solid #f39c12; color: #f1c40f; font-size: 1.5rem; width: 100%; font-family: 'Segoe UI', sans-serif;}
+        /* Animations */
+        .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake { 10%, 90% { transform: translate3d(-5px, 0, 0); } 20%, 80% { transform: translate3d(5px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-10px, 0, 0); } 40%, 60% { transform: translate3d(10px, 0, 0); } }
+        
+        .unlocked { border-color: #2ed573; box-shadow: 0 0 100px rgba(46, 213, 115, 0.6); }
 
-        .display-box { 
-            background: #000; border: 2px solid #333; width: 100%; height: 80px; 
-            border-radius: 8px; margin-bottom: 30px; display: flex; justify-content: center; align-items: center;
-            font-size: 3rem; letter-spacing: 15px; color: #2ed573; text-shadow: 0 0 10px rgba(46, 213, 115, 0.8);
-        }
-
-        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 350px; }
-        .key-btn { 
-            background: #111; border: 1px solid #333; color: #fff; font-size: 2rem; 
-            padding: 20px 0; border-radius: 8px; cursor: pointer; transition: 0.1s; font-family: 'Courier New', Courier, monospace; font-weight: bold;
-        }
-        .key-btn:active { background: #333; transform: scale(0.95); }
-        .key-btn.clear { color: #e74c3c; font-size: 1.5rem; }
-        .key-btn.enter { color: #2ed573; font-size: 1.5rem; background: rgba(46, 213, 115, 0.1); border-color: #2ed573; }
-
-        .end-screen, #game-ui { display: none; text-align: center; }
-        .end-title { font-size: 3rem; margin-bottom: 20px; text-transform: uppercase; }
-        .end-sub { font-size: 1.5rem; color: #fff; font-family: 'Segoe UI', sans-serif; margin-bottom: 30px;}
-        .btn-restart { padding: 15px 40px; font-size: 1.2rem; background: #2ed573; color: #000; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-family: 'Segoe UI', sans-serif;}
-        .btn-start { background: #00a8ff; color: white; width: 100%; max-width: 300px; padding: 20px; font-size: 1.5rem; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; box-shadow: 0 5px 20px rgba(0, 168, 255, 0.4); transition: 0.2s;}
-        .btn-start:hover { transform: translateY(-3px); background: #008ecc; }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .timer-box { font-size: 3.5rem; } .key-btn { padding: 15px 0; } }
+        /* Fullscreen Overlays */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,5,5,0.95); z-index: 100; justify-content: center; align-items: center; flex-direction: column; text-align: center; }
+        .overlay.active { display: flex; }
+        .win-title { font-size: 6rem; color: #2ed573; text-transform: uppercase; letter-spacing: 10px; font-weight: 900; margin-bottom: 20px; text-shadow: 0 0 50px rgba(46, 213, 115, 0.8);}
+        .lose-title { font-size: 6rem; color: #e74c3c; text-transform: uppercase; letter-spacing: 10px; font-weight: 900; margin-bottom: 20px; text-shadow: 0 0 50px rgba(231, 76, 60, 0.8);}
+        
+        @media (max-width: 768px) { .timer-display { font-size: 4rem; } .clue-item { font-size: 1.1rem; } .code-box { width: 60px; height: 80px; font-size: 3rem; } }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="spirit-fun.html">Back to Fun</a>
-            <a href="connect.html">Connect</a>
-        </div>
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo" onerror="this.style.display='none'"></a>
+        <div class="nav-links"><a href="spirit-fun.html">Back to Arcade</a></div>
     </nav>
-    
+
+    <div class="overlay active" id="start-screen">
+        <h1 style="font-size: 5rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 20px;">The Digital Vault</h1>
+        <p style="color: #cbd5e1; font-size: 1.5rem; margin-bottom: 40px; max-width: 800px;">Solve the 4 clues on the screen to generate the 4-digit code. Need help? Use the hint button, but it will drain 60 seconds from the clock.</p>
+        <button class="btn btn-submit" style="font-size: 2rem; padding: 20px 50px;" onclick="startGame()">INITIATE HACK (Start Timer)</button>
+    </div>
+
     <div class="container">
-        <div class="vault-card" id="intro-screen">
-            <div class="intro-title">Mission Briefing</div>
-            <ul class="instruction-list">
-                <li>You have exactly <b>20 minutes</b> to unlock all 12 levels of the vault.</li>
-                <li>Every answer is a <b>Chapter and Verse</b> found in the Bible.</li>
-                <li><span class="highlight-yellow">THE ZERO RULE:</span> The keypad requires exactly 4 digits. If your answer is Chapter 6, Verse 3, you MUST add zeros. You would type <b>0603</b>.</li>
-                <li>If your answer is Chapter 15, Verse 2... you type <b>1502</b>.</li>
-                <li><span class="highlight-red">PENALTIES:</span> Entering a wrong code costs you <b>30 seconds</b>. Asking for a hint costs you <b>15 seconds</b>. Do not guess randomly!</li>
-            </ul>
-            <button class="btn-start" onclick="initiateLockdown()">Begin Lockdown</button>
-        </div>
+        <div class="timer-display" id="timer">10:00</div>
 
-        <div class="vault-card" id="game-ui">
-            <div class="level-text" id="level-text">Security Lock 1 of 12</div>
-            <div class="timer-box" id="timer">20:00</div>
+        <div class="vault-door" id="vault-door">
             
-            <div class="clue-box" id="clue-text">"Loading clue..."</div>
-            
-            <div class="hint-section">
-                <button class="btn-hint" onclick="showHint()">Use Hint (-15 Seconds)</button>
-                <div class="hint-text" id="hint-text">💡 Hint goes here</div>
+            <div class="clues-panel" id="clues-list">
+                </div>
+
+            <div class="code-display">
+                <div class="code-box" id="box-0">-</div>
+                <div class="code-box" id="box-1">-</div>
+                <div class="code-box" id="box-2">-</div>
+                <div class="code-box" id="box-3">-</div>
             </div>
-            
-            <div class="display-box" id="display">_ _ _ _</div>
-            
-            <div class="keypad">
-                <button class="key-btn" onclick="pressKey('1')">1</button>
-                <button class="key-btn" onclick="pressKey('2')">2</button>
-                <button class="key-btn" onclick="pressKey('3')">3</button>
-                <button class="key-btn" onclick="pressKey('4')">4</button>
-                <button class="key-btn" onclick="pressKey('5')">5</button>
-                <button class="key-btn" onclick="pressKey('6')">6</button>
-                <button class="key-btn" onclick="pressKey('7')">7</button>
-                <button class="key-btn" onclick="pressKey('8')">8</button>
-                <button class="key-btn" onclick="pressKey('9')">9</button>
-                <button class="key-btn clear" onclick="clearDisplay()">CLR</button>
-                <button class="key-btn" onclick="pressKey('0')">0</button>
-                <button class="key-btn enter" onclick="checkCode()">ENT</button>
+
+            <button class="btn btn-hint" onclick="requestHint()">🚨 USE HINT (-60 SECONDS) 🚨</button>
+
+            <div class="controls" style="margin-top: 40px;">
+                <input type="text" id="admin-input" class="admin-input" placeholder="CODE" maxlength="4" autocomplete="off" oninput="updateVisualCode()">
+                <button class="btn btn-submit" onclick="checkCode()">SUBMIT CODE</button>
             </div>
-        </div>
-
-        <div class="vault-card end-screen" id="win-screen" style="border-color: #f1c40f;">
-            <div class="end-title" style="color: #f1c40f;">Vault Opened</div>
-            <div class="end-sub">The truth has set you free.</div>
-            <div class="timer-box" style="color: #f1c40f;" id="win-time">00:00</div>
-            <button class="btn-restart" onclick="location.reload()">Play Again</button>
-        </div>
-
-        <div class="vault-card end-screen" id="lose-screen" style="border-color: #e74c3c;">
-            <div class="end-title" style="color: #e74c3c;">System Locked</div>
-            <div class="end-sub">You ran out of time. The early church data has been lost.</div>
-            <button class="btn-restart" style="background: #e74c3c;" onclick="location.reload()">Try Again</button>
         </div>
     </div>
 
+    <div class="overlay" id="win-screen">
+        <div class="win-title">VAULT UNLOCKED</div>
+        <p style="color: #fff; font-size: 2rem;">The treasure has been secured.</p>
+        <button class="btn" style="background: #334155; margin-top: 40px;" onclick="location.reload()">Play Again</button>
+    </div>
+
+    <div class="overlay" id="lose-screen">
+        <div class="lose-title">SYSTEM LOCKDOWN</div>
+        <p style="color: #fff; font-size: 2rem;">Time has expired. Access Denied.</p>
+        <button class="btn" style="background: #334155; margin-top: 40px;" onclick="location.reload()">Try Again</button>
+    </div>
+
     <script>
-        const locks = [
-            { clue: "The shortest expression of divine sorrow. Two words in English. Enter the Chapter and Verse where the Messiah wept.", hint: "😢📖 (Gospel of John)", code: "1135" },
-            { clue: "A young shepherd, five smooth stones, one fallen giant. Enter the exact Chapter and Verse where the stone sinks into the Philistine's forehead.", hint: "👦🐑 🪨😵 (Found in 1 Samuel)", code: "1749" },
-            { clue: "The flood waters recede. Enter the exact Chapter and Verse in Genesis where the Ark finally comes to rest on the mountains of Ararat.", hint: "🚢⛰️ (Found in Genesis)", code: "0804" },
-            { clue: "The Betrayal. Open to the Gospel of Matthew. Enter the exact Chapter and Verse where the chief priests count out thirty pieces of silver for Judas.", hint: "🪙🪙🪙 (Found in Matthew)", code: "2615" },
-            { clue: "A rebellious son returns home to a running father. Enter the Chapter and Verse where he confesses: 'Father, I have sinned against heaven and against you.'", hint: "🐖🏃‍♂️🫂 (Found in Luke)", code: "1521" },
-            { clue: "Three men refused to bow to a golden statue, but a fourth appeared in the fire. Enter the Chapter and Verse where the king says he sees four men walking unbound.", hint: "🔥🤴😲 (Found in Daniel)", code: "0325" },
-            { clue: "A prophet is thrown to the beasts because he prayed three times a day. Enter the Chapter and Verse where the king finds him alive the next morning.", hint: "🦁🙏👑 (Found in Daniel)", code: "0620" },
-            { clue: "The most famous Sermon on a Mount. Enter the Chapter and Verse of the 'Golden Rule': Do to others what you would have them do to you.", hint: "⛰️🗣️✨ (Found in Matthew)", code: "0712" },
-            { clue: "The stone is rolled away. Enter the Chapter and Verse in Mark's Gospel where the angel tells the women, 'He has risen! He is not here.'", hint: "🪨🏃‍♀️👼 (Found in Mark)", code: "1606" },
-            { clue: "A great prophet is taken up to heaven in a whirlwind by chariots of fire. Enter the Chapter and Verse where Elijah is taken up into heaven.", hint: "🌪️🔥🐴 (Found in 2 Kings)", code: "0211" },
-            { clue: "Stand firm with the belt of truth and the breastplate of righteousness. Enter the Chapter and Verse where the Apostle urges believers to 'put on the full armor of God'.", hint: "🛡️⚔️ (Found in Ephesians)", code: "0611" },
-            { clue: "The ultimate promise at the end of the Bible. Enter the Chapter and Verse where God promises to 'wipe every tear from their eyes.'", hint: "🚫😢✨ (Found in Revelation)", code: "2104" }
+        // --- THE MASTER QUESTION VAULT ---
+        // Every question here has an answer from 0 to 9.
+        
+        const pool1_BibleFacts = [
+            { q: "The number of stones David picked up to fight Goliath.", a: 5 },
+            { q: "Number of days Jonah was in the belly of the fish.", a: 3 },
+            { q: "The number of Gospels in the New Testament.", a: 4 },
+            { q: "Days of creation before God rested.", a: 6 },
+            { q: "The total number of plagues in Egypt MINUS 3.", a: 7 }
         ];
 
-        let currentLevel = 0;
-        let currentInput = "";
-        let timeLeft = 1200; // 20 minutes
+        const pool2_Mashups = [
+            { q: "The number of original Avengers (6) MINUS the Trinity (3).", a: 3 },
+            { q: "Infinity Stones (6) PLUS the gifts brought by the Wise Men (3).", a: 9 },
+            { q: "Letters in the name 'JESUS'.", a: 5 },
+            { q: "Star Wars original trilogy movies (3) PLUS the rivers flowing out of Eden (4).", a: 7 },
+            { q: "Letters in the word 'WORSHIP' (7) MINUS letters in 'GOD' (3).", a: 4 }
+        ];
+
+        const pool3_Worship = [
+            { q: "Hillsong: 'Leaves the __' (Take the first digit of the missing number).", a: 9 },
+            { q: "Revelation Song: '___, ___, ___ is the Lord God Almighty' (How many times is it sung?).", a: 3 },
+            { q: "Matt Redman: '__,000 Reasons' (How many zeros are in the title?).", a: 4 },
+            { q: "Way Maker, Miracle Worker, Promise Keeper, Light in the darkness. (How many titles?).", a: 4 },
+            { q: "The number of words in the song title 'Oceans (Where Feet May Fail)'.", a: 5 }
+        ];
+
+        const pool4_ActionLogic = [
+            { q: "Number of Disciples (12) MINUS the Ten Commandments (10).", a: 2 },
+            { q: "Tribes of Israel (12) DIVIDED by the number of Gospel writers (4).", a: 3 },
+            { q: "The animals went into Noah's Ark by ___s.", a: 2 },
+            { q: "The total number of testaments in the Bible.", a: 2 },
+            { q: "Number of days Jesus fasted in the wilderness (40). Take the first digit.", a: 4 }
+        ];
+
+        // --- GAME STATE ---
+        let targetCode = [];
+        let timeLeft = 600; // 10 minutes in seconds
         let timerInterval;
+        let revealedHints = [false, false, false, false];
 
-        const displayEl = document.getElementById("display");
-        const clueEl = document.getElementById("clue-text");
-        const hintEl = document.getElementById("hint-text");
-        const levelEl = document.getElementById("level-text");
-        const timerEl = document.getElementById("timer");
-        const vaultCard = document.getElementById("game-ui");
-        const introScreen = document.getElementById("intro-screen");
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function initiateLockdown() {
-            introScreen.style.display = "none";
-            vaultCard.style.display = "flex";
+        function startGame() {
+            document.getElementById('start-screen').classList.remove('active');
             
-            shuffle(locks); // RANDOMIZES THE LOCKS EVERY GAME!
-            
-            loadLevel();
-            updateTimerUI(); 
+            // 1. Pick 1 random question from each pool
+            const q1 = pool1_BibleFacts[Math.floor(Math.random() * pool1_BibleFacts.length)];
+            const q2 = pool2_Mashups[Math.floor(Math.random() * pool2_Mashups.length)];
+            const q3 = pool3_Worship[Math.floor(Math.random() * pool3_Worship.length)];
+            const q4 = pool4_ActionLogic[Math.floor(Math.random() * pool4_ActionLogic.length)];
+
+            // 2. Set the target code
+            targetCode = [q1.a, q2.a, q3.a, q4.a];
+
+            // 3. Render the clues to the screen
+            const cluesHtml = `
+                <div class="clue-item"><span class="clue-num">1.</span> ${q1.q} <span class="clue-hint" id="hint-0"></span></div>
+                <div class="clue-item"><span class="clue-num">2.</span> ${q2.q} <span class="clue-hint" id="hint-1"></span></div>
+                <div class="clue-item"><span class="clue-num">3.</span> ${q3.q} <span class="clue-hint" id="hint-2"></span></div>
+                <div class="clue-item"><span class="clue-num">4.</span> ${q4.q} <span class="clue-hint" id="hint-3"></span></div>
+            `;
+            document.getElementById('clues-list').innerHTML = cluesHtml;
+
+            // 4. Start the clock
             timerInterval = setInterval(updateTimer, 1000);
-        }
-
-        function loadLevel() {
-            currentInput = "";
-            updateDisplay();
-            levelEl.innerText = `Security Lock ${currentLevel + 1} of ${locks.length}`;
-            clueEl.innerText = locks[currentLevel].clue;
-            
-            hintEl.style.display = "none";
-            hintEl.innerText = `💡 ${locks[currentLevel].hint}`;
-        }
-
-        function showHint() {
-            if (hintEl.style.display === "block") return; 
-            hintEl.style.display = "block";
-            timeLeft -= 15;
-            if (timeLeft < 0) timeLeft = 0;
-            vaultCard.classList.add("error");
-            setTimeout(() => vaultCard.classList.remove("error"), 300);
-            updateTimerUI();
-        }
-
-        function pressKey(num) {
-            if (currentInput.length < 4) {
-                currentInput += num;
-                updateDisplay();
-            }
-        }
-
-        function clearDisplay() { currentInput = ""; updateDisplay(); }
-
-        function updateDisplay() {
-            let text = currentInput;
-            while (text.length < 4) { text += "_"; }
-            displayEl.innerText = text.split('').join(' '); 
-        }
-
-        function checkCode() {
-            if (currentInput.length !== 4) return;
-
-            if (currentInput === locks[currentLevel].code) {
-                vaultCard.classList.add("success");
-                setTimeout(() => vaultCard.classList.remove("success"), 500);
-                currentLevel++;
-                if (currentLevel >= locks.length) { winGame(); } 
-                else { loadLevel(); }
-            } else {
-                vaultCard.classList.add("error");
-                setTimeout(() => vaultCard.classList.remove("error"), 500);
-                timeLeft -= 30;
-                if (timeLeft < 0) timeLeft = 0;
-                clearDisplay();
-                updateTimerUI();
-            }
+            document.getElementById('admin-input').focus();
         }
 
         function updateTimer() {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer').innerText = "00:00";
+                document.getElementById('lose-screen').classList.add('active');
+                return;
+            }
+
             timeLeft--;
-            if (timeLeft <= 0) { timeLeft = 0; loseGame(); }
-            updateTimerUI();
+            
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            
+            if (minutes < 10) minutes = "0" + minutes;
+            if (seconds < 10) seconds = "0" + seconds;
+            
+            const timerObj = document.getElementById('timer');
+            timerObj.innerText = `${minutes}:${seconds}`;
+
+            // Make it red and scary at 60 seconds
+            if (timeLeft <= 60) {
+                timerObj.style.color = "#e74c3c";
+            }
         }
 
-        function updateTimerUI() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            timerEl.innerText = timeString;
-            if (timeLeft <= 60 && timeLeft > 0) { timerEl.classList.add("warning"); } 
-            else { timerEl.classList.remove("warning"); }
+        // Live updates the big visual boxes as you type
+        function updateVisualCode() {
+            const input = document.getElementById('admin-input').value;
+            for (let i = 0; i < 4; i++) {
+                const box = document.getElementById(`box-${i}`);
+                if (input[i]) {
+                    box.innerText = input[i];
+                    box.style.color = "#fff";
+                } else {
+                    box.innerText = "-";
+                    box.style.color = "#f1c40f";
+                }
+            }
         }
 
-        function winGame() {
-            clearInterval(timerInterval);
-            document.getElementById("game-ui").style.display = "none";
-            document.getElementById("win-time").innerText = timerEl.innerText;
-            document.getElementById("win-screen").style.display = "block";
+        function checkCode() {
+            const guess = document.getElementById('admin-input').value;
+            const correctString = targetCode.join("");
+
+            if (guess === correctString) {
+                // WIN!
+                clearInterval(timerInterval);
+                document.getElementById('vault-door').classList.add('unlocked');
+                setTimeout(() => {
+                    document.getElementById('win-screen').classList.add('active');
+                }, 1000);
+            } else {
+                // LOSE! Shake the vault and turn red.
+                const vault = document.getElementById('vault-door');
+                vault.style.borderColor = "#e74c3c";
+                vault.classList.add('shake');
+                
+                // Play a system beep/buzz mentally
+                document.getElementById('admin-input').value = "";
+                updateVisualCode();
+
+                setTimeout(() => {
+                    vault.classList.remove('shake');
+                    vault.style.borderColor = "#475569";
+                }, 500);
+            }
         }
 
-        function loseGame() {
-            clearInterval(timerInterval);
-            document.getElementById("game-ui").style.display = "none";
-            document.getElementById("lose-screen").style.display = "block";
+        function requestHint() {
+            // Find which digits haven't been revealed yet
+            let availableIndexes = [];
+            for (let i = 0; i < 4; i++) {
+                if (!revealedHints[i]) availableIndexes.push(i);
+            }
+
+            if (availableIndexes.length === 0) {
+                alert("All hints have already been revealed!");
+                return;
+            }
+
+            // Confirm they want to lose 60 seconds
+            if (confirm("WARNING: Using a hint will instantly subtract 60 seconds from the timer. Proceed?")) {
+                // Subtract time
+                timeLeft -= 60;
+                if (timeLeft < 0) timeLeft = 0;
+                updateTimer();
+
+                // Pick a random unrevealed digit
+                const randomIndex = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+                revealedHints[randomIndex] = true;
+
+                // Show it on the screen
+                document.getElementById(`hint-${randomIndex}`).innerText = `[ Answer: ${targetCode[randomIndex]} ]`;
+            }
         }
+
+        // Allow pressing "Enter" to submit code
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("admin-input").addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    checkCode();
+                }
+            });
+        });
     </script>
 </body>
 </html>

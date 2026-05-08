@@ -47,7 +47,7 @@
         .answers { display: flex; flex-direction: column; gap: 15px; }
         .answer-btn {
             background: #f8f9fa; border: 2px solid #cbd5e1; padding: 18px 25px; border-radius: 12px;
-            font-size: 1.2rem; color: #334155; cursor: pointer; text-align: left; transition: all 0.2s; font-weight: bold;
+            font-size: 1.1rem; color: #334155; cursor: pointer; text-align: left; transition: all 0.2s; font-weight: bold;
         }
         .answer-btn:hover { background: #e0f2fe; border-color: #00a8ff; transform: translateX(8px); box-shadow: 0 5px 15px rgba(0, 168, 255, 0.2); }
 
@@ -61,7 +61,7 @@
         }
         .rank-label { font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
         .result-title { font-size: 2.2rem; margin-bottom: 10px; }
-        .result-desc { font-size: 1.2rem; line-height: 1.6; color: #475569; }
+        .result-desc { font-size: 1.1rem; line-height: 1.6; color: #475569; }
         
         .action-btn { 
             background: #2ed573; color: white; padding: 18px 40px; border: none; border-radius: 10px; 
@@ -85,12 +85,12 @@
         .gift-item h4 { color: #00a8ff; margin-bottom: 8px; font-size: 1.2rem; }
         .gift-item p { font-size: 0.95rem; color: #475569; line-height: 1.5; }
 
-        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .question-text { font-size: 1.4rem; } .gifts-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .question-text { font-size: 1.3rem; } .gifts-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo" onerror="this.style.display='none'"></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="plans.html">Bible Plans</a>
@@ -103,7 +103,7 @@
     
     <div class="header-title">
         <h1>Discover Your Gift</h1>
-        <p>God wired you with a specific purpose. Take this situational assessment to find out how you are meant to impact the church.</p>
+        <p>God wired you with a specific purpose. Take this situational assessment based on Romans 12 to find out how you are uniquely gifted to serve.</p>
     </div>
     
     <div class="container">
@@ -129,29 +129,33 @@
                 </div>
 
                 <div class="disclaimer-box">
-                    <strong>💡 A Quick Note:</strong> This assessment is just a fun starting point! Your spiritual gift might not be exactly what you got here, or you might have a unique mix. God is still shaping you. Don't put yourself in a box—just start serving somewhere and see what God does!
+                    <strong>💡 A Quick Note:</strong> This assessment is just a starting point based on your natural inclinations. Spiritual gifts (like those found in Romans 12 and 1 Corinthians 12) are given by the Holy Spirit and can grow and shift over time. Don't put yourself in a box—just start serving!
                 </div>
 
                 <div class="glossary-section">
-                    <h3>Spiritual Gifts in the Bible</h3>
-                    <p>The Bible lists various spiritual gifts in passages like <a href="https://www.biblegateway.com/passage/?search=Romans%2012&version=NIV" target="_blank" class="bible-link">Romans 12</a> and <a href="https://www.biblegateway.com/passage/?search=1%20Corinthians%2012&version=NIV" target="_blank" class="bible-link">1 Corinthians 12</a>. Here is a breakdown of the core gifts:</p>
+                    <h3>The 5 Core Romans 12 Gifts Tested</h3>
+                    <p>This quiz analyzes your responses based on five of the primary grace gifts outlined by Paul in <a href="https://www.biblegateway.com/passage/?search=Romans%2012&version=NIV" target="_blank" class="bible-link">Romans 12:6-8</a>.</p>
                     
                     <div class="gifts-grid">
                         <div class="gift-item">
-                            <h4>📖 Teaching & Wisdom</h4>
-                            <p>The ability to understand deep truths of God's Word and explain them clearly so others can learn and grow.</p>
+                            <h4>🗣️ Exhortation (Encouragement)</h4>
+                            <p>The ability to come alongside others to offer comfort, motivation, and uplifting counsel to strengthen their faith.</p>
                         </div>
                         <div class="gift-item">
-                            <h4>🛠️ Serving & Helps</h4>
-                            <p>A passion for doing practical, behind-the-scenes tasks that support others and keep the church running smoothly.</p>
+                            <h4>📖 Teaching</h4>
+                            <p>The ability to understand, clearly explain, and apply the truths of God's Word so that others can grasp deep theological concepts.</p>
                         </div>
                         <div class="gift-item">
-                            <h4>💛 Encouragement</h4>
-                            <p>The gift of motivating, comforting, and lifting up others, especially when they are going through difficult seasons.</p>
+                            <h4>🛠️ Serving (Helps)</h4>
+                            <p>A deep joy in recognizing practical needs and stepping in to do the behind-the-scenes work to support the church body.</p>
                         </div>
                         <div class="gift-item">
-                            <h4>🚀 Leadership</h4>
-                            <p>The ability to cast a vision, organize people, and guide a group toward a common goal for God's kingdom.</p>
+                            <h4>🚀 Leadership (Administration)</h4>
+                            <p>The God-given ability to cast a vision, organize resources, and gently guide a group toward a specific, kingdom-focused goal.</p>
+                        </div>
+                        <div class="gift-item">
+                            <h4>💛 Mercy (Compassion)</h4>
+                            <p>An exceptional empathy and genuine compassion for those who are suffering physically, emotionally, or spiritually.</p>
                         </div>
                     </div>
                 </div>
@@ -160,127 +164,156 @@
     </div>
 
     <script>
-        // YOUR AWESOME SITUATIONAL QUESTIONS
+        // --- THE UPGRADED BIBLICAL QUESTION VAULT ---
         const questions = [
             {
-                question: "1. When planning a youth event, you naturally want to...",
+                question: "1. A brand new student walks into youth group looking a bit lost and nervous. You immediately...",
                 answers: [
-                    { text: "Make sure everyone feels included and welcome.", type: "encourager" },
-                    { text: "Organize the schedule and assign tasks.", type: "leader" },
-                    { text: "Help set up the chairs and tech equipment.", type: "server" },
-                    { text: "Pick out the Bible passage we are discussing.", type: "teacher" }
+                    { text: "Go out of your way to introduce yourself and make them feel seen.", type: "encourager" },
+                    { text: "Quietly bring them a chair, a snack, or a schedule so they are comfortable.", type: "server" },
+                    { text: "Notice their anxiety and privately ask if they are doing okay.", type: "mercy" },
+                    { text: "Introduce them to the small group leaders and help integrate them into a group.", type: "leader" }
                 ]
             },
             {
-                question: "2. Your friend is going through a really hard time. Your first instinct is to...",
+                question: "2. Your friend is going through a really painful breakup. Your first instinct is to...",
                 answers: [
-                    { text: "Give them a hug, listen, and cry with them.", type: "encourager" },
-                    { text: "Help them figure out a step-by-step plan to fix it.", type: "leader" },
-                    { text: "Bring them their favorite food or clean their room.", type: "server" },
-                    { text: "Share a Bible verse that directly applies to their situation.", type: "teacher" }
+                    { text: "Take them on a long walk just to listen and let them process their thoughts.", type: "mercy" },
+                    { text: "Share a specific, comforting scripture that applies to their situation.", type: "teacher" },
+                    { text: "Remind them of their incredible worth and that God has a great plan for them.", type: "encourager" },
+                    { text: "Bring them their favorite meal or help them clean up their room.", type: "server" }
                 ]
             },
             {
-                question: "3. Someone brand new visits the youth group. You immediately...",
+                question: "3. The youth group needs to prepare for a massive weekend event. Where are you most likely found?",
                 answers: [
-                    { text: "Introduce them to your friends so they don't feel alone.", type: "encourager" },
-                    { text: "Make sure they know the schedule and where the bathrooms are.", type: "leader" },
-                    { text: "Grab an extra chair and get them a drink.", type: "server" },
-                    { text: "Ask them deep questions about their background and beliefs.", type: "teacher" }
+                    { text: "Designing the promotional posters or building the registration website.", type: "server" },
+                    { text: "Creating the master schedule and making sure everyone knows their assignments.", type: "leader" },
+                    { text: "Preparing the lesson material or the devotional thoughts for the weekend.", type: "teacher" },
+                    { text: "Hyping everyone up on the group chat and keeping the team's energy high.", type: "encourager" }
                 ]
             },
             {
-                question: "4. When reading the Bible on your own, you are most drawn to...",
+                question: "4. When reading the Bible, what usually catches your attention the most?",
                 answers: [
-                    { text: "Psalms, because of the raw emotion and comfort.", type: "encourager" },
-                    { text: "Proverbs or Nehemiah, because of the actionable wisdom.", type: "leader" },
-                    { text: "The Gospels, seeing how Jesus practically helped people.", type: "server" },
-                    { text: "Romans, because you love diving deep into heavy theology.", type: "teacher" }
+                    { text: "How Jesus healed the broken and showed deep compassion to outcasts.", type: "mercy" },
+                    { text: "The deep, complex theology and historical context of Paul's letters.", type: "teacher" },
+                    { text: "The practical wisdom on how to live, organize, and build (like Nehemiah).", type: "leader" },
+                    { text: "The uplifting promises of hope and strength found in the Psalms.", type: "encourager" }
                 ]
             },
             {
-                question: "5. Your small group is raising money for a mission trip. You step up to...",
+                question: "5. You are at a youth camp and everyone is hanging out during free time. What are you doing?",
                 answers: [
-                    { text: "Cheer everyone on and keep team morale super high.", type: "encourager" },
-                    { text: "Create the fundraising plan and track the goals.", type: "leader" },
-                    { text: "Bake the cookies and handle the physical cash box.", type: "server" },
-                    { text: "Research the mission and educate the group on why it matters.", type: "teacher" }
+                    { text: "Sitting with the one student who looks a bit left out or homesick.", type: "mercy" },
+                    { text: "Organizing a massive group game of volleyball or capture the flag.", type: "leader" },
+                    { text: "Helping the camp staff restock the snacks or set up for the next session.", type: "server" },
+                    { text: "Having a deep conversation with someone about a recent sermon topic.", type: "teacher" }
                 ]
             },
             {
-                question: "6. You notice the youth room is a complete mess after service. You...",
+                question: "6. When a conflict breaks out between two of your friends, you naturally...",
                 answers: [
-                    { text: "Ask someone to help clean so you can chat with them while doing it.", type: "encourager" },
-                    { text: "Delegate areas and rally a team to clean it efficiently.", type: "leader" },
-                    { text: "Just start silently throwing away trash and stacking chairs.", type: "server" },
-                    { text: "Think about how to use this as a teaching moment next week.", type: "teacher" }
+                    { text: "Help mediate the argument by identifying the core issue and suggesting a path forward.", type: "leader" },
+                    { text: "Remind them both how much they mean to each other to soften the tension.", type: "encourager" },
+                    { text: "Feel deeply hurt for both of them and try to comfort whoever is crying.", type: "mercy" },
+                    { text: "Gently correct any misunderstandings by pointing them to biblical truth.", type: "teacher" }
                 ]
             },
             {
-                question: "7. During a small group discussion, you usually...",
+                question: "7. What frustrates you the most in a church or youth group setting?",
                 answers: [
-                    { text: "Make sure the quiet kids get a chance to speak.", type: "encourager" },
-                    { text: "Keep the conversation on track if it gets distracted.", type: "leader" },
-                    { text: "Are the one passing out the pens and snacks.", type: "server" },
-                    { text: "Love explaining the deeper historical meaning of the verse.", type: "teacher" }
+                    { text: "When people are being ignored, marginalized, or hurting without anyone noticing.", type: "mercy" },
+                    { text: "When things are completely disorganized or there is no clear direction.", type: "leader" },
+                    { text: "When false information is being taught or scripture is taken out of context.", type: "teacher" },
+                    { text: "When the environment feels negative, critical, or discouraging.", type: "encourager" }
                 ]
             },
             {
-                question: "8. Your favorite part of a Wednesday night is...",
+                question: "8. Someone asks a really tough, confusing theological question during small group. You...",
                 answers: [
-                    { text: "The hangout time before and after service.", type: "encourager" },
-                    { text: "Seeing the whole event run smoothly from start to finish.", type: "leader" },
-                    { text: "Helping the tech, worship, or setup team.", type: "server" },
-                    { text: "The sermon and breaking down the Word.", type: "teacher" }
+                    { text: "Get excited to break down the context, the Greek words, and the biblical answer.", type: "teacher" },
+                    { text: "Acknowledge that it's a hard question, but reassure them that God's character is good.", type: "encourager" },
+                    { text: "Direct the group's conversation so everyone has a chance to share their thoughts.", type: "leader" },
+                    { text: "Listen carefully, prioritizing how the person's emotional struggles might be causing the question.", type: "mercy" }
                 ]
             },
             {
-                question: "9. If you had a free Saturday to help the church, you would...",
+                question: "9. You walk into the church sanctuary and notice it's a complete mess after an event. You...",
                 answers: [
-                    { text: "Visit elderly or sick members of the congregation.", type: "encourager" },
-                    { text: "Organize a community outreach event for the neighborhood.", type: "leader" },
-                    { text: "Paint a classroom, mow the lawn, or fix broken things.", type: "server" },
-                    { text: "Lead a weekend Bible study class or workshop.", type: "teacher" }
+                    { text: "Immediately start silently throwing away trash and stacking chairs.", type: "server" },
+                    { text: "Quickly grab three friends and assign them sections to clean up efficiently.", type: "leader" },
+                    { text: "Put on some upbeat music to make the cleanup fun for everyone helping.", type: "encourager" },
+                    { text: "Think about creating a better system or checklist for next week's cleanup.", type: "teacher" } // Using teacher/admin overlap here
                 ]
             },
             {
-                question: "10. People usually come to you when they need...",
+                question: "10. If you had a completely free Saturday to volunteer for the church, you would prefer to...",
                 answers: [
-                    { text: "A shoulder to cry on or someone to vent to.", type: "encourager" },
-                    { text: "Solid advice on a tough decision they have to make.", type: "leader" },
-                    { text: "Help moving, carrying things, or doing a physical task.", type: "server" },
-                    { text: "An explanation of a confusing topic or Bible passage.", type: "teacher" }
+                    { text: "Lead a weekend Bible study class or apologetics workshop.", type: "teacher" },
+                    { text: "Visit elderly members in the hospital or deliver meals to the homeless.", type: "mercy" },
+                    { text: "Paint a classroom, fix broken equipment, or mow the church lawn.", type: "server" },
+                    { text: "Organize and direct a community outreach event for the neighborhood.", type: "leader" }
                 ]
             },
             {
-                question: "11. If the youth pastor asks for volunteers, you are most likely to...",
+                question: "11. People in your life usually come to you when they need...",
                 answers: [
-                    { text: "Hang out with the students who look lonely.", type: "encourager" },
-                    { text: "Lead the front-stage game or direct the schedule.", type: "leader" },
-                    { text: "Run the soundboard, lights, or tear down equipment.", type: "server" },
-                    { text: "Lead a breakout session or share your testimony.", type: "teacher" }
+                    { text: "Someone to cry with and a safe space to vent without judgment.", type: "mercy" },
+                    { text: "Solid advice, a clear plan, or help making a tough decision.", type: "leader" },
+                    { text: "A boost of confidence and a reminder that they can get through this.", type: "encourager" },
+                    { text: "Help moving furniture, carrying heavy things, or doing physical labor.", type: "server" }
                 ]
             },
             {
-                question: "12. People often tell you that you are...",
+                question: "12. In your prayer time, what do you find yourself praying for the most?",
                 answers: [
-                    { text: "A great listener and very empathetic.", type: "encourager" },
-                    { text: "Good at taking charge and making tough decisions.", type: "leader" },
-                    { text: "Always willing to work hard behind the scenes.", type: "server" },
-                    { text: "Really wise and know your Bible well.", type: "teacher" }
+                    { text: "That God would heal the brokenhearted and relieve people's suffering.", type: "mercy" },
+                    { text: "That God would give you and your church clarity, vision, and direction.", type: "leader" },
+                    { text: "That God would give you the right words to uplift and motivate your friends.", type: "encourager" },
+                    { text: "That God would reveal deeper truths in His word and protect people from lies.", type: "teacher" }
+                ]
+            },
+            {
+                question: "13. Which of these biblical figures do you relate to the most?",
+                answers: [
+                    { text: "Barnabas (always advocating for people and giving them second chances).", type: "encourager" },
+                    { text: "Martha or Stephen (always working with your hands to serve the physical needs).", type: "server" },
+                    { text: "Paul or Apollos (passionate about explaining doctrine and writing letters).", type: "teacher" },
+                    { text: "Nehemiah (seeing a ruined wall and organizing a crew to rebuild it).", type: "leader" }
+                ]
+            },
+            {
+                question: "14. A family in the church is going through a severe financial crisis. You are most likely to...",
+                answers: [
+                    { text: "Weep with them, sit with them in their pain, and pray deeply for their peace.", type: "mercy" },
+                    { text: "Quietly drop off groceries or fix their car without needing any recognition.", type: "server" },
+                    { text: "Organize a church-wide fundraiser or meal-train to support them systematically.", type: "leader" },
+                    { text: "Regularly check in to remind them of God's faithfulness and keep their spirits up.", type: "encourager" }
+                ]
+            },
+            {
+                question: "15. When you hear a really great sermon, your immediate thought is...",
+                answers: [
+                    { text: "\"I need to write down that Greek translation so I can study it later!\"", type: "teacher" },
+                    { text: "\"I'm going to text that specific point to my friend who has been struggling.\"", type: "encourager" },
+                    { text: "\"How can we turn this message into an actionable plan for our youth group?\"", type: "leader" },
+                    { text: "\"I am so moved by God's grace; I need to go help someone this week.\"", type: "mercy" }
                 ]
             }
         ];
 
+        // --- BIBLICAL RESULTS MAPPING ---
         const resultsData = {
-            encourager: { title: "The Encourager 💛", color: "#f1c40f", desc: "You have the spiritual gifts of Encouragement & Mercy! You are the heart of the group. God uses you to make people feel seen, loved, and supported. When others are down, you lift them up." },
-            leader: { title: "The Leader 🚀", color: "#e74c3c", desc: "You have the spiritual gifts of Leadership & Administration! You are a visionary and an organizer. God uses you to guide others, solve problems, and make things happen." },
-            server: { title: "The Server 🛠️", color: "#2ed573", desc: "You have the spiritual gift of Service & Helps! You are the hands and feet of Jesus. God uses you in practical, behind-the-scenes ways that keep the entire ministry running smoothly." },
-            teacher: { title: "The Teacher 📖", color: "#00a8ff", desc: "You have the spiritual gifts of Teaching & Wisdom! You love digging deep into the Word of God. He uses you to help others understand His truth and how to apply it to their lives." }
+            encourager: { title: "The Exhorter 💛", color: "#f1c40f", desc: "You have the biblical gift of Exhortation (Romans 12:8). You are the heart of the group. God uses you to motivate, uplift, and challenge people to grow. When others want to give up, you are the one who reminds them of their God-given potential." },
+            leader: { title: "The Guide 🚀", color: "#e74c3c", desc: "You have the biblical gift of Leadership/Administration (Rom 12:8, 1 Cor 12:28). You are a visionary and an organizer. God uses you to see the big picture, create a plan, and gently guide others toward accomplishing things for His kingdom." },
+            server: { title: "The Hands 🛠️", color: "#2ed573", desc: "You have the biblical gift of Serving/Helps (Romans 12:7). You are the hands and feet of Jesus. You find deep joy in doing the practical, physical, and often unnoticed work that keeps the ministry functioning and shows people they are loved." },
+            teacher: { title: "The Scholar 📖", color: "#00a8ff", desc: "You have the biblical gift of Teaching/Wisdom (Romans 12:7). You love digging deep into scripture. God uses you to break down complex truths, correct misunderstandings, and help others build a solid foundation on His Word." },
+            mercy: { title: "The Comforter 🕊️", color: "#9b59b6", desc: "You have the biblical gift of Mercy (Romans 12:8). You have an incredible capacity for empathy. God uses you to sit with people in their deepest pain, offering compassion, a listening ear, and a safe space to heal without judgment." }
         };
 
         let currentQuestionIndex = 0;
-        let scores = { encourager: 0, leader: 0, server: 0, teacher: 0 };
+        let scores = { encourager: 0, leader: 0, server: 0, teacher: 0, mercy: 0 };
 
         const mainCard = document.getElementById("main-card");
         const questionEl = document.getElementById("question");
@@ -291,8 +324,17 @@
 
         function startQuiz() {
             currentQuestionIndex = 0;
-            scores = { encourager: 0, leader: 0, server: 0, teacher: 0 };
+            scores = { encourager: 0, leader: 0, server: 0, teacher: 0, mercy: 0 };
             showQuestion();
+        }
+
+        // Randomize the order of answers so they aren't always in the same spot
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
         }
 
         function showQuestion() {
@@ -303,7 +345,9 @@
             let currentQuestion = questions[currentQuestionIndex];
             questionEl.innerText = currentQuestion.question;
 
-            currentQuestion.answers.forEach(answer => {
+            let shuffledAnswers = shuffleArray([...currentQuestion.answers]);
+
+            shuffledAnswers.forEach(answer => {
                 const button = document.createElement("button");
                 button.innerText = answer.text;
                 button.classList.add("answer-btn");

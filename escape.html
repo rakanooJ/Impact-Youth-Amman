@@ -109,7 +109,7 @@
 
     <div class="overlay active" id="start-screen">
         <h1 style="font-size: 5rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 10px;">The Vault V2</h1>
-        <p style="color: #cbd5e1; font-size: 1.5rem; max-width: 800px;">Select security protocol. Using hints drains 60 seconds.</p>
+        <p style="color: #cbd5e1; font-size: 1.5rem; max-width: 800px;">Select security protocol. Using hints drains 60 seconds from your remaining time.</p>
         
         <div class="diff-container">
             <div class="diff-btn btn-normal" onclick="startGame('easy', 2, 600)">
@@ -118,11 +118,11 @@
             </div>
             <div class="diff-btn btn-hard" onclick="startGame('medium', 3, 720)">
                 <h3 style="color: #f39c12;">Hard</h3>
-                <p>3 Stages<br>12 Minutes<br>Mixed Questions</p>
+                <p>3 Stages<br>12 Minutes<br>Medium Questions</p>
             </div>
             <div class="diff-btn btn-expert" onclick="startGame('expert', 4, 900)">
                 <h3 style="color: #e74c3c;">Expert</h3>
-                <p>4 Stages<br>15 Minutes<br>Hard Questions</p>
+                <p>4 Stages<br>15 Minutes<br>Deep Cut Trivia</p>
             </div>
         </div>
     </div>
@@ -133,8 +133,8 @@
 
     <div class="container">
         <div class="header-box">
-            <div class="stage-display" id="stage-display">Level 1 of 3</div>
-            <div class="timer-display" id="timer">10:00</div>
+            <div class="stage-display" id="stage-display">Level 1 of X</div>
+            <div class="timer-display" id="timer">00:00</div>
         </div>
 
         <div class="vault-door" id="vault-door">
@@ -169,52 +169,76 @@
     </div>
 
     <script>
-        // --- MASSIVE QUESTION BANKS ---
-        // All answers must be a single digit (0-9)
+        // --- MASSIVE QUESTION BANKS V2 ---
+        // All answers are exactly 1 digit (0-9). 
         
         const qEasy = [
             { q: "Number of Gospels in the New Testament.", a: 4 },
-            { q: "The number of stones David picked up to fight Goliath.", a: 5 },
-            { q: "Days Jonah was in the belly of the fish.", a: 3 },
-            { q: "Number of days God took to create the world (before resting).", a: 6 },
-            { q: "Number of letters in the name 'JESUS'.", a: 5 },
-            { q: "The number of original Avengers movies minus 1.", a: 3 },
-            { q: "Sides on a stop sign.", a: 8 },
-            { q: "The number of gifts the wise men brought.", a: 3 },
-            { q: "Number of disciples named Judas.", a: 2 },
+            { q: "Days Jonah spent in the belly of the giant fish.", a: 3 },
+            { q: "Number of days God took to create the world before resting.", a: 6 },
+            { q: "Number of letters in the name JESUS.", a: 5 },
+            { q: "The number of original members in the band One Direction.", a: 5 },
+            { q: "Number of sides on a standard stop sign.", a: 8 },
+            { q: "The number of gifts the wise men brought to Jesus.", a: 3 },
+            { q: "The number of disciples named Judas.", a: 2 },
             { q: "How many Gospels were written by Luke?", a: 1 },
-            { q: "Number of original members in One Direction.", a: 5 },
-            { q: "The amount of plagues in Egypt MINUS 3.", a: 7 }
+            { q: "Number of continents on Earth.", a: 7 },
+            { q: "Number of times Peter denied Jesus before the rooster crowed.", a: 3 },
+            { q: "The number of men thrown into the fiery furnace.", a: 3 },
+            { q: "How many strings are on a standard acoustic guitar?", a: 6 },
+            { q: "Number of colors in a standard rainbow.", a: 7 },
+            { q: "How many hours are in a quarter of a day?", a: 6 },
+            { q: "Number of wheels on a standard tricycle.", a: 3 },
+            { q: "The number of primary colors.", a: 3 },
+            { q: "How many days are in a standard weekend?", a: 2 },
+            { q: "Number of eyes on a typical spider.", a: 8 },
+            { q: "How many times did David spare Saul's life in the caves?", a: 2 }
         ];
 
         const qMedium = [
-            { q: "Total Infinity Stones (6) minus the Trinity (3).", a: 3 },
-            { q: "Number of plagues (10) minus days Jesus was in the tomb (3).", a: 7 },
+            { q: "Total number of people saved on Noah's Ark.", a: 8 },
+            { q: "The number of points on the star of the Jordanian flag.", a: 7 },
+            { q: "Jesus left the ninety-nine sheep to find how many?", a: 1 },
+            { q: "How many Infinity Stones did Thanos collect?", a: 6 },
+            { q: "The exact day of creation when God made the sun, moon, and stars.", a: 4 },
+            { q: "How many times did the Israelites march around Jericho on the very first day?", a: 1 },
             { q: "Number of chapters in the book of Jude.", a: 1 },
-            { q: "Number of letters in the word 'IMPACT' plus 1.", a: 7 },
-            { q: "Star Wars original trilogy movies (3) multiplied by 2.", a: 6 },
-            { q: "The total number of people saved on Noah's Ark.", a: 8 },
-            { q: "The number of the Fruits of the Spirit.", a: 9 },
-            { q: "Number of times Peter denied Jesus.", a: 3 },
-            { q: "Jesus left the 99 sheep to find how many?", a: 1 },
-            { q: "Worship Song: '__,000 Reasons' (Take the first number).", a: 1 },
-            { q: "Number of letters in 'AMEN'.", a: 4 },
-            { q: "Number of testaments in the Bible.", a: 2 }
+            { q: "How many years did Jacob agree to work for Laban to marry Rachel the first time?", a: 7 },
+            { q: "The total number of the Fruits of the Spirit.", a: 9 },
+            { q: "The number of letters in the word AMEN.", a: 4 },
+            { q: "Number of testaments in the Bible.", a: 2 },
+            { q: "How many letters make up the word WORSHIP?", a: 7 },
+            { q: "Number of players on a basketball team allowed on the court at one time.", a: 5 },
+            { q: "The number of deadly sins.", a: 7 },
+            { q: "How many sons did Isaac have?", a: 2 },
+            { q: "How many animals of each UNCLEAN kind did Noah bring on the ark?", a: 2 },
+            { q: "How many original Star Wars trilogy movies exist?", a: 3 },
+            { q: "Number of Lord of the Rings movies directed by Peter Jackson.", a: 3 },
+            { q: "The number of strings on a standard bass guitar.", a: 4 },
+            { q: "How many stones did David pick up from the stream before facing Goliath?", a: 5 }
         ];
 
         const qExpert = [
-            { q: "Number of churches in Revelation (7) minus Gospels (4).", a: 3 },
-            { q: "Number of chapters in the book of Philemon.", a: 1 },
-            { q: "Number of times the Israelites marched around Jericho on the LAST day.", a: 7 },
-            { q: "Letters in the longest book of the Bible's name (P-S-A-L-M-S).", a: 6 },
-            { q: "Number of sons Jacob had (12) minus fruits of the Spirit (9).", a: 3 },
-            { q: "Days Lazarus was dead before Jesus arrived.", a: 4 },
-            { q: "Number of stones in the High Priest's breastplate (12) minus 4.", a: 8 },
-            { q: "Number of letters in 'RESURRECTION' minus 3.", a: 9 },
-            { q: "The hour Jesus died on the cross (Jewish time).", a: 9 },
-            { q: "Total number of people Jesus fed with 5 loaves and 2 fish? (Take the first digit of 5,000).", a: 5 },
-            { q: "Number of letters in 'HALLELUJAH' minus 1.", a: 9 },
-            { q: "The number of Horcruxes in Harry Potter (7) minus Gospel writers (4).", a: 3 }
+            { q: "The number of baskets of food left over after Jesus fed the four thousand.", a: 7 },
+            { q: "How many times was the Apostle Paul shipwrecked?", a: 3 },
+            { q: "Number of chapters in the shortest book of the Old Testament.", a: 1 },
+            { q: "How many days was Lazarus dead in the tomb before Jesus arrived?", a: 4 },
+            { q: "The hour of the day that Jesus died on the cross according to Jewish time.", a: 9 },
+            { q: "How many times did Naaman the leper have to dip in the Jordan River to be healed?", a: 7 },
+            { q: "Number of letters in the shortest verse in the English Bible.", a: 9 },
+            { q: "How many Horcruxes did Voldemort intentionally create in Harry Potter?", a: 6 },
+            { q: "In Revelation, how many churches are addressed in Asia?", a: 7 },
+            { q: "How many years of famine did Joseph predict in Egypt?", a: 7 },
+            { q: "The number of the plague of darkness in Egypt.", a: 9 },
+            { q: "How many golden lampstands did John see in his first vision in Revelation?", a: 7 },
+            { q: "How many times did God call out to young Samuel in the night before Eli understood?", a: 3 },
+            { q: "The number of times David spared King Saul's life.", a: 2 },
+            { q: "How many locks of hair did Delilah cut from Samson's head?", a: 7 },
+            { q: "How many clean animals of each kind did God tell Noah to take on the ark?", a: 7 },
+            { q: "How many spies brought back a GOOD report to Moses?", a: 2 },
+            { q: "How many wings do the Seraphim have in Isaiah's vision?", a: 6 },
+            { q: "The number of times Jesus spoke from the cross.", a: 7 },
+            { q: "The number of Beatitudes listed by Jesus in Matthew chapter five.", a: 8 }
         ];
 
         // --- GAME STATE ---
@@ -224,7 +248,6 @@
         
         let currentStage = 1;
         let totalStages = 2;
-        let currentDifficulty = 'easy';
         
         let activePool = [];
 
@@ -243,18 +266,17 @@
         function startGame(difficulty, stages, seconds) {
             document.getElementById('start-screen').style.display = 'none';
             
-            currentDifficulty = difficulty;
             totalStages = stages;
             timeLeft = seconds;
             currentStage = 1;
 
-            // Build a mega-pool based on difficulty so we never run out of questions
+            // ISOLATED POOLS: Hard mode gets ONLY hard questions. Zero overlap.
             if (difficulty === 'easy') {
-                activePool = shuffleArray([...qEasy, ...qEasy]); 
+                activePool = shuffleArray([...qEasy]); 
             } else if (difficulty === 'medium') {
-                activePool = shuffleArray([...qEasy, ...qMedium, ...qMedium]);
-            } else {
-                activePool = shuffleArray([...qMedium, ...qExpert, ...qExpert]);
+                activePool = shuffleArray([...qMedium]);
+            } else if (difficulty === 'expert') {
+                activePool = shuffleArray([...qExpert]);
             }
 
             timerInterval = setInterval(updateTimer, 1000);
@@ -264,7 +286,7 @@
         function loadStage() {
             document.getElementById('stage-display').innerText = `Level ${currentStage} of ${totalStages}`;
             
-            // Pull 4 random questions from the active pool
+            // Pull 4 random questions from the isolated pool
             const questions = [
                 activePool.pop(), activePool.pop(), activePool.pop(), activePool.pop()
             ];

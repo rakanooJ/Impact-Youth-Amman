@@ -102,9 +102,9 @@
         </div>
     </div>
 
-    <script>
+   <script>
         // --- MASTER ASSIGNMENT DATABASE ---
-        // 32 Names perfectly divided among 10 leaders (No overlaps, no self-praying)
+        // 32 Names perfectly divided among 10 leaders
         const assignments = {
             "george": ["Maya", "Anood", "Ghazal"],
             "cece": ["Sophie", "George Al Far", "Mark Al Far"],
@@ -157,15 +157,25 @@
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('dashboard-screen').style.display = 'block';
             
-            // Capitalize first letter for welcome text
             const displayObj = currentLeader.charAt(0).toUpperCase() + currentLeader.slice(1);
             document.getElementById('welcome-text').innerText = `Welcome, ${displayObj}`;
 
             currentNames = assignments[currentLeader];
             
-            // Load memory of who they already checked off
-            const savedChecks = localStorage.getItem(`prayed_${currentLeader}`);
-            checkedNames = savedChecks ? JSON.parse(savedChecks) : [];
+            // --- DAILY AUTO-RESET LOGIC ---
+            const today = new Date().toDateString(); // Gets today's exact date
+            const savedDate = localStorage.getItem(`date_${currentLeader}`);
+            
+            // If the saved date doesn't match today, wipe the checkmarks!
+            if (savedDate !== today) {
+                checkedNames = [];
+                localStorage.setItem(`prayed_${currentLeader}`, JSON.stringify(checkedNames));
+                localStorage.setItem(`date_${currentLeader}`, today);
+            } else {
+                // Otherwise, load their progress for today
+                const savedChecks = localStorage.getItem(`prayed_${currentLeader}`);
+                checkedNames = savedChecks ? JSON.parse(savedChecks) : [];
+            }
 
             renderList();
         }
@@ -192,12 +202,11 @@
 
         function toggleCheck(name) {
             if (checkedNames.includes(name)) {
-                checkedNames = checkedNames.filter(n => n !== name); // Remove it
+                checkedNames = checkedNames.filter(n => n !== name); 
             } else {
-                checkedNames.push(name); // Add it
+                checkedNames.push(name); 
             }
             
-            // Save to memory immediately
             localStorage.setItem(`prayed_${currentLeader}`, JSON.stringify(checkedNames));
             renderList();
         }

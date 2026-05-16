@@ -102,30 +102,32 @@
         </div>
     </div>
 
-   <script>
-        // --- MASTER ASSIGNMENT DATABASE ---
-        // 32 Names perfectly divided among 10 leaders
-        const assignments = {
-            "george": ["Maya", "Anood", "Ghazal"],
-            "cece": ["Sophie", "George Al Far", "Mark Al Far"],
-            "kiki": ["Mark Fakhoury", "Zeina", "Ramzi Masanat"],
-            "odai": ["Zaid Al Haddad", "Zaid Sawalha", "Daniel Habash"],
-            "faisal": ["Jack", "Isabella", "Cathrine"],
-            "lydia": ["Own Fakhoury", "Kevin Al Dalu", "Andrew"],
-            "saed": ["Micheal", "Yazan Shomaly", "Jana"],
-            "tareq": ["Maria", "Celina Ellias", "Saif"],
-            "nour": ["Laith Amarin", "Tina Hadadin", "Kiki", "Cece"],
-            "rakan": ["Natalie", "Sophia", "Lydia", "Nour"]
-        };
+ <script>
+        // --- MASTER ROTATION DATABASE ---
+        const leaders = ["george", "cece", "kiki", "odai", "faisal", "lydia", "saed", "tareq", "nour", "rakan"];
+        
+        // 38 Names perfectly divided into 10 groups
+        const nameGroups = [
+            ["Maya", "Anood", "Ghazal", "Odai"],
+            ["Sophie", "George Al Far", "Mark Al Far", "Faisal"],
+            ["Mark Fakhoury", "Zeina", "Ramzi Masanat", "Saed"],
+            ["Zaid Al Haddad", "Zaid Sawalha", "Daniel Habash", "Tareq"],
+            ["Jack", "Isabella", "Cathrine", "Rakan"],
+            ["Own Fakhoury", "Kevin Al Dalu", "Andrew", "George"],
+            ["Micheal", "Yazan Shomaly", "Jana", "Cece"],
+            ["Maria", "Celina Ellias", "Saif", "Kiki"],
+            ["Laith Amarin", "Tina Hadadin", "Lydia"],
+            ["Natalie", "Sophia", "Nour"]
+        ];
 
         let currentLeader = "";
         let currentNames = [];
         let checkedNames = [];
 
-        // Check if someone is already logged in on this device
+        // Check if someone is already logged in
         window.onload = () => {
             const savedLeader = localStorage.getItem('activeLeader');
-            if (savedLeader && assignments[savedLeader]) {
+            if (savedLeader && leaders.includes(savedLeader)) {
                 currentLeader = savedLeader;
                 loadDashboard();
             }
@@ -134,7 +136,7 @@
         function login() {
             const input = document.getElementById('leader-input').value.trim().toLowerCase();
             
-            if (assignments[input]) {
+            if (leaders.includes(input)) {
                 currentLeader = input;
                 localStorage.setItem('activeLeader', currentLeader);
                 document.getElementById('error-msg').style.display = 'none';
@@ -160,21 +162,35 @@
             const displayObj = currentLeader.charAt(0).toUpperCase() + currentLeader.slice(1);
             document.getElementById('welcome-text').innerText = `Welcome, ${displayObj}`;
 
-            currentNames = assignments[currentLeader];
+            // --- THE DAILY ROTATION ALGORITHM ---
+            // Calculate a unique number for today based on local time
+            const now = new Date();
+            const daysSinceEpoch = Math.floor((now.getTime() - now.getTimezoneOffset() * 60000) / 86400000);
+            
+            const leaderIndex = leaders.indexOf(currentLeader);
+            
+            // This mathematically shifts the names every day. No database required!
+            const assignedGroupIndex = (leaderIndex + daysSinceEpoch) % 10;
+            currentNames = nameGroups[assignedGroupIndex];
             
             // --- DAILY AUTO-RESET LOGIC ---
-            const today = new Date().toDateString(); // Gets today's exact date
+            const todayStr = now.toDateString(); 
             const savedDate = localStorage.getItem(`date_${currentLeader}`);
             
-            // If the saved date doesn't match today, wipe the checkmarks!
-            if (savedDate !== today) {
+            // If the saved date doesn't match today, wipe the checkmarks
+            if (savedDate !== todayStr) {
                 checkedNames = [];
                 localStorage.setItem(`prayed_${currentLeader}`, JSON.stringify(checkedNames));
-                localStorage.setItem(`date_${currentLeader}`, today);
+                localStorage.setItem(`date_${currentLeader}`, todayStr);
             } else {
-                // Otherwise, load their progress for today
                 const savedChecks = localStorage.getItem(`prayed_${currentLeader}`);
                 checkedNames = savedChecks ? JSON.parse(savedChecks) : [];
+            }
+
+            // A tiny safety check: if the auto-rotation gave them their own name, swap it temporarily
+            const selfIndex = currentNames.findIndex(n => n.toLowerCase() === currentLeader);
+            if (selfIndex !== -1) {
+                currentNames[selfIndex] = "The Youth Ministry Team"; // Replaces their own name
             }
 
             renderList();
@@ -217,7 +233,7 @@
         }
 
         function resetChecks() {
-            if(confirm("Are you sure you want to uncheck all names to start fresh?")) {
+            if(confirm("Are you sure you want to uncheck all names to start fresh today?")) {
                 checkedNames = [];
                 localStorage.setItem(`prayed_${currentLeader}`, JSON.stringify(checkedNames));
                 renderList();

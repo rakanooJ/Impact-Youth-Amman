@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leader Prayer Roster - Impact Youth</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0f172a; color: #f8f9fa; line-height: 1.6; 
+            background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+        }
+        
+        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; width: 100%; z-index: 10;}
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; text-transform: uppercase;}
+        .nav-links a:hover { color: #00a8ff; }
+
+        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; width: 100%; }
+
+        /* Login Screen */
+        #login-screen { display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 50px;}
+        .title { font-size: 3rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 10px; font-weight: 900;}
+        .subtitle { color: #cbd5e1; font-size: 1.2rem; margin-bottom: 30px;}
+        .login-input { 
+            padding: 15px 20px; font-size: 1.5rem; text-align: center; border-radius: 12px; 
+            border: 2px solid #475569; background: #1e293b; color: white; margin-bottom: 20px; 
+            width: 100%; max-width: 400px; text-transform: capitalize;
+        }
+        .login-input:focus { outline: none; border-color: #00a8ff; }
+        .error-msg { color: #e74c3c; font-weight: bold; margin-bottom: 15px; display: none;}
+
+        /* Dashboard Screen */
+        #dashboard-screen { display: none; width: 100%; }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #334155; padding-bottom: 20px;}
+        .welcome-text { font-size: 2rem; color: #00a8ff; font-weight: 900; text-transform: uppercase;}
+        
+        .btn { padding: 12px 25px; font-size: 1.1rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; color: white;}
+        .btn:active { transform: scale(0.95); }
+        .btn-login { background: #00a8ff; width: 100%; max-width: 400px; } .btn-login:hover { background: #008ecc; }
+        .btn-logout { background: transparent; border: 2px solid #475569; color: #cbd5e1; font-size: 0.9rem; padding: 8px 15px;} .btn-logout:hover { background: #e74c3c; border-color: #e74c3c;}
+        .btn-reset { background: #334155; width: 100%; margin-top: 30px; } .btn-reset:hover { background: #475569; }
+
+        /* Prayer List */
+        .progress-container { background: #111; border-radius: 10px; height: 15px; width: 100%; margin-bottom: 20px; overflow: hidden; border: 1px solid #333;}
+        .progress-bar { background: linear-gradient(90deg, #f1c40f, #2ed573); height: 100%; width: 0%; transition: width 0.4s ease;}
+        
+        .roster-card { background: #1e293b; border: 2px solid #475569; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+        .roster-item { 
+            display: flex; align-items: center; padding: 20px 25px; border-bottom: 1px solid #334155; 
+            cursor: pointer; transition: background 0.2s; font-size: 1.4rem; font-weight: bold; color: #f8f9fa;
+        }
+        .roster-item:last-child { border-bottom: none; }
+        .roster-item:hover { background: #2a374a; }
+        
+        .checkbox { 
+            width: 30px; height: 30px; border: 2px solid #cbd5e1; border-radius: 8px; margin-right: 20px; 
+            display: flex; justify-content: center; align-items: center; transition: 0.2s;
+        }
+        .roster-item.checked .checkbox { background: #2ed573; border-color: #2ed573; }
+        .roster-item.checked .checkbox::after { content: '✔'; color: #000; font-size: 1.2rem; }
+        .roster-item.checked { color: #64748b; text-decoration: line-through; }
+
+        @media (max-width: 768px) { .navbar { padding: 10px 20px; } .nav-links { display: none; } .dash-header { flex-direction: column; gap: 15px; align-items: flex-start;} }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo" onerror="this.style.display='none'"></a>
+        <div class="nav-links"><a href="index.html">Back to Main</a></div>
+    </nav>
+
+    <div class="container">
+        <div id="login-screen">
+            <div class="title">Leader Access</div>
+            <div class="subtitle">Enter your first name to view your assigned prayer roster.</div>
+            
+            <div class="error-msg" id="error-msg">Leader not found. Check spelling!</div>
+            
+            <input type="text" id="leader-input" class="login-input" placeholder="Your Name..." autocomplete="off">
+            <button class="btn btn-login" onclick="login()">Access Roster</button>
+        </div>
+
+        <div id="dashboard-screen">
+            <div class="dash-header">
+                <div class="welcome-text" id="welcome-text">Welcome, Leader</div>
+                <button class="btn btn-logout" onclick="logout()">Log Out</button>
+            </div>
+
+            <p style="color: #cbd5e1; margin-bottom: 10px; font-size: 1.1rem; font-style: italic;">Tap a name once you have prayed for them today.</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="roster-card" id="roster-list">
+                </div>
+
+            <button class="btn btn-reset" onclick="resetChecks()">🔄 Reset All Checkmarks</button>
+        </div>
+    </div>
+
+    <script>
+        // --- MASTER ASSIGNMENT DATABASE ---
+        // 32 Names perfectly divided among 10 leaders (No overlaps, no self-praying)
+        const assignments = {
+            "george": ["Maya", "Anood", "Ghazal"],
+            "cece": ["Sophie", "George Al Far", "Mark Al Far"],
+            "kiki": ["Mark Fakhoury", "Zeina", "Ramzi Masanat"],
+            "odai": ["Zaid Al Haddad", "Zaid Sawalha", "Daniel Habash"],
+            "faisal": ["Jack", "Isabella", "Cathrine"],
+            "lydia": ["Own Fakhoury", "Kevin Al Dalu", "Andrew"],
+            "saed": ["Micheal", "Yazan Shomaly", "Jana"],
+            "tareq": ["Maria", "Celina Ellias", "Saif"],
+            "nour": ["Laith Amarin", "Tina Hadadin", "Kiki", "Cece"],
+            "rakan": ["Natalie", "Sophia", "Lydia", "Nour"]
+        };
+
+        let currentLeader = "";
+        let currentNames = [];
+        let checkedNames = [];
+
+        // Check if someone is already logged in on this device
+        window.onload = () => {
+            const savedLeader = localStorage.getItem('activeLeader');
+            if (savedLeader && assignments[savedLeader]) {
+                currentLeader = savedLeader;
+                loadDashboard();
+            }
+        };
+
+        function login() {
+            const input = document.getElementById('leader-input').value.trim().toLowerCase();
+            
+            if (assignments[input]) {
+                currentLeader = input;
+                localStorage.setItem('activeLeader', currentLeader);
+                document.getElementById('error-msg').style.display = 'none';
+                document.getElementById('leader-input').value = "";
+                loadDashboard();
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        // Allow pressing "Enter" to log in
+        document.getElementById("leader-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                login();
+            }
+        });
+
+        function loadDashboard() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('dashboard-screen').style.display = 'block';
+            
+            // Capitalize first letter for welcome text
+            const displayObj = currentLeader.charAt(0).toUpperCase() + currentLeader.slice(1);
+            document.getElementById('welcome-text').innerText = `Welcome, ${displayObj}`;
+
+            currentNames = assignments[currentLeader];
+            
+            // Load memory of who they already checked off
+            const savedChecks = localStorage.getItem(`prayed_${currentLeader}`);
+            checkedNames = savedChecks ? JSON.parse(savedChecks) : [];
+
+            renderList();
+        }
+
+        function renderList() {
+            const rosterContainer = document.getElementById('roster-list');
+            rosterContainer.innerHTML = "";
+
+            currentNames.forEach(name => {
+                const isChecked = checkedNames.includes(name);
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `roster-item ${isChecked ? 'checked' : ''}`;
+                itemDiv.onclick = () => toggleCheck(name);
+
+                itemDiv.innerHTML = `
+                    <div class="checkbox"></div>
+                    <div>${name}</div>
+                `;
+                rosterContainer.appendChild(itemDiv);
+            });
+
+            updateProgress();
+        }
+
+        function toggleCheck(name) {
+            if (checkedNames.includes(name)) {
+                checkedNames = checkedNames.filter(n => n !== name); // Remove it
+            } else {
+                checkedNames.push(name); // Add it
+            }
+            
+            // Save to memory immediately
+            localStorage.setItem(`prayed_${currentLeader}`, JSON.stringify(checkedNames));
+            renderList();
+        }
+
+        function updateProgress() {
+            const percentage = (checkedNames.length / currentNames.length) * 100;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        function resetChecks() {
+            if(confirm("Are you sure you want to uncheck all names to start fresh?")) {
+                checkedNames = [];
+                localStorage.setItem(`prayed_${currentLeader}`, JSON.stringify(checkedNames));
+                renderList();
+            }
+        }
+
+        function logout() {
+            currentLeader = "";
+            localStorage.removeItem('activeLeader');
+            document.getElementById('dashboard-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Team Omega Charades</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #ffffff;
+            --omega: #00a8ff; /* Blue */
+            --easy: #2ecc71;
+            --medium: #f1c40f;
+            --hard: #e67e22;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 15px;
+            justify-content: space-between;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #setup-view { display: flex; flex-direction: column; height: 100%; justify-content: center; align-items: center; }
+        #game-view { display: none; flex-direction: column; height: 100%; }
+
+        h1 { font-size: 2.8rem; margin: 0 0 10px 0; letter-spacing: 1px; color: var(--omega); }
+        
+        .score-box { padding: 30px; border-radius: 15px; background: var(--card-bg); width: 80%; margin: 30px 0; border: 2px solid var(--omega); }
+        .score-box h2 { margin: 0 0 10px 0; font-size: 1.5rem; color: #888; }
+        .score-box .score { font-size: 4rem; font-weight: bold; color: var(--omega); }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--omega);
+        }
+
+        #active-team-banner { font-size: 1.1rem; font-weight: bold; flex: 1; text-align: left; color: var(--omega); }
+        #live-score-display { font-size: 1.6rem; font-weight: bold; color: #2ecc71; flex: 1; text-align: center; }
+        .timer-display { font-size: 1.6rem; font-weight: bold; font-family: monospace; color: #ff4757; flex: 1; text-align: right; }
+
+        .word-display {
+            flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: var(--card-bg); border-radius: 20px; margin: 10px 0; padding: 20px;
+        }
+        
+        #current-word { font-size: 2.8rem; font-weight: bold; margin: 15px 0; line-height: 1.2; word-wrap: break-word; }
+        #word-difficulty { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; padding: 6px 16px; border-radius: 20px; font-weight: bold; }
+
+        .diff-easy { background-color: var(--easy); color: #000; }
+        .diff-medium { background-color: var(--medium); color: #000; }
+        .diff-hard { background-color: var(--hard); color: #000; }
+
+        button {
+            border: none; border-radius: 12px; font-size: 1.1rem; font-weight: bold; padding: 14px;
+            cursor: pointer; color: white; transition: opacity 0.2s; touch-action: manipulation;
+        }
+        button:active { opacity: 0.7; }
+
+        .btn-omega { background-color: var(--omega); font-size: 1.5rem; padding: 20px; width: 80%; box-shadow: 0 4px 15px rgba(0, 168, 255, 0.4); }
+
+        .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+        .btn-right { background-color: #2ecc71; grid-column: 1 / -1; font-size: 1.6rem; padding: 20px; }
+        .btn-wrong { background-color: #e74c3c; }
+        .btn-skip { background-color: #f39c12; }
+        .btn-timer-toggle { background-color: #2980b9; grid-column: 1 / -1; }
+        
+        .bottom-controls { display: flex; justify-content: space-between; gap: 10px; }
+        .bottom-controls button { flex: 1; background-color: #444; font-size: 0.95rem; }
+        .btn-exit { background-color: #222 !important; color: #ff6b6b; }
+    </style>
+</head>
+<body>
+    <div id="setup-view" class="container">
+        <h1>Team Omega</h1>
+        <p style="color: #888; margin-top: -5px;">10-Minute Rounds</p>
+        
+        <div class="score-box">
+            <h2>Final Score</h2>
+            <div id="main-score" class="score">0</div>
+        </div>
+
+        <button class="btn-omega" onclick="startTurn()">Start Round</button>
+    </div>
+
+    <div id="game-view" class="container">
+        <div class="game-header">
+            <div id="active-team-banner">Team Omega</div>
+            <div id="live-score-display">0 pts</div>
+            <div id="timer-display" class="timer-display">10:00</div>
+        </div>
+        
+        <div class="word-display">
+            <div id="word-difficulty" class="diff-easy">Easy</div>
+            <div id="current-word">Tap Start Timer</div>
+        </div>
+
+        <div class="controls-grid">
+            <button id="timer-toggle-btn" class="btn-timer-toggle" onclick="toggleTimer()">▶ Start Timer</button>
+            <button class="btn-right" onclick="handleAction('right')">Right (+1)</button>
+            <button class="btn-wrong" onclick="handleAction('wrong')">Wrong (0)</button>
+            <button class="btn-skip" onclick="handleAction('skip')">Skip</button>
+        </div>
+
+        <div class="bottom-controls">
+            <button onclick="previousWord()">Previous</button>
+            <button class="btn-exit" onclick="exitTurn()">End Turn</button>
+        </div>
+    </div>
+
+    <script>
+        const wordDatabase = [
+            { text: "Dog", diff: "easy" }, { text: "Cat", diff: "easy" }, { text: "Pizza", diff: "easy" },
+            { text: "Apple", diff: "easy" }, { text: "Banana", diff: "easy" }, { text: "Monkey", diff: "easy" },
+            { text: "Phone", diff: "easy" }, { text: "Jump", diff: "easy" }, { text: "Eat", diff: "easy" },
+            { text: "Sleep", diff: "easy" }, { text: "Run", diff: "easy" }, { text: "House", diff: "easy" },
+            { text: "Sun", diff: "easy" }, { text: "Glasses", diff: "easy" }, { text: "Baby", diff: "easy" },
+            { text: "Guitar", diff: "medium" }, { text: "Helicopter", diff: "medium" }, { text: "Rollercoaster", diff: "medium" },
+            { text: "Volcano", diff: "medium" }, { text: "Astronaut", diff: "medium" }, { text: "Submarine", diff: "medium" },
+            { text: "Telescope", diff: "medium" }, { text: "Butterfly", diff: "medium" }, { text: "Elephant", diff: "medium" },
+            { text: "Penguin", diff: "medium" }, { text: "Kangaroo", diff: "medium" }, { text: "Tornado", diff: "medium" },
+            { text: "Castle", diff: "medium" }, { text: "Pirate", diff: "medium" }, { text: "Ninja", diff: "medium" },
+            { text: "Zombie", diff: "medium" }, { text: "Rainbow", diff: "medium" }, { text: "Mountain", diff: "medium" },
+            { text: "Waterfall", diff: "medium" }, { text: "Fireworks", diff: "medium" }, { text: "Backpack", diff: "medium" },
+            { text: "Camera", diff: "medium" }, { text: "Scissors", diff: "medium" }, { text: "Robot", diff: "medium" },
+            { text: "Snowman", diff: "medium" }, { text: "Lighthouse", diff: "medium" }, { text: "Dinosaur", diff: "medium" },
+            { text: "Compass", diff: "medium" }, { text: "Magnet", diff: "medium" }, { text: "Swimming", diff: "medium" },
+            { text: "Baking", diff: "medium" }, { text: "Bowling", diff: "medium" }, { text: "Firefighter", diff: "medium" },
+            { text: "Detective", diff: "medium" }, { text: "Chef", diff: "medium" }, { text: "Doctor", diff: "medium" },
+            { text: "Pilot", diff: "medium" }, { text: "Scientist", diff: "medium" }, { text: "Skateboard", diff: "medium" },
+            { text: "Magic Trick", diff: "medium" },
+            { text: "Spider-Man", diff: "hard" }, { text: "Harry Potter", diff: "hard" }, { text: "The Matrix", diff: "hard" },
+            { text: "Star Wars", diff: "hard" }, { text: "Frankenstein", diff: "hard" }, { text: "Mona Lisa", diff: "hard" },
+            { text: "Olympic Games", diff: "hard" }, { text: "Super Bowl", diff: "hard" }, { text: "Mount Everest", diff: "hard" },
+            { text: "Eiffel Tower", diff: "hard" }, { text: "Statue of Liberty", diff: "hard" }, { text: "Titanic", diff: "hard" },
+            { text: "Time Travel", diff: "hard" }, { text: "Invisibility", diff: "hard" }, { text: "Telepathy", diff: "hard" },
+            { text: "Scuba Diving", diff: "hard" }, { text: "Skydiving", diff: "hard" }, { text: "Bungee Jumping", diff: "hard" },
+            { text: "Yoga", diff: "hard" }, { text: "Meditation", diff: "hard" }, { text: "Juggling", diff: "hard" },
+            { text: "Tightrope Walking", diff: "hard" }, { text: "Mime", diff: "hard" }, { text: "Ventriloquist", diff: "hard" },
+            { text: "Symphony", diff: "hard" }, { text: "Orchestra", diff: "hard" }, { text: "Choir", diff: "hard" },
+            { text: "Ballet", diff: "hard" }, { text: "Breakdancing", diff: "hard" }, { text: "Marathon", diff: "hard" },
+            { text: "Triathlon", diff: "hard" }, { text: "Chess", diff: "hard" }, { text: "Parallel Parking", diff: "hard" },
+            { text: "Escaping a Maze", diff: "hard" }, { text: "Solar Eclipse", diff: "hard" }, { text: "Quantum Physics", diff: "hard" },
+            { text: "White House", diff: "hard" }, { text: "Great Wall of China", diff: "hard" }, { text: "Bermuda Triangle", diff: "hard" },
+            { text: "Escape Room", diff: "hard" }, { text: "Virtual Reality", diff: "hard" }, { text: "Black Hole", diff: "hard" },
+            { text: "Ghost Town", diff: "hard" }, { text: "Synchronized Swimming", diff: "hard" }, { text: "Roller Skating", diff: "hard" }
+        ];
+
+        let currentDeck = [];
+        let score = 0; 
+        let historyStack = [];
+        let currentWordObj = null;
+        let timerSeconds = 600; 
+        let timerInterval = null;
+        let isTimerRunning = false;
+
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function initDeck() { currentDeck = shuffle([...wordDatabase]); }
+        function updateLiveScoreDisplay() { document.getElementById('live-score-display').innerText = `${score} pts`; }
+
+        function startTurn() {
+            historyStack = [];
+            score = 0;
+            document.getElementById('main-score').innerText = score;
+            updateLiveScoreDisplay();
+            
+            stopTimer();
+            timerSeconds = 600;
+            updateTimerDisplay();
+
+            document.getElementById('setup-view').style.display = 'none';
+            document.getElementById('game-view').style.display = 'flex';
+
+            if (currentDeck.length === 0) initDeck();
+            drawWord();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timer-display').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('timer-toggle-btn');
+            if (isTimerRunning) {
+                stopTimer();
+                btn.innerText = "▶ Resume Timer";
+                btn.style.backgroundColor = "#2980b9";
+            } else {
+                startTimer();
+                btn.innerText = "❚❚ Pause Timer";
+                btn.style.backgroundColor = "#c0392b";
+            }
+        }
+
+        function startTimer() {
+            isTimerRunning = true;
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                updateTimerDisplay();
+                if (timerSeconds <= 0) {
+                    stopTimer();
+                    alert(`⏰ Time's up for Team Omega!`);
+                    exitTurn();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+            const btn = document.getElementById('timer-toggle-btn');
+            if (btn) { btn.innerText = "▶ Start Timer"; btn.style.backgroundColor = "#2980b9"; }
+        }
+
+        function drawWord() {
+            if (currentDeck.length === 0) initDeck();
+            currentWordObj = currentDeck.pop();
+            document.getElementById('current-word').innerText = currentWordObj.text;
+            const diffEl = document.getElementById('word-difficulty');
+            diffEl.innerText = currentWordObj.diff;
+            diffEl.className = `diff-${currentWordObj.diff}`;
+        }
+
+        function handleAction(action) {
+            historyStack.push({ word: currentWordObj, action: action });
+            if (action === 'right') { score++; updateLiveScoreDisplay(); }
+            drawWord();
+        }
+
+        function previousWord() {
+            if (historyStack.length === 0) return;
+            const lastTurn = historyStack.pop();
+            if (lastTurn.action === 'right') { score--; updateLiveScoreDisplay(); }
+            currentDeck.push(currentWordObj);
+            currentWordObj = lastTurn.word;
+            document.getElementById('current-word').innerText = currentWordObj.text;
+            const diffEl = document.getElementById('word-difficulty');
+            diffEl.innerText = currentWordObj.diff;
+            diffEl.className = `diff-${currentWordObj.diff}`;
+        }
+
+        function exitTurn() {
+            stopTimer();
+            document.getElementById('main-score').innerText = score;
+            document.getElementById('game-view').style.display = 'none';
+            document.getElementById('setup-view').style.display = 'flex';
+        }
+
+        initDeck();
+    </script>
+</body>
+</html>

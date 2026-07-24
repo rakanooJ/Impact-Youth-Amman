@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impact Youth - Jeopardy</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0f172a; color: #f8f9fa; 
+            background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh; display: flex; flex-direction: column;
+        }
+        
+        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; z-index: 10;}
+        .logo img { height: 60px; width: auto; border-radius: 50%; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; text-transform: uppercase;}
+        
+        /* Game Header & Scoreboard */
+        .game-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: rgba(0,0,0,0.4); border-bottom: 2px solid #334155;}
+        .game-title { font-size: 2.5rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 4px; font-weight: 900; margin: 0; text-shadow: 0 4px 10px rgba(0,0,0,0.5);}
+        .scoreboard { display: flex; gap: 20px; background: #111; padding: 10px 20px; border-radius: 10px; border: 2px solid #333;}
+        .team-score { font-size: 1.8rem; font-weight: bold; padding: 5px 20px; border-radius: 8px;}
+        .red-score { color: #e74c3c; border-bottom: 3px solid #e74c3c; }
+        .blue-score { color: #00a8ff; border-bottom: 3px solid #00a8ff; }
+
+        /* Jeopardy Board */
+        #board-screen { display: flex; flex-direction: column; flex-grow: 1; padding: 20px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .jeopardy-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; width: 100%; height: 100%; }
+        
+        .category-header { 
+            background: #00a8ff; color: white; font-size: 1.4rem; font-weight: 900; 
+            text-align: center; padding: 15px 10px; border-radius: 10px; 
+            text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: center;
+        }
+        
+        .point-btn { 
+            background: #1e293b; border: 2px solid #475569; color: #f1c40f; 
+            font-size: 2rem; font-weight: 900; padding: 15px 0; border-radius: 10px; 
+            cursor: pointer; transition: 0.2s; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+        }
+        .point-btn:hover:not(.disabled) { transform: scale(1.05); border-color: #f1c40f; background: #2c3e50;}
+        .point-btn.disabled { background: #0f172a; color: #334155; border-color: #1e293b; cursor: not-allowed; text-shadow: none; box-shadow: none;}
+
+        /* Active Question Screen */
+        #question-screen { display: none; flex-direction: column; flex-grow: 1; justify-content: center; align-items: center; padding: 40px; animation: fadeIn 0.4s ease; }
+        
+        .question-card { 
+            background: #1e293b; padding: 40px; border-radius: 20px; 
+            border: 2px solid #475569; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            width: 100%; max-width: 900px; text-align: center; position: relative;
+        }
+
+        .cat-badge { 
+            position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+            background: #f1c40f; color: #000; padding: 10px 25px; border-radius: 30px; 
+            font-weight: 900; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem;
+        }
+
+        /* Text Styles */
+        .q-text { font-size: 2.8rem; font-weight: 900; color: #fff; line-height: 1.4; margin: 30px 0; }
+        .a-text { font-size: 3rem; font-weight: 900; color: #2ed573; text-transform: uppercase; margin: 20px 0; display: none; }
+        
+        /* Image Styles */
+        .q-image, .a-image { max-width: 100%; max-height: 400px; border-radius: 12px; border: 3px solid #334155; margin: 20px 0; object-fit: contain; }
+        .a-image { display: none; border-color: #2ed573; }
+
+        /* Controls */
+        .controls { display: flex; justify-content: center; gap: 15px; width: 100%; margin-top: 30px;}
+        .btn { padding: 15px 30px; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.4);}
+        .btn:active { transform: scale(0.95); }
+        
+        .btn-reveal { background: #f39c12; color: #000; width: 100%; max-width: 400px; font-size: 1.5rem;}
+        .btn-reveal:hover { background: #d35400; }
+        .btn-audio { background: #9b59b6; display: none; }
+        
+        .award-controls { display: none; gap: 15px; width: 100%; margin-top: 30px; justify-content: center;}
+        .btn-award-red { background: #e74c3c; flex: 1; max-width: 250px;} 
+        .btn-award-blue { background: #00a8ff; flex: 1; max-width: 250px;} 
+        .btn-wrong { background: #334155; flex: 1; max-width: 250px;} 
+
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo" style="color: white; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px;">IMPACT YOUTH</div>
+        <div class="nav-links"><a href="#" onclick="location.reload()">Reset Game</a></div>
+    </nav>
+
+    <div class="game-header">
+        <h1 class="game-title">Jeopardy</h1>
+        <div class="scoreboard">
+            <div class="team-score red-score">Red: <span id="score-red">0</span></div>
+            <div class="team-score blue-score">Blue: <span id="score-blue">0</span></div>
+        </div>
+    </div>
+
+    <!-- MAIN BOARD SCREEN -->
+    <div id="board-screen">
+        <div class="jeopardy-grid" id="jeopardy-grid">
+            <!-- Grid is generated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- QUESTION SCREEN -->
+    <div id="question-screen">
+        <div class="question-card">
+            <div class="cat-badge" id="active-badge">Category - 100 Pts</div>
+            
+            <!-- Dynamic Content Area -->
+            <div id="content-prompt">
+                <img id="img-prompt" class="q-image" src="" style="display: none;">
+                <div id="text-prompt" class="q-text">Prompt Text</div>
+            </div>
+
+            <div id="content-answer">
+                <img id="img-answer" class="a-image" src="">
+                <div id="text-answer" class="a-text">Answer Text</div>
+            </div>
+            
+            <audio id="song-player"></audio>
+
+            <div class="controls" id="reveal-controls">
+                <button class="btn btn-audio" id="btn-audio" onclick="playAudio()">🔊 Play Audio</button>
+                <button class="btn btn-reveal" onclick="revealAnswer()">👀 Reveal Answer</button>
+            </div>
+
+            <div class="award-controls" id="award-controls">
+                <button class="btn btn-award-red" onclick="awardPoints('red')">+ Award Red</button>
+                <button class="btn btn-wrong" onclick="returnToBoard()">❌ Nobody</button>
+                <button class="btn btn-award-blue" onclick="awardPoints('blue')">+ Award Blue</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- GAME DATA STRUCTURE ---
+        // You have 5 categories. Each must have exactly 10 questions (100 to 1000).
+        // Types can be: "text" (standard), "audio" (lyrics), or "image" (zoomed in/out).
+        const gameData = [
+            {
+                category: "Finish The Lyric",
+                questions: [
+                    { points: 100, type: "audio", q: "Story of my life I take her home", a: "I drive all night to keep her warm", file: "audio/oned2.ogg" },
+                    { points: 200, type: "audio", q: "Let's go crazy, crazy, crazy 'til we see the sun", a: "I know we only met but let's pretend it's love", file: "audio/oned4.ogg" },
+                    { points: 300, type: "audio", q: "Loving can hurt, loving can hurt sometimes", a: "But it's the only thing that I know", file: "audio/Ed4.ogg" },
+                    { points: 400, type: "audio", q: "Look at the stars, look how they shine for you", a: "And everything you do", file: "audio/Coldplay2.ogg" },
+                    { points: 500, type: "audio", q: "I used to rule the world", a: "Seas would rise when I gave the word", file: "audio/Coldplay1.ogg" },
+                    { points: 600, type: "audio", q: "يا أبيض يا أسود قصة حياتي وكل حكاياتي", a: "‏مع إني عادي عادي أعيش في النص الرمادي", file: "audio/Cairokee1.ogg" },
+                    { points: 700, type: "audio", q: "‏كل لما أغمض عيني أروح لسنين سابتني سيبتها", a: "‏ليه بحبها؟ ما هي ماضي عدى وانتهى؟", file: "audio/Cairokee4.ogg" },
+                    { points: 800, type: "audio", q: "سألوني الناس عنك يا حبيبي", a: "كتبوا المكاتيب وأخدها الهوى", file: "audio/Fairouz3.ogg" },
+                    { points: 900, type: "audio", q: "نسم علينا الهوى من مفرق الوادي", a: "يا هوا دخل الهوى خدني على بلادي", file: "audio/Fairouz2.ogg" },
+                    { points: 1000, type: "audio", q: "‏و الله ما كان على بالي يا هوى و الله ما كان على بالي يا هوى", a: "‏قمرين، قمرين دول ولا عينين", file: "audio/Amr3.ogg" }
+                ]
+            },
+            {
+                category: "Zoomed In",
+                questions: [
+                    // For image questions, 'q' is the zoomed-in image URL, 'a' is the zoomed-out image URL.
+                    // You can also include 'text' if you want words to show above the image.
+                    { points: 100, type: "image", q: "images/zoom100_in.jpg", a: "images/zoom100_out.jpg", text: "What is this object?" },
+                    { points: 200, type: "image", q: "images/zoom200_in.jpg", a: "images/zoom200_out.jpg", text: "What is this object?" },
+                    { points: 300, type: "image", q: "images/zoom300_in.jpg", a: "images/zoom300_out.jpg", text: "What is this object?" },
+                    { points: 400, type: "image", q: "images/zoom400_in.jpg", a: "images/zoom400_out.jpg", text: "What is this object?" },
+                    { points: 500, type: "image", q: "images/zoom500_in.jpg", a: "images/zoom500_out.jpg", text: "What is this object?" },
+                    { points: 600, type: "image", q: "images/zoom600_in.jpg", a: "images/zoom600_out.jpg", text: "What is this object?" },
+                    { points: 700, type: "image", q: "images/zoom700_in.jpg", a: "images/zoom700_out.jpg", text: "What is this object?" },
+                    { points: 800, type: "image", q: "images/zoom800_in.jpg", a: "images/zoom800_out.jpg", text: "What is this object?" },
+                    { points: 900, type: "image", q: "images/zoom900_in.jpg", a: "images/zoom900_out.jpg", text: "What is this object?" },
+                    { points: 1000, type: "image", q: "images/zoom1000_in.jpg", a: "images/zoom1000_out.jpg", text: "What is this object?" }
+                ]
+            },
+            {
+                category: "Category 3", // PLACEHOLDER
+                questions: [
+                    // Standard Text trivia example
+                    { points: 100, type: "text", q: "Question 100", a: "Answer 100" },
+                    { points: 200, type: "text", q: "Question 200", a: "Answer 200" },
+                    { points: 300, type: "text", q: "Question 300", a: "Answer 300" },
+                    { points: 400, type: "text", q: "Question 400", a: "Answer 400" },
+                    { points: 500, type: "text", q: "Question 500", a: "Answer 500" },
+                    { points: 600, type: "text", q: "Question 600", a: "Answer 600" },
+                    { points: 700, type: "text", q: "Question 700", a: "Answer 700" },
+                    { points: 800, type: "text", q: "Question 800", a: "Answer 800" },
+                    { points: 900, type: "text", q: "Question 900", a: "Answer 900" },
+                    { points: 1000, type: "text", q: "Question 1000", a: "Answer 1000" }
+                ]
+            },
+            {
+                category: "Category 4", // PLACEHOLDER
+                questions: [
+                    { points: 100, type: "text", q: "Q 100", a: "A 100" },
+                    { points: 200, type: "text", q: "Q 200", a: "A 200" },
+                    { points: 300, type: "text", q: "Q 300", a: "A 300" },
+                    { points: 400, type: "text", q: "Q 400", a: "A 400" },
+                    { points: 500, type: "text", q: "Q 500", a: "A 500" },
+                    { points: 600, type: "text", q: "Q 600", a: "A 600" },
+                    { points: 700, type: "text", q: "Q 700", a: "A 700" },
+                    { points: 800, type: "text", q: "Q 800", a: "A 800" },
+                    { points: 900, type: "text", q: "Q 900", a: "A 900" },
+                    { points: 1000, type: "text", q: "Q 1000", a: "A 1000" }
+                ]
+            },
+            {
+                category: "Category 5", // PLACEHOLDER
+                questions: [
+                    { points: 100, type: "text", q: "Q 100", a: "A 100" },
+                    { points: 200, type: "text", q: "Q 200", a: "A 200" },
+                    { points: 300, type: "text", q: "Q 300", a: "A 300" },
+                    { points: 400, type: "text", q: "Q 400", a: "A 400" },
+                    { points: 500, type: "text", q: "Q 500", a: "A 500" },
+                    { points: 600, type: "text", q: "Q 600", a: "A 600" },
+                    { points: 700, type: "text", q: "Q 700", a: "A 700" },
+                    { points: 800, type: "text", q: "Q 800", a: "A 800" },
+                    { points: 900, type: "text", q: "Q 900", a: "A 900" },
+                    { points: 1000, type: "text", q: "Q 1000", a: "A 1000" }
+                ]
+            }
+        ];
+
+        let redScore = 0;
+        let blueScore = 0;
+        let currentQuestion = null;
+        let currentTileBtn = null;
+
+        // Initialize Board
+        function buildBoard() {
+            const grid = document.getElementById("jeopardy-grid");
+            
+            // 1. Add Category Headers (Row 1)
+            gameData.forEach(cat => {
+                const header = document.createElement("div");
+                header.className = "category-header";
+                header.innerText = cat.category;
+                grid.appendChild(header);
+            });
+
+            // 2. Add Point Buttons (Rows 2-11)
+            // Loop through point values (indices 0 to 9)
+            for (let i = 0; i < 10; i++) {
+                // Loop through columns (categories)
+                for (let c = 0; c < 5; c++) {
+                    const btn = document.createElement("button");
+                    btn.className = "point-btn";
+                    const pointValue = (i + 1) * 100;
+                    btn.innerText = pointValue;
+                    
+                    btn.onclick = () => openQuestion(c, i, btn);
+                    grid.appendChild(btn);
+                }
+            }
+        }
+
+        function openQuestion(catIndex, qIndex, btnElement) {
+            // Prevent re-clicking disabled buttons
+            if(btnElement.classList.contains("disabled")) return;
+
+            currentQuestion = gameData[catIndex].questions[qIndex];
+            currentTileBtn = btnElement;
+
+            // Setup Badge
+            document.getElementById("active-badge").innerText = `${gameData[catIndex].category} - ${currentQuestion.points}`;
+
+            // Reset UI states
+            document.getElementById("img-prompt").style.display = "none";
+            document.getElementById("text-prompt").style.display = "none";
+            document.getElementById("img-answer").style.display = "none";
+            document.getElementById("text-answer").style.display = "none";
+            document.getElementById("btn-audio").style.display = "none";
+            
+            document.getElementById("reveal-controls").style.display = "flex";
+            document.getElementById("award-controls").style.display = "none";
+
+            // Populate based on Type
+            if (currentQuestion.type === "image") {
+                // Show Zoomed In Image
+                const imgQ = document.getElementById("img-prompt");
+                imgQ.src = currentQuestion.q;
+                imgQ.style.display = "block";
+                
+                // Show accompanying text if provided
+                if(currentQuestion.text) {
+                    const txtQ = document.getElementById("text-prompt");
+                    txtQ.innerText = currentQuestion.text;
+                    txtQ.style.display = "block";
+                }
+            } 
+            else {
+                // Standard Text or Audio Lyrics
+                const txtQ = document.getElementById("text-prompt");
+                txtQ.innerText = `"${currentQuestion.q}"`;
+                txtQ.style.display = "block";
+                
+                if (currentQuestion.type === "audio" && currentQuestion.file) {
+                    document.getElementById("song-player").src = currentQuestion.file;
+                    document.getElementById("btn-audio").style.display = "block";
+                }
+            }
+
+            // Switch Screens
+            document.getElementById("board-screen").style.display = "none";
+            document.getElementById("question-screen").style.display = "flex";
+        }
+
+        function playAudio() {
+            const player = document.getElementById("song-player");
+            const audioBtn = document.getElementById("btn-audio");
+            if (player.paused) {
+                player.play();
+                audioBtn.innerText = "⏸ Pause Audio";
+            } else {
+                player.pause();
+                audioBtn.innerText = "🔊 Play Audio";
+            }
+        }
+
+        function stopAudio() {
+            const player = document.getElementById("song-player");
+            player.pause();
+            player.currentTime = 0;
+            document.getElementById("btn-audio").innerText = "🔊 Play Audio";
+        }
+
+        function revealAnswer() {
+            stopAudio();
+            document.getElementById("reveal-controls").style.display = "none";
+            document.getElementById("award-controls").style.display = "flex";
+
+            if (currentQuestion.type === "image") {
+                const imgA = document.getElementById("img-answer");
+                imgA.src = currentQuestion.a;
+                imgA.style.display = "block";
+            } else {
+                const txtA = document.getElementById("text-answer");
+                txtA.innerText = `"${currentQuestion.a}"`;
+                txtA.style.display = "block";
+            }
+        }
+
+        function awardPoints(team) {
+            if (team === 'red') {
+                redScore += currentQuestion.points;
+                document.getElementById("score-red").innerText = redScore;
+            } else {
+                blueScore += currentQuestion.points;
+                document.getElementById("score-blue").innerText = blueScore;
+            }
+            returnToBoard();
+        }
+
+        function returnToBoard() {
+            stopAudio();
+            // Gray out the tile on the board
+            currentTileBtn.classList.add("disabled");
+            currentTileBtn.innerText = "";
+            
+            document.getElementById("question-screen").style.display = "none";
+            document.getElementById("board-screen").style.display = "flex";
+        }
+
+        // Boot up the game
+        window.onload = buildBoard;
+    </script>
+</body>
+</html>

@@ -1,31 +1,59 @@
-<script>
-        // --- 1. COUNTDOWN SCRIPT ---
-        function updateCountdown() {
-            const now = new Date();
-            let nextWednesday = new Date();
-            nextWednesday.setDate(now.getDate() + (3 + 7 - now.getDay()) % 7);
-            nextWednesday.setHours(19, 0, 0, 0);
-            if (now > nextWednesday) nextWednesday.setDate(nextWednesday.getDate() + 7);
-            const diff = nextWednesday - now;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const mins = Math.floor((diff / 1000 / 60) % 60);
-            const secs = Math.floor((diff / 1000) % 60);
-            document.getElementById("countdown").innerHTML = (now.getDay() === 3 && now.getHours() >= 19 && now.getHours() < 21) ? "WE ARE LIVE! 🔥" : `${days}d ${hours}h ${mins}m ${secs}s`;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Friend - Impact Youth</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #1c1e21; 
+            color: #f8f9fa; 
+            text-align: center; 
+            padding: 40px 20px; 
+            line-height: 1.6;
         }
-        setInterval(updateCountdown, 1000); updateCountdown();
+        
+        .navbar { background-color: #1c1e21; padding: 12px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; position: fixed; top: 0; left: 0; right: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .container { max-width: 700px; margin: 100px auto 40px; background: #334155; padding: 40px; border-radius: 18px; box-shadow: 0 15px 45px rgba(0,0,0,0.6); border: 1px solid #475569; }
+        h1 { color: #00a8ff; font-size: 2.5rem; margin-bottom: 10px; }
+        #status { margin: 20px 0; font-size: 1rem; color: #cbd5e1; font-style: italic; }
+        
+        button { background-color: #00a8ff; padding: 18px 35px; border-radius: 50px; color: white; font-weight: bold; font-size: 1.2rem; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0, 168, 255, 0.4); margin-bottom: 30px; }
+        button:hover:not(:disabled) { transform: scale(1.05); background-color: #0097e6; }
+        button:disabled { background-color: #475569; color: #94a3b8; cursor: not-allowed; box-shadow: none; }
+        
+        #conversation { text-align: left; margin-top: 20px; }
+        .message { margin-bottom: 15px; padding: 15px 20px; border-radius: 12px; line-height: 1.5; font-size: 1.1rem; }
+        .user { background-color: #1e293b; border-left: 4px solid #00a8ff; }
+        .ai { background-color: rgba(46, 213, 115, 0.1); border-left: 4px solid #2ed573; }
+    </style>
+</head>
+<body>
 
-        // --- 2. BIBLE FRIEND AI SCRIPT ---
+    <nav class="navbar">
+        <a href="index.html" style="color: white; font-weight: bold; font-size: 1.2rem; text-decoration: none;">🔙 Back to Impact</a>
+    </nav>
+
+    <div class="container">
+        <h1>Bible Friend AI</h1>
+        <p>Your private, voice-activated Biblical guide.</p>
         
-        // PASTE YOUR GROQ API KEY HERE FOR LOCAL TESTING
-        // (Remember to delete it again before pushing to a public GitHub!)
-        const GROQ_API_KEY = "";
+        <p id="status">System Online. Ready to listen!</p>
+        <button id="talk-btn">🎤 Tap to Speak</button>
         
-        const modal = document.getElementById('aiModal');
-        const statusEl = document.getElementById('ai-status');
-        const talkBtn = document.getElementById('ai-talk-btn');
-        const convEl = document.getElementById('ai-conversation');
+        <div id="conversation"></div>
+    </div>
+
+    <script>
+        // --- PASTE YOUR GROQ API KEY HERE ---
+        const GROQ_API_KEY = "PASTE_YOUR_GROQ_KEY_HERE";
         
+        const statusEl = document.getElementById('status');
+        const talkBtn = document.getElementById('talk-btn');
+        const convEl = document.getElementById('conversation');
+
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
         const synth = window.speechSynthesis;
@@ -36,13 +64,7 @@
         window.speechSynthesis.onvoiceschanged = () => {
             availableVoices = window.speechSynthesis.getVoices();
         };
-
-        function openAI() { modal.style.display = 'flex'; }
-        function closeAI() { 
-            modal.style.display = 'none'; 
-            synth.cancel(); 
-        }
-
+        
         talkBtn.onclick = () => {
             recognition.start();
             statusEl.textContent = "Listening... Speak now!";
@@ -66,10 +88,9 @@
                         messages: [
                             { 
                                 role: "system", 
-                                // NEW: Forcing the AI to use your exact structure
+                                // NEW: Forcing the exact layout you wanted!
                                 content: `You are Bible Friend, a comforting youth group guide. 
                                 If asked to explain a Bible verse, you MUST format your answer exactly like this:
-                                
                                 Verse: [Quote the verse]
                                 Context: [Brief background]
                                 Meaning: [Explain it clearly]
@@ -117,16 +138,19 @@
             synth.speak(utterance);
         }
 
-        // NEW: Upgraded message function to handle line breaks properly
+        // NEW: Handles the line breaks so it isn't one giant paragraph
         function appendMessage(sender, text, className) {
             const div = document.createElement('div');
             div.className = `message ${className}`;
             
-            // Converts the AI's hidden 'Enters' into visual line breaks on the website
+            // Converts hidden line breaks into visual breaks on the website
             const formattedText = text.replace(/\n/g, '<br>');
             
             div.innerHTML = `<strong style="color: ${className === 'user' ? '#00a8ff' : '#2ed573'};">${sender}:</strong><br><br>${formattedText}`;
             convEl.appendChild(div);
+            // Auto-scrolls to the bottom of the chat
             convEl.scrollTop = convEl.scrollHeight; 
         }
     </script>
+</body>
+</html>

@@ -47,9 +47,6 @@
     </div>
 
     <script>
-        // --- PASTE YOUR GROQ API KEY HERE ---
-        const GROQ_API_KEY = "PASTE_YOUR_GROQ_KEY_HERE";
-        
         const statusEl = document.getElementById('status');
         const talkBtn = document.getElementById('talk-btn');
         const convEl = document.getElementById('conversation');
@@ -77,39 +74,23 @@
             statusEl.textContent = "Consulting the Word...";
 
             try {
-                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                // Securely call your Netlify Function instead of Groq!
+                const response = await fetch("/.netlify/functions/chat", {
                     method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${GROQ_API_KEY}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        model: "llama3-8b-8192", 
-                        messages: [
-                            { 
-                                role: "system", 
-                                // NEW: Forcing the exact layout you wanted!
-                                content: `You are Bible Friend, a comforting youth group guide. 
-                                If asked to explain a Bible verse, you MUST format your answer exactly like this:
-                                Verse: [Quote the verse]
-                                Context: [Brief background]
-                                Meaning: [Explain it clearly]
-                                Life Lesson: [How to apply it today]
-                                
-                                Keep it brief and spoken-word friendly. Do not use asterisks or markdown formatting.` 
-                            },
-                            { role: "user", content: transcript }
-                        ]
-                    })
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: transcript })
                 });
 
                 const data = await response.json();
-                const aiResponse = data.choices[0].message.content;
                 
-                appendMessage("Bible Friend", aiResponse, "ai");
-                speakText(aiResponse);
+                if (data.reply) {
+                    appendMessage("Bible Friend", data.reply, "ai");
+                    speakText(data.reply);
+                } else {
+                    appendMessage("System", "Sorry, I had trouble generating a response.", "ai");
+                }
             } catch(e) {
-                appendMessage("System", "Sorry, I had trouble reaching the cloud.", "ai");
+                appendMessage("System", "Sorry, I had trouble reaching the server.", "ai");
                 console.error(e);
             }
             
@@ -117,7 +98,7 @@
             talkBtn.disabled = false;
         };
 
-        // NEW: Upgraded voice function for smoother audio
+        // Upgraded voice function for smoother audio
         function speakText(text) {
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.rate = 0.95; 
@@ -138,7 +119,7 @@
             synth.speak(utterance);
         }
 
-        // NEW: Handles the line breaks so it isn't one giant paragraph
+        // Handles the line breaks so it isn't one giant paragraph
         function appendMessage(sender, text, className) {
             const div = document.createElement('div');
             div.className = `message ${className}`;

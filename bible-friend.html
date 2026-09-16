@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Friend</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 40px; background-color: #f8f9fa; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; }
+        #status { margin: 20px 0; font-size: 14px; color: #666; font-style: italic; }
+        button { padding: 15px 30px; font-size: 18px; font-weight: bold; cursor: pointer; border: none; border-radius: 8px; background-color: #007bff; color: white; transition: 0.3s; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        #conversation { margin-top: 30px; text-align: left; }
+        .message { margin-bottom: 15px; padding: 12px; border-radius: 8px; line-height: 1.5; }
+        .user { background-color: #e3f2fd; border-left: 4px solid #007bff; }
+        .ai { background-color: #e8f5e9; border-left: 4px solid #28a745; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Bible Friend</h1>
+        <p>Your private, in-browser Biblical guide.</p>
+        
+        <!-- Status Tracker for the AI Download -->
+        <p id="status">Initializing AI engine... (This requires a one-time download)</p>
+        <button id="talk-btn" disabled>Ask a Question</button>
+        
+        <div id="conversation"></div>
+    </div>
+
+    <!-- WebLLM Module -->
+    <script type="module">
+        import { CreateMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
+
+        const statusEl = document.getElementById('status');
+        const talkBtn = document.getElementById('talk-btn');
+        const convEl = document.getElementById('conversation');
+
+        // 1. Setup the AI Engine (Using the lightning-fast Phi-3 model)
+        let engine;
+        const initProgressCallback = (progress) => {
+            statusEl.textContent = progress.text;
+        };
+
+        async function loadEngine() {
+            try {
+                const selectedModel = "Phi-3-mini-4k-instruct-q4f16_1-MLC";
+                engine = await CreateMLCEngine(selectedModel, { initProgressCallback });
+                statusEl.textContent = "System Online. Ready to listen!";
+                talkBtn.disabled = false;
+            } catch (error) {
+                statusEl.textContent = "Error: Your browser may not support WebGPU.";
+                console.error(error);
+            }
+        }
+
+        // 2. Setup Speech Recognition & Voice
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        const synth = window.speechSynthesis;
+
+        recognition.continuous = false;
+        
+        talkBtn.onclick = () => {
+            recognition.start();
+            statusEl.textContent = "Listening... Speak now!";
+            talkBtn.disabled = true;
+        };
+
+        recognition.onresult = async (event) => {
+            const transcript = event.results[0][0].transcript;
+            appendMessage("You", transcript, "user");
+            statusEl.textContent = "Consulting the Word...";
+
+            // 3. Prompt the Local AI
+            const messages = [
+                { role: "system", content: "You are Bible Friend. Keep answers strictly under 3 sentences. Explain verses or give Biblical advice clearly. Speak as a comforting friend." },
+                { role: "user", content: transcript }
+            ];
+
+            const reply = await engine.chat.completions.create({ messages });
+            const aiResponse = reply.choices[0].message.content;
+            
+            appendMessage("Bible Friend", aiResponse, "ai");
+            speakText(aiResponse);
+            
+            statusEl.textContent = "System Online. Ready to listen!";
+            talkBtn.disabled = false;
+        };
+
+        function speakText(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.9; 
+            synth.speak(utterance);
+        }
+
+        function appendMessage(sender, text, className) {
+            const div = document.createElement('div');
+            div.className = `message ${className}`;
+            div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            convEl.appendChild(div);
+        }
+
+        // Boot up the engine when the page loads
+        loadEngine();
+    </script>
+</body>
+</html>

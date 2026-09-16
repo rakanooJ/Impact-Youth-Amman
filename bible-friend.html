@@ -1,197 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Impact Youth Amman - Home">
-    <title>Home - Impact Youth Amman</title>
-    <style>
-        /* 1. Global Reset & Pro Background */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-image: url('background.png'); 
-            background-size: cover; 
-            background-attachment: fixed; 
-            background-position: center; 
-            background-color: #1c1e21; 
-            color: #f8f9fa; 
-            line-height: 1.6; 
-        }
-        
-        /* 2. Professional Navigation Bar */
-        .navbar { 
-            background-color: #1c1e21; padding: 12px 60px; display: flex; 
-            justify-content: space-between; align-items: center; border-bottom: 1px solid #333; 
-            position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        .logo img { height: 60px; width: auto; display: block; border-radius: 50%; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; font-size: 1rem; }
-        .nav-links a:hover { color: #00a8ff; }
-        .login-btn { background-color: #00a8ff; padding: 10px 22px; border-radius: 6px; color: white !important; margin-left: 20px; font-weight: bold; box-shadow: 0 4px 15px rgba(0, 168, 255, 0.3); }
-
-        /* 3. Hero & Countdown Styling */
-        .hero { text-align: center; padding: 110px 20px; background: linear-gradient(rgba(28, 30, 33, 0.7), rgba(28, 30, 33, 0.95)); }
-        .hero h1 { font-size: 4.8rem; margin-bottom: 20px; color: #00a8ff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 3px 3px 15px rgba(0,0,0,0.6); }
-        .countdown-container { background: rgba(0, 168, 255, 0.1); border: 1px solid #00a8ff; padding: 25px; border-radius: 18px; margin: 20px auto; max-width: 520px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        .countdown-timer { font-size: 2.4rem; font-weight: bold; color: #2ed573; font-family: 'Courier New', Courier, monospace; }
-
-        .container { max-width: 1150px; margin: 0 auto; padding: 50px 25px; }
-
-        /* 4. Verse Card */
-        .verse-card { background: rgba(255, 255, 255, 0.95); padding: 45px; border-radius: 18px; box-shadow: 0 15px 45px rgba(0,0,0,0.6); color: #1e293b; text-align: center; margin-bottom: 60px; border-left: 10px solid #f39c12; }
-        .verse-title { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 3px; color: #f39c12; font-weight: 800; margin-bottom: 18px; }
-        .verse-text { font-size: 2.4rem; font-family: 'Georgia', serif; font-style: italic; line-height: 1.4; margin-bottom: 18px; color: #0f172a; }
-        .verse-ref { font-size: 1.3rem; font-weight: bold; color: #64748b; }
-
-        /* 5. Dashboard Grid */
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; margin-bottom: 70px; }
-        .feature-card { background: #334155; padding: 45px; border-radius: 18px; text-align: center; color: white; text-decoration: none; transition: all 0.3s ease; border: 1px solid #475569; box-shadow: 0 8px 20px rgba(0,0,0,0.3); cursor: pointer;}
-        .feature-card:hover { transform: translateY(-8px); background: #3e4e63; border-color: #00a8ff; box-shadow: 0 12px 30px rgba(0,0,0,0.5); }
-        .feature-icon { font-size: 3.8rem; margin-bottom: 20px; }
-        .feature-card h3 { font-size: 1.9rem; margin-bottom: 12px; color: #00a8ff; }
-
-        /* 6. Spotify & Footer */
-        .spotify-section { background: #191414; padding: 60px 45px; border-radius: 18px; border: 1px solid #1DB954; text-align: center; margin-bottom: 70px; box-shadow: 0 15px 45px rgba(0,0,0,0.6); }
-        .spotify-section h2 { color: #1DB954; margin-bottom: 25px; font-size: 2.6rem; }
-        .btn-spotify { display: inline-block; background: #1DB954; color: white; padding: 20px 45px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.4rem; transition: 0.3s; box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4); }
-        .btn-spotify:hover { transform: scale(1.05); background: #1ed760; box-shadow: 0 6px 20px rgba(29, 185, 84, 0.6); }
-
-        .connect-section { background: #1e293b; padding: 80px 25px; text-align: center; border-radius: 18px; box-shadow: 0 15px 45px rgba(0,0,0,0.6); }
-        .connect-section h2 { font-size: 3rem; color: #2ed573; margin-bottom: 30px; }
-        .detail-box { background: rgba(0,0,0,0.25); padding: 30px; border-radius: 12px; display: inline-block; min-width: 300px; margin-bottom: 40px; }
-        .social-buttons { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
-        .social-btn { padding: 18px 35px; border-radius: 12px; font-weight: bold; text-decoration: none; color: white; font-size: 1.3rem; transition: 0.3s; }
-        .social-btn:hover { transform: scale(1.05); }
-        .btn-insta { background: #E1306C; }
-        .btn-wa { background: #25D366; }
-
-        /* 7. NEW: DARK AI POP-UP (MODAL) STYLES */
-        .ai-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center;
-            backdrop-filter: blur(5px);
-        }
-        .ai-modal {
-            background: #1c1e21; border: 1px solid #00a8ff; border-radius: 18px;
-            width: 90%; max-width: 550px; padding: 40px; text-align: center;
-            box-shadow: 0 15px 50px rgba(0, 168, 255, 0.3); position: relative;
-        }
-        .close-btn {
-            position: absolute; top: 15px; right: 25px; font-size: 1.8rem; color: #cbd5e1;
-            cursor: pointer; background: none; border: none; transition: 0.3s;
-        }
-        .close-btn:hover { color: #e74c3c; transform: scale(1.1); }
-        .ai-modal h2 { color: #00a8ff; font-size: 2.2rem; margin-bottom: 5px; }
-        #ai-status { color: #94a3b8; font-style: italic; margin-bottom: 20px; font-size: 0.95rem; }
-        
-        #ai-conversation { max-height: 250px; overflow-y: auto; margin-bottom: 25px; text-align: left; }
-        .message { margin-bottom: 12px; padding: 15px; border-radius: 12px; font-size: 1.05rem; }
-        .user { background-color: #334155; border-left: 4px solid #00a8ff; color: white; }
-        .ai { background-color: rgba(46, 213, 115, 0.1); border-left: 4px solid #2ed573; color: white; }
-        
-        .mic-btn {
-            background-color: #00a8ff; padding: 18px 35px; border-radius: 50px; color: white; 
-            font-weight: bold; font-size: 1.2rem; border: none; cursor: pointer; transition: 0.3s; 
-            box-shadow: 0 4px 15px rgba(0, 168, 255, 0.4); width: 100%;
-        }
-        .mic-btn:hover:not(:disabled) { background-color: #0097e6; transform: scale(1.03); }
-        .mic-btn:disabled { background-color: #475569; cursor: not-allowed; box-shadow: none; }
-
-        @media (max-width: 768px) { .navbar { padding: 12px 25px; } .nav-links { display: none; } .hero h1 { font-size: 3rem; } }
-    </style>
-</head>
-<body>
-    <nav class="navbar">
-        <a href="index.html" class="logo"><img src="logo.png" alt="Impact Logo"></a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="plans.html">Bible Plans</a>
-            <a href="guidance.html">Real Talk</a>
-            <!-- Clicking this now opens the pop-up -->
-            <a href="javascript:void(0)" onclick="openAI()" style="color: #00a8ff; font-weight: bold;">Bible Friend AI</a>
-            <a href="spirit-fun.html">Spirit Fun</a>
-            <a href="connect.html">Connect</a>
-            <a href="leader-prayer.html" style="color: #f1c40f;">Leaders</a>
-            <a href="#join" class="login-btn">Join Us</a>
-        </div>
-    </nav>
-    
-    <header class="hero">
-        <h1>Impact Youth</h1>
-        <div class="countdown-container">
-            <p style="margin-bottom: 12px; color: #cbd5e1; font-weight: bold;">NEXT SERVICE IN:</p>
-            <div id="countdown" class="countdown-timer">Calculating...</div>
-        </div>
-    </header>
-    
-    <div class="container">
-        <div class="verse-card">
-            <div class="verse-title">Focus of the Week</div>
-            <div class="verse-text">"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."</div>
-            <div class="verse-ref">Romans 12:2</div>
-        </div>
-
-        <div class="features-grid">
-            <a href="talk.html" class="feature-card">
-                <div class="feature-icon">💬</div>
-                <h3>Table Talk</h3>
-                <p>Deep questions for your small group.</p>
-            </a>
-            
-            <!-- Clicking this card now opens the pop-up -->
-            <a onclick="openAI()" class="feature-card" style="border: 1px solid #00a8ff; box-shadow: 0 8px 25px rgba(0, 168, 255, 0.2);">
-                <div class="feature-icon">🤖</div>
-                <h3>Bible Friend</h3>
-                <p>Voice-activated Biblical guidance and answers.</p>
-            </a>
-
-            <a href="spirit-fun.html" class="feature-card">
-                <div class="feature-icon">🎮</div>
-                <h3>Spirit Fun</h3>
-                <p>Play games, trivia, and quizzes.</p>
-            </a>
-            <a href="connect.html" class="feature-card">
-                <div class="feature-icon">🙏</div>
-                <h3>The Drop Box</h3>
-                <p>Submit prayer requests and questions.</p>
-            </a>
-        </div>
-
-        <div class="spotify-section">
-            <h2>🎧 Impact Sounds</h2>
-            <p style="color: #cbd5e1; margin-bottom: 30px; font-size: 1.1rem;">Listen to our latest worship playlist on Spotify.</p>
-            <a href="https://open.spotify.com/playlist/1LhIRMo9k5GN8tHagjUdyt?si=6543c1a0a2db4e92" target="_blank" class="btn-spotify">Open Playlist</a>
-        </div>
-
-        <section id="join" class="connect-section">
-            <h2>You Belong Here.</h2>
-            <div class="detail-box">
-                <h4 style="color:#00a8ff; font-size:1.5rem; margin-bottom:10px;">🗓️ Wednesdays @ 7:00 PM</h4>
-                <p>Amman Baptist School Hall</p>
-            </div>
-            <div class="social-buttons">
-                <a href="https://www.instagram.com/impact.jo" target="_blank" class="social-btn btn-insta">📷 Instagram</a>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_ZRXFIlamicTpG2RFINCYA8Q-x3W9Q9A-xfYxmpPmNLnZAQ/viewform?usp=header" target="_blank" class="social-btn btn-wa">💬 WhatsApp Group</a>
-            </div>
-        </section>
-    </div>
-
-    <!-- NEW: HIDDEN AI POP-UP (MODAL) -->
-    <div id="aiModal" class="ai-modal-overlay">
-        <div class="ai-modal">
-            <button class="close-btn" onclick="closeAI()">✖</button>
-            <h2>🤖 Bible Friend</h2>
-            <p id="ai-status">System Online. Ready to listen!</p>
-            
-            <div id="ai-conversation"></div>
-            
-            <button id="ai-talk-btn" class="mic-btn">🎤 Tap to Speak</button>
-        </div>
-    </div>
-
-    <script>
+<script>
         // --- 1. COUNTDOWN SCRIPT ---
         function updateCountdown() {
             const now = new Date();
@@ -210,7 +17,8 @@
 
         // --- 2. BIBLE FRIEND AI SCRIPT ---
         
-        // PASTE YOUR GROQ API KEY HERE inside the quotes!
+        // PASTE YOUR GROQ API KEY HERE FOR LOCAL TESTING
+        // (Remember to delete it again before pushing to a public GitHub!)
         const GROQ_API_KEY = "";
         
         const modal = document.getElementById('aiModal');
@@ -223,11 +31,16 @@
         const synth = window.speechSynthesis;
         recognition.continuous = false;
 
-        // Functions to open and close the pop-up
+        // Load premium voices in the background
+        let availableVoices = [];
+        window.speechSynthesis.onvoiceschanged = () => {
+            availableVoices = window.speechSynthesis.getVoices();
+        };
+
         function openAI() { modal.style.display = 'flex'; }
         function closeAI() { 
             modal.style.display = 'none'; 
-            synth.cancel(); // Stops talking if they close it early
+            synth.cancel(); 
         }
 
         talkBtn.onclick = () => {
@@ -251,7 +64,19 @@
                     body: JSON.stringify({
                         model: "llama3-8b-8192", 
                         messages: [
-                            { role: "system", content: "You are Bible Friend, a youth group guide. Keep answers strictly under 3 sentences. Explain verses clearly. Speak as a comforting friend." },
+                            { 
+                                role: "system", 
+                                // NEW: Forcing the AI to use your exact structure
+                                content: `You are Bible Friend, a comforting youth group guide. 
+                                If asked to explain a Bible verse, you MUST format your answer exactly like this:
+                                
+                                Verse: [Quote the verse]
+                                Context: [Brief background]
+                                Meaning: [Explain it clearly]
+                                Life Lesson: [How to apply it today]
+                                
+                                Keep it brief and spoken-word friendly. Do not use asterisks or markdown formatting.` 
+                            },
                             { role: "user", content: transcript }
                         ]
                     })
@@ -271,20 +96,37 @@
             talkBtn.disabled = false;
         };
 
+        // NEW: Upgraded voice function for smoother audio
         function speakText(text) {
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 0.9; 
+            utterance.rate = 0.95; 
+            utterance.pitch = 1.0; 
+
+            if (availableVoices.length === 0) availableVoices = window.speechSynthesis.getVoices();
+            const smoothVoice = availableVoices.find(voice => 
+                voice.name.includes("Google") || 
+                voice.name.includes("Premium") || 
+                voice.name.includes("Natural") ||
+                voice.name.includes("Samantha")
+            );
+
+            if (smoothVoice) {
+                utterance.voice = smoothVoice;
+            }
+
             synth.speak(utterance);
         }
 
+        // NEW: Upgraded message function to handle line breaks properly
         function appendMessage(sender, text, className) {
             const div = document.createElement('div');
             div.className = `message ${className}`;
-            div.innerHTML = `<strong style="color: ${className === 'user' ? '#00a8ff' : '#2ed573'};">${sender}:</strong> ${text}`;
+            
+            // Converts the AI's hidden 'Enters' into visual line breaks on the website
+            const formattedText = text.replace(/\n/g, '<br>');
+            
+            div.innerHTML = `<strong style="color: ${className === 'user' ? '#00a8ff' : '#2ed573'};">${sender}:</strong><br><br>${formattedText}`;
             convEl.appendChild(div);
-            // Auto-scroll to the bottom of the chat
             convEl.scrollTop = convEl.scrollHeight; 
         }
     </script>
-</body>
-</html>
